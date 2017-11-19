@@ -8,6 +8,7 @@ int main(int argc, char* argv[]) {
 
 	params p;
 	int numObs = parseParameters(argv, &p);
+	node root = buildTree(&p, numObs);
 
 	return 0;
 }
@@ -83,12 +84,17 @@ int parseParameters(char * argv[], params *p)
 		p->where[i] = 0;	
 	}
 
-	return lineCount;
+	return lineCount - 1;
 }
 
-node buildTree(params * p)
+node buildTree(params * p, int numObs)
 {
 	node tree;
+	tree.numObs = numObs;
+	tree.xdata = p->x;
+	tree.ydata = p->y;
+
+	partition(p, &tree, 1);
 
 	return tree;
 }

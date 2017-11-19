@@ -21,12 +21,21 @@
     <ClInclude Include="data_handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="partition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="structures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cppart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="data_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="partition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

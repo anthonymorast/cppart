@@ -21,10 +21,13 @@
   <ItemGroup>
     <ClInclude Include="cppart.h" />
     <ClInclude Include="data_handler.h" />
+    <ClInclude Include="partition.h" />
+    <ClInclude Include="structures.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cppart.cpp" />
     <ClCompile Include="data_handler.cpp" />
+    <ClCompile Include="partition.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F12A2505-42F7-40E8-B907-E9B30D708AB6}</ProjectGuid>
