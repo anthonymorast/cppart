@@ -6,7 +6,7 @@
 /*
 *	Gets the x data, returns the number of observations in the dataset.
 */
-void getXData(string filename, string response, string headers,  float** x) {
+void getData(string filename, string response, string headers,  float** x) {
 	ifstream fin;
 	fin.open(filename);
 	if (!fin.is_open()) {
@@ -15,7 +15,6 @@ void getXData(string filename, string response, string headers,  float** x) {
 		exit(0);
 	}
 
-	int responseColumn = getResponseColumnNumber(response, headers);
 	string line;
 	int row = 0;
 	getline(fin, line);
@@ -24,12 +23,7 @@ void getXData(string filename, string response, string headers,  float** x) {
 		string value;
 		int curCol = 0;
 		while (getline(ss, value, ',')) {
-			if (curCol < responseColumn) {
-				x[row][curCol] = stof(value);
-			}
-			else if (curCol > responseColumn) {
-				x[row][curCol - 1] = stof(value);
-			}
+			x[row][curCol] = stof(value);
 			curCol++;
 		}
 		row++;
@@ -41,33 +35,57 @@ void getXData(string filename, string response, string headers,  float** x) {
 /*
 *	Gets the y data, returns the number of observations in the dataset.
 */
-void getYData(string filename, string response, string headers, float y[]) {
-	ifstream fin;
-	fin.open(filename);
-	if (!fin.is_open()) {
-		cout << "Error opening file " << filename << endl;
-		cout << "Does the file exist?" << endl;
-		exit(0);
-	}
-
+float* getResponseData(string response, string headers, float** data, int numObs) {
 	int responseColumn = getResponseColumnNumber(response, headers);
-	string line;
-	int row = 0;
-	getline(fin, line);
-	while (getline(fin, line)) {
-		istringstream ss(line);
-		string value;
-		int colNumber = 0;
-		while (getline(ss, value, ',')) {
-			if (colNumber == responseColumn) {
-				y[row] = stof(value);
-			}
-			colNumber++;
-		}
-		row++;
+	float *y = new float[numObs];
+
+	for (int i = 0; i < numObs; i++) {
+		y[i] = data[i][responseColumn];
 	}
 
-	fin.close();
+	return y;
+}
+
+/*
+*	Get everything except the response variable column.
+*/
+float **getExplanatoryData(string response, string headers, float **data, int numObs) {
+	int responseColumn = getResponseColumnNumber(response, headers);
+	int colCount = getColumnCount(headers);
+
+	float **x = new float*[numObs];
+	for (int i = 0; i < numObs; i++) {
+		x[i] = new float[colCount - 1];
+	}
+
+	for (int i = 0; i < numObs; i++) {
+		for (int j = 0; j < colCount; j++) {
+			if (j == responseColumn) {
+				continue;
+			}
+			if (j < responseColumn) {
+				x[i][j] = data[i][j];
+			}
+			else {
+				x[i][j - 1] = data[i][j];
+			}
+		}
+	}
+
+	return x;
+}
+
+
+float getMean(float ** data, string response, string headers, int numObs){
+	float *y = getResponseData(response, headers, data, numObs);
+	float mean = 0;
+	for (int i = 0; i < numObs; i++) {
+		mean += y[i];
+	}
+	cout << mean/numObs << endl;
+
+	mean /= numObs;
+	return mean;
 }
 
 

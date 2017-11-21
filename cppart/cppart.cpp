@@ -9,6 +9,7 @@ int main(int argc, char* argv[]) {
 	params p;
 	int numObs = parseParameters(argv, &p);
 	node root = buildTree(&p, numObs);
+	buildCpTable(&root, &p);
 
 	return 0;
 }
@@ -59,14 +60,12 @@ int parseParameters(char * argv[], params *p)
 	int lineCount = getLineCount(filename);
 	int colCount = getColumnCount(headers);
 
-	float **x = new float*[lineCount - 1];
+	float **data = new float*[lineCount - 1];
 	for (int i = 0; i < lineCount; i++) {
-		x[i] = new float[colCount - 1];
+		data[i] = new float[colCount];
 	}
-	float *y = new float[lineCount - 1];
 
-	getXData(filename, response, headers, x);
-	getYData(filename, response, headers, y);
+	getData(filename, response, headers, data);
 
 	p->response = response;
 	p->maxDepth = 30;	// only used to set maxNodes
@@ -76,9 +75,9 @@ int parseParameters(char * argv[], params *p)
 	p->numXval = 10;
 	p->iscale = 0;		// this may not be used
 	p->delayed = delayed == 1;
-	p->x = x;
-	p->y = y;
+	p->data = data;
 	p->where = new int[lineCount];
+	p->headers = headers;
 
 	for (int i = 0; i < lineCount; i++) {
 		p->where[i] = 0;	
@@ -91,10 +90,11 @@ node buildTree(params * p, int numObs)
 {
 	node tree;
 	tree.numObs = numObs;
-	tree.xdata = p->x;
-	tree.ydata = p->y;
+	tree.data = p->data;
 
-	partition(p, &tree, 1);
+	int splits;
+	double risk;
+	partition(p, &tree, 1, risk);
 
 	return tree;
 }
@@ -105,6 +105,10 @@ void fixTree(node * root, float cpScale, int nodeId, int nodeCount, int iNode)
 
 cpTable buildCpTable(node *root, params *p)
 {
-	return cpTable();
+	cpTable cpTableHead;
+
+	cpTableHead.cp = 0;
+
+	return cpTableHead;
 }
 	

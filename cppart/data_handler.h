@@ -9,8 +9,10 @@ using namespace std;
 /*
 *	Fucntion Headers
 */
-void getXData(string filename, string response, string headers, float** x);
-void getYData(string filename, string response, string headers, float y[]);
+void getData(string filename, string response, string headers, float** x);
+float* getResponseData(string response, string headers, float** data, int numObs);
+float **getExplanatoryData(string response, string headers, float **data, int numObs);
+float getMean(float **data, string response, string headers, int numObs);
 int getResponseColumnNumber(string response, string headers);
 int getLineCount(string filename);
 int getColumnCount(string headers);

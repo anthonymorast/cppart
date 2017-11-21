@@ -19,12 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="anova.h" />
+    <ClInclude Include="bestsplit.h" />
     <ClInclude Include="cppart.h" />
     <ClInclude Include="data_handler.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="partition.h" />
     <ClInclude Include="structures.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="anova.cpp" />
+    <ClCompile Include="bestsplit.cpp" />
     <ClCompile Include="cppart.cpp" />
     <ClCompile Include="data_handler.cpp" />
     <ClCompile Include="partition.cpp" />

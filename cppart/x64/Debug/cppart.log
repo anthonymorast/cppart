@@ -1,4 +1,3 @@
-﻿  partition.cpp
-  cppart.cpp
-  Generating Code...
-  cppart.vcxproj -> D:\Users\antho\Documents\GitHub\cppart\x64\Debug\cppart.exe
+﻿  cppart.cpp
+d:\users\anthony\documents\github\cppart\cppart\cppart.cpp(95): warning C4101: 'splits': unreferenced local variable
+  cppart.vcxproj -> D:\Users\anthony\Documents\GitHub\cppart\x64\Debug\cppart.exe

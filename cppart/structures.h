@@ -10,16 +10,14 @@ struct params {
 	unsigned int maxNodes;
 	unsigned int minObs;
 	string response;
+	string headers;
 	unsigned int minNode;	// minimum number of obs for terminal node
 	unsigned int maxDepth;
 	bool delayed;
 	unsigned int numXval;
 	float iscale;
 	int* where;
-
-	// x[*][i] should correspond with y[i] at all times
-	float* y;	// 1 value per response (regression only)
-	float** x;	// 1 row in the dataframe
+	float** data;	// 1 row in the dataframe
 };
 
 struct node {
@@ -38,8 +36,7 @@ struct node {
 	float yval;
 	float improvement;
 
-	float** xdata;
-	float* ydata;
+	float** data;
 	string response;
 };
 
