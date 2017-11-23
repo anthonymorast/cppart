@@ -36,6 +36,15 @@
     <ClInclude Include="bestsplit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cptable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xval.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="print_tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cppart.cpp">
@@ -51,6 +60,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="bestsplit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cptable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xval.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="print_tree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

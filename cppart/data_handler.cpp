@@ -49,27 +49,13 @@ float* getResponseData(string response, string headers, float** data, int numObs
 /*
 *	Get everything except the response variable column.
 */
-float **getExplanatoryData(string response, string headers, float **data, int numObs) {
+float *getExplanatoryDataCol(string response, string headers, float **data, int numObs, int col) {
 	int responseColumn = getResponseColumnNumber(response, headers);
 	int colCount = getColumnCount(headers);
 
-	float **x = new float*[numObs];
+	float *x = new float[numObs];
 	for (int i = 0; i < numObs; i++) {
-		x[i] = new float[colCount - 1];
-	}
-
-	for (int i = 0; i < numObs; i++) {
-		for (int j = 0; j < colCount; j++) {
-			if (j == responseColumn) {
-				continue;
-			}
-			if (j < responseColumn) {
-				x[i][j] = data[i][j];
-			}
-			else {
-				x[i][j - 1] = data[i][j];
-			}
-		}
+		x[i] = data[i][col];
 	}
 
 	return x;

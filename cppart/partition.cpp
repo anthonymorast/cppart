@@ -86,5 +86,6 @@ int partition(params *p, node* n, int nodeNum, double &sumrisk) {
 	// cp and node ids for python is REALLY close, i assum straglers are from the mergesort
 	n->cp = (n->dev - (leftRisk + rightRisk)) / (leftSplits + rightSplits + 1);
 	sumrisk = leftRisk + rightRisk;
+
 	return leftSplits + rightSplits + 1;
 }

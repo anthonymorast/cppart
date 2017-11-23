@@ -1,6 +1,12 @@
 #include "cppart.h"
 
+#include <fstream>
+
 int main(int argc, char* argv[]) {
+	clock_t start, end;
+
+	start = clock();
+
 	if (argc < 4) {
 		printUsage();
 		exit(0);
@@ -8,8 +14,18 @@ int main(int argc, char* argv[]) {
 
 	params p;
 	int numObs = parseParameters(argv, &p);
-	node root = buildTree(&p, numObs);
-	buildCpTable(&root, &p);
+	int numNodes = 0;
+	node root = buildTree(&p, numObs, numNodes);
+	cpTable *cpTableHead = buildCpTable(&root, &p);
+	
+	vector<int> iNode;
+	int count = 0;
+	fixTree(&root, (1 / root.dev), 1, count, iNode);
+
+	printTree(&root, "test.tree");
+
+	end = clock();
+	cout << "Time elapsed " << ((float)(end - start)) / CLOCKS_PER_SEC << endl;
 
 	return 0;
 }
@@ -59,6 +75,7 @@ int parseParameters(char * argv[], params *p)
 
 	int lineCount = getLineCount(filename);
 	int colCount = getColumnCount(headers);
+	p->dataLineCount = lineCount;
 
 	float **data = new float*[lineCount - 1];
 	for (int i = 0; i < lineCount; i++) {
@@ -86,29 +103,95 @@ int parseParameters(char * argv[], params *p)
 	return lineCount - 1;
 }
 
-node buildTree(params * p, int numObs)
+node buildTree(params * p, int numObs, int &numNodes)
 {
 	node tree;
 	tree.numObs = numObs;
 	tree.data = p->data;
 
-	int splits;
 	double risk;
 	partition(p, &tree, 1, risk);
 
 	return tree;
 }
 
-void fixTree(node * root, float cpScale, int nodeId, int nodeCount, int iNode)
+void fixTree(node * n, float cpScale, int nodeId, int &nodeCount, vector<int> &iNode)
 {
+	n->cp *= cpScale;
+	n->nodeId = nodeId;
+	nodeCount += 1;
+	iNode.push_back(nodeId);
+
+	if (n->leftNode != NULL) {
+		fixTree(n->leftNode, cpScale, 2 * nodeId, nodeCount, iNode);
+	}
+	if (n->rightNode != NULL) {
+		fixTree(n->rightNode, cpScale, (2 * nodeId) + 1, nodeCount, iNode);
+	}
 }
 
-cpTable buildCpTable(node *root, params *p)
+cpTable *buildCpTable(node *root, params *p)
 {
-	cpTable cpTableHead;
+	cpTable *cpTableHead = new cpTable(), *currCpTable, *tempCpTable, *prevCpTable;
+	cpTable *cpTail = new cpTable();
 
-	cpTableHead.cp = 0;
+	vector<double> cpList;
+	cpList.push_back(root->cp);
+	double parentCp = root->cp;
+	int uniqueCp = 2;
+
+	makeCpList(root, parentCp, cpList, uniqueCp);
+	sort(cpList.begin(), cpList.end());
+	reverse(cpList.begin(), cpList.end());
+	p->uniqueCp = cpList.size();
+
+	// make linked list
+	cpTableHead->back = new cpTable();
+	currCpTable = cpTableHead;
+	prevCpTable = cpTableHead->back;
+	vector<double>::iterator it;
+	for (it = cpList.begin(); it != cpList.end(); it++) {
+		double cp = *it;
+		currCpTable->cp = (float) cp;
+		if (cp != cpList.at(cpList.size() - 1)) {
+			currCpTable->forward = new cpTable;
+		}
+		if (&prevCpTable != NULL) {
+			currCpTable->back = prevCpTable;
+		}
+		prevCpTable = currCpTable;
+		currCpTable = currCpTable->forward;
+	}
+	cpTail = prevCpTable;
+
+	makeCpTable(root, parentCp, 0, cpTail);
+	tempCpTable = cpTableHead;
+
+	// cross validations
+	if (p->numXval) {
+		int *xGrps = new int[root->numObs];
+
+		srand(time(NULL));
+		// may need to do some things here where we determine the number of uniqie 
+		// xval values in xGrps so we don't get bad things moving forward. 
+		for (int i = 0; i < root->numObs; i++) {
+			xGrps[i] = rand() % p->numXval;
+		}
+
+		xval(cpTableHead, xGrps, *p);
+	}
+
+	tempCpTable = cpTableHead;
+	float scale = 1 / root->dev;
+	while (tempCpTable != NULL) {
+		tempCpTable->cp *= scale;
+		tempCpTable->risk *= scale;
+		tempCpTable->xstd *= scale;
+		tempCpTable->xrisk *= scale;
+
+		tempCpTable = tempCpTable->forward;
+	}
+	cpTableHead->risk = 1.0;
 
 	return cpTableHead;
 }
-	

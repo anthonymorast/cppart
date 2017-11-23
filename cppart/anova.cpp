@@ -1,13 +1,11 @@
 #include "anova.h"
 
-float* anovaPredict(float y[], float yHat[], int numValues)
+#include <iostream>
+
+float anovaPredict(float y, float yHat)
 {
-	float *predictions = new float[numValues];
-	for (int i = 0; i < numValues; i++) {
-		predictions[i] = y[i] - yHat[i];
-		predictions[i] = pow(predictions[i], 2);
-	}
-	return predictions;
+	float prediction = y - yHat;
+	return prediction * prediction;
 }
 
 void anovaSS(float y[], int numValues, double &mean, double &ss)
@@ -34,7 +32,7 @@ void anovaSS(float y[], int numValues, double &mean, double &ss)
 *	which = where, direction, splitpoint, and improve are passed by reference
 *	so that multiple values can be returned. 
 */
-void anovaSplit(float ** x, float * y, params *p, int varIdx, int &which,
+void anovaSplit(float *x, float * y, params *p, int varIdx, int &which,
 	int &direction, float &splitPoint, float &improve, int numValues)
 {
 	double temp;
@@ -74,7 +72,7 @@ void anovaSplit(float ** x, float * y, params *p, int varIdx, int &which,
 				right_sum * right_sum / right_wt;
 			if (temp > best) {
 				best = temp;
-				where = i;
+				which = i;
 				if (left_sum < right_sum)
 					direction = LEFT;
 				else
@@ -82,6 +80,9 @@ void anovaSplit(float ** x, float * y, params *p, int varIdx, int &which,
 			}
 		}
 	}
+
 	improve = myrisk == 0 ? 0 : best / myrisk;
-	splitPoint = (numValues > where + 1) ? ((x[where][varIdx] + x[where + 1][varIdx]) / 2) : x[where][varIdx];
+	if (best > 0) {
+		splitPoint = (numValues > which + 1) ? ((x[which] + x[which + 1]) / 2) : x[which];
+	}
 }

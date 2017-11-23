@@ -18,11 +18,13 @@ struct params {
 	float iscale;
 	int* where;
 	float** data;	// 1 row in the dataframe
+	int uniqueCp;
+	int dataLineCount;
 };
 
 struct node {
-	struct node *rightNode;
-	struct node *leftNode;
+	struct node *rightNode = NULL;
+	struct node *leftNode = NULL;
 
 	unsigned int nodeId = 0;
 	float splitPoint;
@@ -47,6 +49,6 @@ struct cpTable {
 	float xstd;
 	int nsplit;
 
-	struct cpTable *forward;
-	struct cpTable *back;
+	struct cpTable *forward = NULL;
+	struct cpTable *back = NULL;
 };

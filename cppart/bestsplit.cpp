@@ -25,14 +25,9 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 		// call anova split point
 		int where, direction, split, improvement;
 		float splitPoint, improve;
-		float **x = getExplanatoryData(p->response, p->headers, data, numObs);
+		float *x = getExplanatoryDataCol(p->response, p->headers, data, numObs, varIdx);
 		float *y = getResponseData(p->response, p->headers, data, numObs);
-		if (varIdx < respCol) {
-			anovaSplit(x, y, p, varIdx, where, direction, splitPoint, improve, numObs);
-		}
-		else {
-			anovaSplit(x, y, p, varIdx-1, where, direction, splitPoint, improve, numObs);
-		}
+		anovaSplit(x, y, p, varIdx, where, direction, splitPoint, improve, numObs);
 
 		// split data (set left, right, numLeft, numRight)
 		int numLeft = 0, numRight = 0;
@@ -121,6 +116,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 			numright = numRight;
 		}
 	}
+	// cout << n->varIndex << "  " << bestSS << "   " << n->splitPoint << "   " << n->index << endl;
 }
 
 void mergeSort(float **x, int low, int high, int varIdx, int colCount, int respCol) {
