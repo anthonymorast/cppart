@@ -1,4 +1,4 @@
-﻿  cppart.cpp
-d:\users\anthony\documents\github\cppart\cppart\cppart.cpp(146): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-d:\users\anthony\documents\github\cppart\cppart\cppart.cpp(174): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+﻿  bestsplit.cpp
+d:\users\anthony\documents\github\cppart\cppart\bestsplit.cpp(135): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\users\anthony\documents\github\cppart\cppart\bestsplit.cpp(136): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   cppart.vcxproj -> D:\Users\anthony\Documents\GitHub\cppart\x64\Debug\cppart.exe
