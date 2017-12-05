@@ -1,4 +1,4 @@
 ﻿  bestsplit.cpp
-d:\users\anthony\documents\github\cppart\cppart\bestsplit.cpp(135): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\users\anthony\documents\github\cppart\cppart\bestsplit.cpp(136): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\users\anthony\documents\github\cppart\cppart\bestsplit.cpp(137): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\users\anthony\documents\github\cppart\cppart\bestsplit.cpp(138): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   cppart.vcxproj -> D:\Users\anthony\Documents\GitHub\cppart\x64\Debug\cppart.exe

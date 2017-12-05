@@ -14,7 +14,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 	double yBar, deviance;
 	anovaSS(getResponseData(p->response, p->headers, data, numObs), numObs, yBar, deviance);
 
-	// OMP
+
 	for (int varIdx = 0; varIdx < colCount; varIdx++) {
 		if (varIdx == respCol) {
 			continue;
@@ -51,7 +51,9 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 			double bestLeftSS = DBL_MAX, bestRightSS = DBL_MAX;
 
 			for (int varIdx2 = 0; varIdx2 < colCount; varIdx2++) {
-				mergeSort(L1, 0, numLeft, varIdx2, colCount, respCol);
+				mergeSort(L1, 0, numLeft-1, varIdx2, colCount, respCol);
+				mergeSort(L2, 0, numRight-1, varIdx2, colCount, respCol);
+
 				int whereL, directionL, whereR, directionR;
 				float splitPointL, improveL, splitPointR, improveR;
 				
