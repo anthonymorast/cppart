@@ -20,6 +20,7 @@ struct params {
 	float** data;	// 1 row in the dataframe
 	int uniqueCp;
 	int dataLineCount;
+	string filename;
 };
 
 struct node {

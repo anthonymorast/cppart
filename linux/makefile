@@ -20,4 +20,4 @@ cppart: data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partiti
 	g++ --std=c++11 data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o -o cppart
 
 clean:
-	rm *.o cppart
+	rm *.o cppart *.tree

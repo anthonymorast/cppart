@@ -22,7 +22,10 @@ int main(int argc, char* argv[]) {
 	int count = 0;
 	fixTree(&root, (1 / root.dev), 1, count, iNode);
 
-	printTree(&root, "test.tree");
+	int idx = p.filename.find(".");
+	string treeFileName = p.filename.substr(0, idx);
+	treeFileName += ".tree";
+	printTree(&root, treeFileName);
 
 	end = clock();
 	cout << "Time elapsed " << ((float)(end - start)) / CLOCKS_PER_SEC << endl;
@@ -95,6 +98,7 @@ int parseParameters(char * argv[], params *p)
 	p->data = data;
 	p->where = new int[lineCount];
 	p->headers = headers;
+	p->filename = filename;
 
 	for (int i = 0; i < lineCount; i++) {
 		p->where[i] = 0;	
@@ -134,7 +138,8 @@ cpTable *buildCpTable(node *root, params *p)
 {
 	cpTable *cpTableHead = new cpTable(), *currCpTable, *tempCpTable, *prevCpTable;
 	cpTable *cpTail = new cpTable();
-
+	
+	cout << "Building CP Table..." << endl;
 	vector<double> cpList;
 	cpList.push_back(root->cp);
 	double parentCp = root->cp;
