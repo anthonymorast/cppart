@@ -24,6 +24,9 @@ int main(int argc, char* argv[]) {
 
 	int idx = p.filename.find(".");
 	string treeFileName = p.filename.substr(0, idx);
+	if(p.delayed) {
+		treeFileName += ".delayed";
+	}
 	treeFileName += ".tree";
 	printTree(&root, treeFileName);
 

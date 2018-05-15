@@ -57,7 +57,7 @@ void printNode(node * n, int nodeId, int myDepth, node * parent, bool right, ofs
 	}
 
 	string terminalStr = "";
-	if (n->leftNode != NULL && n->rightNode != NULL) {
+	if (n->leftNode == NULL && n->rightNode == NULL) {
 		terminalStr += "*";
 	}
 

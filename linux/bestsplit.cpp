@@ -51,6 +51,9 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 			double bestLeftSS = DBL_MAX, bestRightSS = DBL_MAX;
 
 			for (int varIdx2 = 0; varIdx2 < colCount; varIdx2++) {
+                if(varIdx2 == respCol) {
+                    continue;
+                }
 				mergeSort(L1, 0, numLeft-1, varIdx2, colCount, respCol);
 				mergeSort(L2, 0, numRight-1, varIdx2, colCount, respCol);
 
@@ -86,6 +89,9 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 				// right data
 				float *rx = getExplanatoryDataCol(p->response, p->headers, L2, numRight, varIdx2);
 				float *ry = getResponseData(p->response, p->headers, L2, numRight);
+                if(numObs == 96 && varIdx2 == 0) {
+                    cout << rx[10] << endl;
+                }
 				anovaSplit(rx, ry, p, varIdx2, whereR, directionR, splitPointR, improveR, numRight);
 
 				int L5Size = 0, L6Size = 0;
@@ -103,6 +109,10 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 				anovaSS(getResponseData(p->response, p->headers, L5, L5Size), L5Size, mean, l5SS);
 				anovaSS(getResponseData(p->response, p->headers, L6, L6Size), L6Size, mean, l6SS);
 				thisSSRight = l5SS + l6SS;
+
+                if(numObs == 96) {
+                    cout << varIdx2 << "\n\t" << splitPointR << "\t" << directionR << "\t" << improveR << "\t" << splitPointL << "\t" << directionL << "\t" << improveL << endl;
+                }
 				
 				if (thisSSRight < bestRightSS && improveR > 0) {
 					bestRightSS = thisSSRight;
