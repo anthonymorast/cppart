@@ -20,11 +20,11 @@ partition.o: partition.cpp
 cppart.o: cppart.cpp 
 	x86_64-w64-mingw32-g++ --std=c++11 -c cppart.cpp
 cppart: data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o
-	x86_64-w64-mingw32-g++ --std=c++11 data_handler.o anova.o bestsplit.o xval.o cptable.o utils.o print_tree.o partition.o cppart.o -o cppart
+	x86_64-w64-mingw32-g++ --std=c++11 data_handler.o anova.o bestsplit.o xval.o cptable.o utils.o print_tree.o partition.o cppart.o -o cppart.exe
 runmany.o: runmany.cpp	
 	x86_64-w64-mingw32-g++ --std=c++11 -c runmany.cpp
 runmany:	
-	x86_64-w64-mingw32-g++ --std=c++11 data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o utils.o runmany.o -o runmany
+	x86_64-w64-mingw32-g++ --std=c++11 data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o utils.o runmany.o -o runmany.exe
 
 clean:
 	rm *.o cppart *.tree runmany
