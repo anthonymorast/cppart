@@ -57,10 +57,10 @@ void printNode(node * n, int nodeId, int myDepth, node * parent, bool right, ofs
 	}
 
 	string terminalStr = "";
-	if (n->leftNode != NULL && n->rightNode != NULL) {
+	if (n->leftNode == NULL && n->rightNode == NULL) {
 		terminalStr += "*";
 	}
 
-	fout << tabString << nodeId << ") " << parent->varIndex << directionStr << parent->splitPoint << " " <<
+	fout << tabString << nodeId << ") " << parent->varName << directionStr << parent->splitPoint << " " <<
 		n->numObs << "  " << n->dev << " " << n->yval << " " << terminalStr << endl;
 }
