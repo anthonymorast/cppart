@@ -1,3 +1,10 @@
+/*
+* Creates the CP Table used for pruning/calculating R^2.
+*
+* Author: Anthony Morast
+*/
+
+
 #include "cptable.h"
 
 #include <iostream>

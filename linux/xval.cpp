@@ -1,3 +1,11 @@
+/*
+* Performs the cross-validations which fills in some values
+* in the CP table.
+*
+* Author: Anthony Morast
+*/
+
+
 #include "xval.h"
 
 void xval(cpTable * tableHead, int xGroups[], params p)

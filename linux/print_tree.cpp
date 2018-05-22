@@ -1,3 +1,10 @@
+/*
+* Recursively prints the tree to a tree file.
+*
+* Author: Anthony Morast
+*/
+
+
 #include "print_tree.h"
 
 void printTree(node * root, string filename)

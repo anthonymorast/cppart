@@ -1,3 +1,9 @@
+/*
+* Anova operations, calculate SS find best split.
+*
+* Author: Anthony Morast
+*/
+
 #include "anova.h"
 
 #include <iostream>

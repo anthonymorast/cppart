@@ -1,5 +1,7 @@
-all: data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o cppart
+all: utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o cppart runmany.o runmany
 
+utils.o: utils.cpp
+	g++ --std=c++11 -c utils.cpp
 data_handler.o: data_handler.cpp
 	g++ --std=c++11 -c data_handler.cpp
 anova.o: anova.cpp
@@ -17,7 +19,11 @@ partition.o: partition.cpp
 cppart.o: cppart.cpp 
 	g++ --std=c++11 -c cppart.cpp
 cppart: data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o
-	g++ --std=c++11 data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o -o cppart
+	g++ --std=c++11 utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o -o cppart
+runmany.o:
+	g++ --std=c++11 -c runmany.cpp
+runmany:	
+	g++ --std=c++11 utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o runmany.o -o runmany
 
 clean:
-	rm *.o cppart *.tree
+	rm *.o cppart *.tree runmany

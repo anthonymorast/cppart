@@ -1,3 +1,12 @@
+/*
+* Partitions the dataset by finding the bestsplit and doing 
+* a some operations and error checking with the cp value
+* and bad splits.
+*
+* Author: Anthony Morast
+*/
+
+
 #include "partition.h"
 
 /*

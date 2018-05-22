@@ -1,3 +1,11 @@
+/*
+* Handles data input and manipulation. Gets desired columns, finds
+* response column, etc.
+*
+* Author: Anthony Morast
+*/
+
+
 #include "data_handler.h"
 
 /*
