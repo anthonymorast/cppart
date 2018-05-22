@@ -41,7 +41,6 @@ void anovaSplit(float *x, float * y, params *p, int varIdx, int &which,
 	int left_n, right_n;
 	double grandmean, best;
 	direction = LEFT;
-	int where = 0;
 
 	double mean, myrisk;
 	anovaSS(y, numValues, mean, myrisk);
@@ -59,6 +58,7 @@ void anovaSplit(float *x, float * y, params *p, int varIdx, int &which,
 	left_n = 0;
 	right_sum = 0;
 	best = 0;
+    which = 0;
 	for (int i = 0; right_n > p->minNode; i++) {
 		left_wt += 1;  // wt[i];
 		right_wt -= 1; // wt[i];
@@ -80,9 +80,9 @@ void anovaSplit(float *x, float * y, params *p, int varIdx, int &which,
 			}
 		}
 	}
-
-	improve = myrisk == 0 ? 0 : best / myrisk;
-	if (best > 0) {
+	
+    improve = myrisk == 0 ? 0 : best / myrisk;
+	if (true) { //best > 0 || true) {
 		splitPoint = (numValues > which + 1) ? ((x[which] + x[which + 1]) / 2) : x[which];
 	}
 }

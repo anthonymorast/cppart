@@ -69,8 +69,19 @@ int parseParameters(char * argv[], params *p)
 	getline(fin, headers);
 	string value;
 	istringstream ss(headers);
-	while (getline(ss, value, ',') && !responseFound) {
-		responseFound = !strcmp(value.c_str(), response.c_str());
+    int varCount = 0;
+	while (getline(ss, value, ',')) {
+        if(!responseFound) {
+	    	responseFound = !strcmp(value.c_str(), response.c_str());
+        }
+        varCount += 1;
+	}
+    string *headerValues = new string[varCount];
+    varCount = 0;
+    istringstream ss2(headers);
+	while (getline(ss2, value, ',')) {
+        headerValues[varCount] = value;
+        varCount += 1;
 	}
 
 	if (!responseFound) {
@@ -102,6 +113,7 @@ int parseParameters(char * argv[], params *p)
 	p->where = new int[lineCount];
 	p->headers = headers;
 	p->filename = filename;
+    p->varNames = headerValues;
 
 	for (int i = 0; i < lineCount; i++) {
 		p->where[i] = 0;	

@@ -21,6 +21,7 @@ struct params {
 	int uniqueCp;
 	int dataLineCount;
 	string filename;
+    string *varNames;
 };
 
 struct node {
@@ -31,7 +32,8 @@ struct node {
 	float splitPoint;
 	int index;
 	int direction;
-	int varIndex;
+    int varIndex;
+    string varName;
 
 	float cp;
 	int numObs;
