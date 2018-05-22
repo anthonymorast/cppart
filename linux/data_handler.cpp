@@ -84,6 +84,7 @@ int getResponseColumnNumber(string response, string headers) {
 		if (!strcmp(value.c_str(), response.c_str())) {
 			break;
 		}
+		index++;
 	}
 
 	return index;
