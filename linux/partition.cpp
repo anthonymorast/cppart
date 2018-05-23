@@ -34,11 +34,11 @@ int partition(params *p, node* n, int nodeNum, double &sumrisk) {
 		n->rightNode = NULL;
 		n->yval = mean;
 		n->dev = tempcp;
-		n->cp = 0;
+		n->cp = 0; 
 		return 0;
 	}
 
-	int numleft, numright;
+	int numleft = 0, numright = 0;
 	bestsplit(n, p, n->response, numleft, numright);
 
 

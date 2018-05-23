@@ -23,7 +23,7 @@ cppart: data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partiti
 runmany.o:
 	g++ --std=c++11 -c runmany.cpp
 runmany:	
-	g++ --std=c++11 utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o runmany.o -o runmany
+	g++ --std=c++11 -pthread utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o runmany.o -o runmany
 
 clean:
 	rm *.o cppart runmany

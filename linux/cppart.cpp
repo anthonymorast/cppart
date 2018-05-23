@@ -23,8 +23,9 @@ int main(int argc, char* argv[]) {
 	params p;
 	int numObs = parseParameters(argv, &p);
 	int numNodes = 0;
+        cout << "Building tree..." << endl;
 	node root = buildTree(&p, numObs, numNodes);
-	cpTable *cpTableHead = buildCpTable(&root, &p);
+        cpTable *cpTableHead = buildCpTable(&root, &p);
 	
 	vector<int> iNode;
 	int count = 0;

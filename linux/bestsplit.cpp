@@ -192,25 +192,18 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
             n->dev = deviance;
             n->improvement = improve;
 
-            n->rightNode->data = L2;
-            n->leftNode->data = L1;
+            // free old data before reassigning pointer to data
+            free2DData(n->rightNode->data, numright);
+            free2DData(n->leftNode->data, numleft);
+            
+            n->rightNode->data = deepCopyData(L2, numRight, colCount);
+            n->leftNode->data = deepCopyData(L1, numLeft, colCount);
 
             numleft = numLeft;
             numright = numRight;
         }
-        /*cout << numLeft << "  " << numRight << endl;
-        cout << "before l1" << endl;
-        for(int i = 0; i < 10; i++) {
-            delete[] L1[i];
-        }
-        delete[] L1;
-        cout << "here" << endl;
-        for(int i = 0; i < numRight; i++) {
-            delete[] L2[i];
-        }
-        cout << "before L2 delete " << endl;
-        delete[] L2;
-        cout << "after l2" << endl;*/
+        free2DData(L1, numLeft);
+        free2DData(L2, numRight);
     }
     //cout << n->varIndex << "  " << bestSS << "   " << n->splitPoint << "   " << n->index << endl;
 }

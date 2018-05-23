@@ -41,7 +41,7 @@ struct node {
     float yval;
     float improvement;
 
-    float** data;
+    float** data = NULL;
     string response;
 };
 

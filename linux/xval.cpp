@@ -72,7 +72,6 @@ void xval(cpTable * tableHead, int xGroups[], params p)
                 tempCpTable = tempCpTable->forward;
             }
         } 
-
         freeTreeData(xtree);
         free2DData(holdout, holdoutsize);
         free2DData(groupData, size);
