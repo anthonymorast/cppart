@@ -4,6 +4,8 @@
 #include <string.h>
 #include <sstream>
 
+#include "structures.h"
+
 using namespace std;
 
 /*
@@ -16,3 +18,9 @@ float getMean(float **data, string response, string headers, int numObs);
 int getResponseColumnNumber(string response, string headers);
 int getLineCount(string filename);
 int getColumnCount(string headers);
+
+void free1DData(float* y);
+void free2DData(float **data, int numObs);
+void freeTreeData(node *root);
+
+float** deepCopyData(float** data, int numObs, int colCount);

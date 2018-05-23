@@ -19,6 +19,7 @@ int partition(params *p, node* n, int nodeNum, double &sumrisk) {
 	double tempcp, mean;
 	anovaSS(y, n->numObs, mean, tempcp);
 	n->dev = tempcp;
+        free1DData(y);
 	
 	if (nodeNum == 1) {
 		n->cp = n->dev;
