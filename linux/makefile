@@ -26,4 +26,4 @@ runmany:
 	g++ --std=c++11 utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o runmany.o -o runmany
 
 clean:
-	rm *.o cppart *.tree runmany
+	rm *.o cppart runmany
