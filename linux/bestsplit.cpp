@@ -283,10 +283,7 @@ void merge(float **x, int low, int high, int mid, int varIdx, int colCount, int 
         }
     }
 
-    //for (int idx = 0; idx < (high - low + 1); idx++) {
-    //	delete[] temp[idx];
-    //}
-    //delete[] temp;
+    free2DData(temp, high - low + 1);    
 }
 
 void getSplitCounts(float ** data, int splitVar, float splitPoint, int direction, int numObs, int & leftCount, int & rightCount)
