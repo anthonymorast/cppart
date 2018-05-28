@@ -32,7 +32,7 @@ struct node {
     float splitPoint;
     int index;
     int direction;
-    int varIndex;
+    int varIndex = 99999;
     string varName;
 
     float cp;

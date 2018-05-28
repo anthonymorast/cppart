@@ -90,11 +90,12 @@ node buildTree(params * p, int numObs, int &numNodes)
 {
     node tree;
     tree.numObs = numObs;
-    tree.data = p->data;
+    tree.data = deepCopyData(p->data, numObs, getColumnCount(p->headers));
 
     double risk;
     partition(p, &tree, 1, risk);
 
+    freeTreeData(&tree);
     return tree;
 }
 
@@ -179,3 +180,32 @@ cpTable *buildCpTable(node *root, params *p)
 
     return cpTableHead;
 }
+
+
+float getPrediction(node *tree, float row[], int responseCol)
+{
+    int splitVar = tree->varIndex;
+    float splitPoint = tree->splitPoint;
+    int direction = tree->direction;
+    float predValue = 0;
+
+    if(row[splitVar] > splitPoint) {
+        direction *= -1;
+    }
+    if(direction < 0) {
+        if(tree->leftNode == NULL) {
+            return tree->yval;
+        } else {
+            predValue = getPrediction(tree->leftNode, row, responseCol);
+        }
+    } else {
+        if(tree->rightNode == NULL) {
+            return tree->yval;
+        } else {
+            predValue = getPrediction(tree->rightNode, row, responseCol);
+        }
+    }
+
+    return predValue;
+}
+
