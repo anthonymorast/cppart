@@ -1,9 +1,9 @@
 /*
-* Entry point of the program. Parses parameters, does some preprocessing,
-* creates the tree, runs cross-validations, creates tree files, etc.
-*
-* Author: Anthony Morast
-*/
+ * Entry point of the program. Parses parameters, does some preprocessing,
+ * creates the tree, runs cross-validations, creates tree files, etc.
+ *
+ * Author: Anthony Morast
+ */
 
 
 #include "cppart.h"
@@ -11,39 +11,39 @@
 #include <fstream>
 
 int main(int argc, char* argv[]) {
-	clock_t start, end;
+    clock_t start, end;
 
-	start = clock();
+    start = clock();
 
-	if (argc < 4) {
-		printUsage();
-		exit(0);
-	}
+    if (argc < 4) {
+        printUsage();
+        exit(0);
+    }
 
-	params p;
-	int numObs = parseParameters(argv, &p);
-	int numNodes = 0;
-        cout << "Building tree..." << endl;
-	node root = buildTree(&p, numObs, numNodes);
-        cpTable *cpTableHead = buildCpTable(&root, &p);
-	
-	vector<int> iNode;
-	int count = 0;
-	fixTree(&root, (1 / root.dev), 1, count, iNode);
+    params p;
+    int numObs = parseParameters(argv, &p);
+    int numNodes = 0;
+    cout << "Building tree..." << endl;
+    node root = buildTree(&p, numObs, numNodes);
+    cpTable *cpTableHead = buildCpTable(&root, &p);
 
-	int idx = p.filename.find(".");
-	string treeFileName = p.filename.substr(0, idx);
-	if(p.delayed) {
-		treeFileName += ".delayed";
-	}
-	treeFileName += ".tree";
-	printTree(&root, treeFileName);
+    vector<int> iNode;
+    int count = 0;
+    fixTree(&root, (1 / root.dev), 1, count, iNode);
 
-	end = clock();
-	cout << "Time elapsed " << ((float)(end - start)) / CLOCKS_PER_SEC << endl;
+    int idx = p.filename.find(".");
+    string treeFileName = p.filename.substr(0, idx);
+    if(p.delayed) {
+        treeFileName += ".delayed";
+    }
+    treeFileName += ".tree";
+    printTree(&root, treeFileName);
+
+    end = clock();
+    cout << "Time elapsed " << ((float)(end - start)) / CLOCKS_PER_SEC << endl;
 
     float squareError = 0;
-    int n = 100;
+    int n = 0;
     for (int i = 0; i < n; i++) {
         float *sample = p.data[i];
         int respCol = getResponseColumnNumber(p.response, p.headers);
@@ -51,13 +51,13 @@ int main(int argc, char* argv[]) {
         squareError += anovaPredict(sample[0], pred);
         cout << "Actual: " << sample[0] << "\tPredicted: " <<  pred << endl;
     }
-    cout << "MSE: " << squareError/n << endl;
+//    cout << "MSE: " << squareError/n << endl;
 
-	return 0;
+    return 0;
 }
 
 void printUsage()
 {
-	cout << "Usage:" << endl;
-	cout << "\tcppart.exe <data filename> <response> <delayed>" << endl;
+    cout << "Usage:" << endl;
+    cout << "\tcppart.exe <data filename> <response> <delayed>" << endl;
 }

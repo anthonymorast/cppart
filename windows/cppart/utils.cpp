@@ -95,7 +95,7 @@ node buildTree(params * p, int numObs, int &numNodes)
     double risk;
     partition(p, &tree, 1, risk);
 
-    freeTreeData(&tree);
+    //freeTreeData(&tree);
     return tree;
 }
 

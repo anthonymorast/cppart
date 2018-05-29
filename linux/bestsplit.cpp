@@ -138,7 +138,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 free1DData(y);
                 thisSSRight = l5SS + l6SS;
 
-                /*if(numObs == 1599) {
+/*                if(numObs == 43) {
                   cout << p->varNames[varIdx2] << "\n\t" << splitPointR << "\t" << directionR << "\t" << improveR << "\n\t" << splitPointL << "\t" << directionL << "\t" << improveL << endl;
                   }*/
 
