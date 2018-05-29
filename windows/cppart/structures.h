@@ -4,54 +4,54 @@
 using namespace std;
 
 /*
-*	Struct and class definitions that are not used in any particular functionality.
-*/
+ *	Struct and class definitions that are not used in any particular functionality.
+ */
 struct params {
-	unsigned int maxNodes;
-	unsigned int minObs;
-	string response;
-	string headers;
-	unsigned int minNode;	// minimum number of obs for terminal node
-	unsigned int maxDepth;
-	bool delayed;
-	unsigned int numXval;
-	float iscale;
-	int* where;
-	float** data;	// 1 row in the dataframe
-	int uniqueCp;
-	int dataLineCount;
-	string filename;
+    unsigned int maxNodes;
+    unsigned int minObs;
+    string response;
+    string headers;
+    unsigned int minNode;	// minimum number of obs for terminal node
+    unsigned int maxDepth;
+    bool delayed;
+    unsigned int numXval;
+    float iscale;
+    int* where;
+    float** data;	// 1 row in the dataframe
+    int uniqueCp;
+    int dataLineCount;
+    string filename;
     string *varNames;
 };
 
 struct node {
-	struct node *rightNode = NULL;
-	struct node *leftNode = NULL;
+    struct node *rightNode = NULL;
+    struct node *leftNode = NULL;
 
-	unsigned int nodeId = 0;
-	float splitPoint;
-	int index;
-	int direction;
-    int varIndex;
+    unsigned int nodeId = 0;
+    float splitPoint;
+    int index;
+    int direction;
+    int varIndex = 99999;
     string varName;
 
-	float cp;
-	int numObs;
-	float dev;
-	float yval;
-	float improvement;
+    float cp;
+    int numObs;
+    float dev;
+    float yval;
+    float improvement;
 
-	float** data;
-	string response;
+    float** data = NULL;
+    string response;
 };
 
 struct cpTable {
-	float cp;
-	float risk;
-	float xrisk;
-	float xstd;
-	int nsplit;
+    float cp;
+    float risk;
+    float xrisk;
+    float xstd;
+    int nsplit;
 
-	struct cpTable *forward = NULL;
-	struct cpTable *back = NULL;
+    struct cpTable *forward = NULL;
+    struct cpTable *back = NULL;
 };

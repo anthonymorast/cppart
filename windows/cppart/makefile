@@ -24,7 +24,7 @@ cppart: data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partiti
 runmany.o: runmany.cpp	
 	x86_64-w64-mingw32-g++ --std=c++11 -c runmany.cpp
 runmany:	
-	x86_64-w64-mingw32-g++ --std=c++11 data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o utils.o runmany.o -o runmany.exe
+	x86_64-w64-mingw32-g++ -pthread --std=c++11 data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o utils.o runmany.o -o runmany.exe
 
 clean:
 	rm *.o cppart.exe runmany.exe

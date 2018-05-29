@@ -20,4 +20,5 @@ int parseParameters(char* argv[], params *p);
 node buildTree(params *p, int, int &numNodes); 
 void fixTree(node *root, float cpScale, int nodeId, int &nodeCount, vector<int> &iNode); 
 cpTable *buildCpTable(node *root, params *p);
-void printUsage(); 
+void printUsage();
+float getPrediction(node* tree, float row[], int responseCol);
