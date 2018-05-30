@@ -69,7 +69,7 @@ def writeCsv(filename, rows, labels):
         filename.
     """
     with open(filename, 'w', newline='') as f:
-        writer = csv.writer(f, quoting=csv.QUOTE_ALL)
+        writer = csv.writer(f, quoting=csv.QUOTE_NONE)
         writer.writerow(labels)
         writer.writerows(rows)
 
