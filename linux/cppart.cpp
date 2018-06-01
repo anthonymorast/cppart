@@ -47,17 +47,20 @@ int main(int argc, char* argv[]) {
 
     end = clock();
     cout << "Time elapsed " << ((float)(end - start)) / CLOCKS_PER_SEC << endl;
-/*
-    float squareError = 0;
-    int n = 0;
-    for (int i = 0; i < n; i++) {
-        float *sample = p.data[i];
+
+    float error = 0;
+    for (int i = 0; i < p.testSize; i++) {
+        cout << i << endl;
+        float *sample = p.testData[i];
         int respCol = getResponseColumnNumber(p.response, p.headers);
         float pred = getPrediction(&root, sample, respCol);
-        squareError += anovaPredict(sample[0], pred);
-        cout << "Actual: " << sample[0] << "\tPredicted: " <<  pred << endl;
-    }*/
-//    cout << "MSE: " << squareError/n << endl;
+        cout << "here" << endl;
+        float e = pred - sample[respCol];
+        error += e;
+        // error += anovaPredict(sample[0], pred); // square error
+        cout << "Actual: " << sample[respCol] << "\tPredicted: " <<  pred << endl;
+    }
+    cout << "MAE: " << error/p.testSize << endl;
 
     return 0;
 }

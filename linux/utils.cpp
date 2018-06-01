@@ -113,7 +113,7 @@ int parseParameters(char * argv[], int argc, params *p)
         srand(time(NULL));
         int counter = 0;
         float indices[testSize];
-        while(counter < testSize-1) {
+        while(counter < testSize) {
             int value = rand() % numObs;
             bool found = false;
             for(int i = 0; i < counter; i++) {
@@ -174,7 +174,7 @@ int parseParameters(char * argv[], int argc, params *p)
     } else {
         trainData = deepCopyData(data, lineCount-1, colCount);
     }
-
+    
     p->response = response;
     p->maxDepth = 30;	// only used to set maxNodes
     p->maxNodes = (int)pow(2, (p->maxDepth + 1)) - 1;
