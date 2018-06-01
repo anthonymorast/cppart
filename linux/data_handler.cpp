@@ -154,7 +154,6 @@ float** deepCopyData(float** old_data, int numObs, int colCount) {
     for(int i = 0; i < numObs; i++) {
         new_data[i] = new float[colCount];
     }
-    
     for(int i = 0; i < numObs; i++) {
         for (int j = 0; j < colCount; j++) {
             new_data[i][j] = old_data[i][j];

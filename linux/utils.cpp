@@ -185,17 +185,20 @@ int parseParameters(char * argv[], int argc, params *p)
 
         int tlineCount = getLineCount(test_data_filename);
         int tcolCount = getColumnCount(theaders);
-
-        float **testData = new float*[tlineCount - 1];
-        for (int i = 0; i < tlineCount; i++) {
+       
+        testData = new float*[tlineCount - 1];
+        for (int i = 0; i < tlineCount-1; i++) {
             testData[i] = new float[tcolCount];
         }
         getData(test_data_filename, response, theaders, testData);
-        trainData = deepCopyData(data, lineCount-1, colCount);
+        trainData = deepCopyData(data, lineCount - 1, colCount);
+        testSize = tlineCount - 1;
+        trainSize = numObs;
     } else {
-        trainData = deepCopyData(data, lineCount-1, colCount);
+        trainData = deepCopyData(data, lineCount - 1, colCount);
     }
-
+   
+    cout << "do i make it here" << endl; 
     p->response = response;
     p->maxDepth = 30;	// only used to set maxNodes
     p->maxNodes = (int)pow(2, (p->maxDepth + 1)) - 1;

@@ -21,8 +21,9 @@ int main(int argc, char* argv[]) {
     }
 
     params p;
+    cout << endl;
     int numObs = parseParameters(argv, argc, &p);
-
+    
     // split test and train data
     if(!p.splitdata && p.testDataFilename == "") {
         cout << "Warning: splitting data set to false and no test data supplied..." << endl;
@@ -62,7 +63,7 @@ int main(int argc, char* argv[]) {
         //cout << "Actual: " << sample[respCol] << "\tPredicted: " <<  pred << endl;
     }
     cout << "MAE: " << mae/p.testSize << endl;
-    cout << "Relative Error: " << relError/p.testSize << endl;
+    cout << "Relative Error: " << relError/p.testSize << endl << endl;
 
     return 0;
 }
