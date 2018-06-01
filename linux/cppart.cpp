@@ -21,10 +21,16 @@ int main(int argc, char* argv[]) {
     }
 
     params p;
-    int numObs = parseParameters(argv, &p);
+    int numObs = parseParameters(argv, argc, &p);
+
+    // split test and train data
+    if(!p.splitdata && p.testDataFilename == "") {
+        cout << "Warning: splitting data set to false and no test data supplied..." << endl;
+    }
+
     int numNodes = 0;
     cout << "Building tree..." << endl;
-    node root = buildTree(&p, numObs, numNodes);
+    node root = buildTree(&p, p.trainSize, numNodes);
     cpTable *cpTableHead = buildCpTable(&root, &p);
 
     vector<int> iNode;
@@ -41,7 +47,7 @@ int main(int argc, char* argv[]) {
 
     end = clock();
     cout << "Time elapsed " << ((float)(end - start)) / CLOCKS_PER_SEC << endl;
-
+/*
     float squareError = 0;
     int n = 0;
     for (int i = 0; i < n; i++) {
@@ -50,7 +56,7 @@ int main(int argc, char* argv[]) {
         float pred = getPrediction(&root, sample, respCol);
         squareError += anovaPredict(sample[0], pred);
         cout << "Actual: " << sample[0] << "\tPredicted: " <<  pred << endl;
-    }
+    }*/
 //    cout << "MSE: " << squareError/n << endl;
 
     return 0;
@@ -59,5 +65,5 @@ int main(int argc, char* argv[]) {
 void printUsage()
 {
     cout << "Usage:" << endl;
-    cout << "\tcppart.exe <data filename> <response> <delayed>" << endl;
+    cout << "\tcppart.exe <data filename> <response> <delayed> [optional: runxvals=(0,1) splitdata=(0,1) testdata=<test data filename>]" << endl;
 }

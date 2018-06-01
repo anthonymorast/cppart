@@ -8,7 +8,7 @@
 #include <fstream>
 
 // returns the number of observations for the first node.
-int parseParameters(char * argv[], params *p)
+int parseParameters(char * argv[], int argc, params *p)
 {
     string filename = argv[1];
     string response = argv[2];
@@ -20,6 +20,34 @@ int parseParameters(char * argv[], params *p)
         cout << "Could not parse integer value from delayed parameter \" " << argv[3] << "\"." << endl;
         printUsage();
         exit(0);
+    }
+    int xvals = 1;
+    int split_data = 0;
+    string test_data_filename = "";
+    if(argc > 4) {
+        for(int i = 4; i < argc; i++) {
+            string param = argv[i];
+            int pos_xval = param.find("runxvals=");
+            int pos_split = param.find("splitdata=");
+            int pos_test = param.find("testdata=");
+            if(pos_xval != string::npos) {
+                try {
+                    xvals = stoi(string(1, argv[i][pos_xval+9]));
+                } catch (exception e) {
+                    cout << "Warning: error parsing integer value for cross-validation flag..." << endl;
+                }
+            } else if(pos_split != string::npos) {
+                try {
+                    split_data = stoi(string(1, argv[i][pos_split+10]));
+                } catch (exception e) {
+                    cout << "Warning: error parsing integer value for split data flag..." << endl;
+                }
+            } else if(pos_test != string::npos) {
+                test_data_filename = param.substr(pos_test+9);
+            } else {
+                cout << "Warning: Unused parameter " << param << "..." << endl;
+            }
+        }
     }
 
     ifstream fin;
@@ -63,8 +91,89 @@ int parseParameters(char * argv[], params *p)
     for (int i = 0; i < lineCount; i++) {
         data[i] = new float[colCount];
     }
-
     getData(filename, response, headers, data);
+
+    float **testData, **trainData;
+    int numObs = lineCount - 1;
+    int testSize = 0, trainSize = numObs;
+    if(split_data && test_data_filename == "") {
+        testSize = numObs/5;
+        trainSize = numObs - testSize;
+
+        testData = new float*[testSize];
+        for(int i = 0; i < testSize; i++) {
+            testData[i] = new float[colCount];
+        }
+        trainData = new float*[trainSize];
+        for(int i = 0; i < trainSize; i++) {
+            trainData[i] = new float[colCount];
+        }
+        
+        // generate random indicies to be held out for testing data, no replacement.
+        srand(time(NULL));
+        int counter = 0;
+        float indices[testSize];
+        while(counter < testSize-1) {
+            int value = rand() % numObs;
+            bool found = false;
+            for(int i = 0; i < counter; i++) {
+                if (value == indices[i]) {
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                indices[counter] = value;
+                counter++;
+            }
+        }
+
+        int testIdx = 0;
+        int trainIdx = 0;
+        for(int i = 0; i < numObs; i++) {
+            bool found = false;
+            for(int j = 0; j < counter; j++) {
+                if(indices[j] == i) {
+                    found = true;
+                    break;
+                }
+            }
+            if(found) {
+                testData[testIdx] = data[i];
+                testIdx++;
+            } else {
+                trainData[trainIdx] = data[i];
+                trainIdx++; 
+            }
+        }
+    } else if (test_data_filename != "") {
+        ifstream tfin;
+        tfin.open(test_data_filename);
+        if (!tfin.is_open()) {
+            cout << "Test data file \"" << test_data_filename << "\" does not exist." << endl;
+            exit(0);
+        }
+
+        string theaders;
+        bool tresponseFound = false;
+        getline(tfin, theaders);
+        if(headers != theaders) {
+            cout << "Error: headers for test data file do not match headers for training data file." << endl;
+            exit(0);
+        }
+
+        int tlineCount = getLineCount(test_data_filename);
+        int tcolCount = getColumnCount(theaders);
+
+        float **testData = new float*[tlineCount - 1];
+        for (int i = 0; i < tlineCount; i++) {
+            testData[i] = new float[tcolCount];
+        }
+        getData(test_data_filename, response, theaders, testData);
+        trainData = deepCopyData(data, lineCount-1, colCount);
+    } else {
+        trainData = deepCopyData(data, lineCount-1, colCount);
+    }
 
     p->response = response;
     p->maxDepth = 30;	// only used to set maxNodes
@@ -74,27 +183,37 @@ int parseParameters(char * argv[], params *p)
     p->numXval = 10;
     p->iscale = 0;		// this may not be used
     p->delayed = delayed == 1;
+    p->trainData = trainData;
+    p->testData = testData;
+    p->testSize = testSize;
+    p->trainSize = trainSize;
     p->data = data;
     p->where = new int[lineCount];
     p->headers = headers;
     p->filename = filename;
     p->varNames = headerValues;
-
+    p->runXVals = xvals >= 1;
+    p->splitdata = split_data >= 1;
+    p->testDataFilename = test_data_filename;
+    
     for (int i = 0; i < lineCount; i++) {
         p->where[i] = 0;	
     }
-    return lineCount - 1;
+   
+    if(p->splitdata && test_data_filename == "") {
+       numObs /= 5;
+    } 
+    return numObs;
 }
 
 node buildTree(params * p, int numObs, int &numNodes)
 {
     node tree;
     tree.numObs = numObs;
-    tree.data = deepCopyData(p->data, numObs, getColumnCount(p->headers));
+    tree.data = deepCopyData(p->trainData, numObs, getColumnCount(p->headers));
 
     double risk;
     partition(p, &tree, 1, risk);
-
     //freeTreeData(&tree);
     return tree;
 }
@@ -153,8 +272,8 @@ cpTable *buildCpTable(node *root, params *p)
     tempCpTable = cpTableHead;
 
     // cross validations
-    if (p->numXval) {
-        int *xGrps = new int[root->numObs];
+    if (p->numXval && p->runXVals) {
+        int *xGrps = new int[p->dataLineCount - 1];
 
         srand(time(NULL));
         // may need to do some things here where we determine the number of uniqie 

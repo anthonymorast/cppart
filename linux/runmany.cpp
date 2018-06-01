@@ -39,7 +39,8 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     params p;
-    int numObs = parseParameters(argv, &p);
+    int numObs = parseParameters(argv, argc, &p);
+    p.runXVals = 1;
     int numNodes = 0;
     node root = buildTree(&p, numObs, numNodes);
 
