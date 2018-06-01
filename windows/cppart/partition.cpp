@@ -41,6 +41,7 @@ int partition(params *p, node* n, int nodeNum, double &sumrisk) {
     int numleft = 0, numright = 0;
     bestsplit(n, p, n->response, numleft, numright);
 
+    /* can't find a good split */
 
     // update where 
     // TODO: probably don't need where since we do R^2 stuff ourselves, hold off til end

@@ -24,12 +24,14 @@ int parseParameters(char * argv[], int argc, params *p)
     int xvals = 1;
     int split_data = 0;
     string test_data_filename = "";
+    int randomSplit = 1;
     if(argc > 4) {
         for(int i = 4; i < argc; i++) {
             string param = argv[i];
             int pos_xval = param.find("runxvals=");
             int pos_split = param.find("splitdata=");
             int pos_test = param.find("testdata=");
+            int pos_rand = param.find("randomsplit=");
             if(pos_xval != string::npos) {
                 try {
                     xvals = stoi(string(1, argv[i][pos_xval+9]));
@@ -44,6 +46,12 @@ int parseParameters(char * argv[], int argc, params *p)
                 }
             } else if(pos_test != string::npos) {
                 test_data_filename = param.substr(pos_test+9);
+            } else if(pos_rand != string::npos) {
+                try {
+                    randomSplit = stoi(string(1, argv[i][pos_rand+12]));
+                } catch(exception e) {
+                    cout << "Warning: ranomd split integer cannot be parsed." << endl;
+                }
             } else {
                 cout << "Warning: Unused parameter " << param << "..." << endl;
             }
@@ -108,42 +116,55 @@ int parseParameters(char * argv[], int argc, params *p)
         for(int i = 0; i < trainSize; i++) {
             trainData[i] = new float[colCount];
         }
-        
+
         // generate random indicies to be held out for testing data, no replacement.
-        srand(time(NULL));
-        int counter = 0;
         float indices[testSize];
-        while(counter < testSize) {
-            int value = rand() % numObs;
-            bool found = false;
-            for(int i = 0; i < counter; i++) {
-                if (value == indices[i]) {
-                    found = true;
-                    break;
+        int counter = 0;
+        if(randomSplit) {
+            srand(time(NULL));
+            while(counter < testSize) {
+                int value = rand() % numObs;
+                bool found = false;
+                for(int i = 0; i < counter; i++) {
+                    if (value == indices[i]) {
+                        found = true;
+                        break;
+                    }
                 }
-            }
-            if(!found) {
-                indices[counter] = value;
-                counter++;
+                if(!found) {
+                    indices[counter] = value;
+                    counter++;
+                }
             }
         }
 
         int testIdx = 0;
         int trainIdx = 0;
         for(int i = 0; i < numObs; i++) {
-            bool found = false;
-            for(int j = 0; j < counter; j++) {
-                if(indices[j] == i) {
-                    found = true;
-                    break;
+            if(randomSplit) {
+                bool found = false;
+                for(int j = 0; j < counter; j++) {
+                    if(indices[j] == i) {
+                        found = true;
+                        break;
+                    }
                 }
-            }
-            if(found) {
-                testData[testIdx] = data[i];
-                testIdx++;
+                if(found) {
+                    testData[testIdx] = data[i];
+                    testIdx++;
+                } else {
+                    trainData[trainIdx] = data[i];
+                    trainIdx++; 
+                }
             } else {
-                trainData[trainIdx] = data[i];
-                trainIdx++; 
+                // grab first 80% for train, last 80% for test
+                if(i < trainSize) {
+                    trainData[trainIdx] = data[i];
+                    trainIdx++;
+                } else {
+                    testData[testIdx] = data[i];
+                    testIdx++;
+                }
             }
         }
     } else if (test_data_filename != "") {
@@ -174,7 +195,7 @@ int parseParameters(char * argv[], int argc, params *p)
     } else {
         trainData = deepCopyData(data, lineCount-1, colCount);
     }
-    
+
     p->response = response;
     p->maxDepth = 30;	// only used to set maxNodes
     p->maxNodes = (int)pow(2, (p->maxDepth + 1)) - 1;
@@ -195,13 +216,13 @@ int parseParameters(char * argv[], int argc, params *p)
     p->runXVals = xvals >= 1;
     p->splitdata = split_data >= 1;
     p->testDataFilename = test_data_filename;
-    
+
     for (int i = 0; i < lineCount; i++) {
         p->where[i] = 0;	
     }
-   
+
     if(p->splitdata && test_data_filename == "") {
-       numObs /= 5;
+        numObs /= 5;
     } 
     return numObs;
 }
@@ -303,6 +324,11 @@ cpTable *buildCpTable(node *root, params *p)
 
 float getPrediction(node *tree, float row[], int responseCol)
 {
+    /* some leaves (all leaves?) don't have spltVar, splitPoint, etc. set*/
+    if(tree->leftNode == NULL && tree->rightNode == NULL) {
+        return tree->yval;
+    }
+
     int splitVar = tree->varIndex;
     float splitPoint = tree->splitPoint;
     int direction = tree->direction;

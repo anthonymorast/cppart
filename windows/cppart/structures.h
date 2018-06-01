@@ -14,10 +14,17 @@ struct params {
     unsigned int minNode;	// minimum number of obs for terminal node
     unsigned int maxDepth;
     bool delayed;
+    bool runXVals;
+    bool splitdata;
+    string testDataFilename;
     unsigned int numXval;
     float iscale;
     int* where;
-    float** data;	// 1 row in the dataframe
+    float** trainData;	// 1 row in the dataframe
+    float** testData;
+    float** data;
+    int testSize;
+    int trainSize;
     int uniqueCp;
     int dataLineCount;
     string filename;
@@ -39,7 +46,7 @@ struct node {
     int numObs;
     float dev;
     float yval;
-    float improvement;
+    float improvement = 99999;
 
     float** data = NULL;
     string response;

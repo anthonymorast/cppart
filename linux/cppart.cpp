@@ -48,25 +48,31 @@ int main(int argc, char* argv[]) {
     end = clock();
     cout << "Time elapsed " << ((float)(end - start)) / CLOCKS_PER_SEC << endl;
 
-    float error = 0;
+    cout << "\nTest Data: " << endl;
+    float mae = 0;
+    float relError = 0;
     for (int i = 0; i < p.testSize; i++) {
-        cout << i << endl;
         float *sample = p.testData[i];
         int respCol = getResponseColumnNumber(p.response, p.headers);
         float pred = getPrediction(&root, sample, respCol);
-        cout << "here" << endl;
         float e = pred - sample[respCol];
-        error += e;
+        relError += abs(e/sample[respCol]);
+        mae += abs(e);
         // error += anovaPredict(sample[0], pred); // square error
-        cout << "Actual: " << sample[respCol] << "\tPredicted: " <<  pred << endl;
+        //cout << "Actual: " << sample[respCol] << "\tPredicted: " <<  pred << endl;
     }
-    cout << "MAE: " << error/p.testSize << endl;
+    cout << "MAE: " << mae/p.testSize << endl;
+    cout << "Relative Error: " << relError/p.testSize << endl;
 
     return 0;
 }
 
 void printUsage()
 {
-    cout << "Usage:" << endl;
-    cout << "\tcppart.exe <data filename> <response> <delayed> [optional: runxvals=(0,1) splitdata=(0,1) testdata=<test data filename>]" << endl;
+    cout << endl << "Usage:" << endl;
+    cout << "\tcppart.exe <data filename> <response> <delayed> [optional: runxvals=(0,1) splitdata=(0,1) testdata=<test data filename> randomsplit=(0,1)]" << endl;
+    cout << "\t\trunxvals - 1=true to run cross-validations" << endl;
+    cout << "\t\tsplitdata - if true (non-zero) splits the data into train and test data, 80/20 for train/test split." << endl;
+    cout << "\t\ttestdata - filename for a file containing the data to be used as test data, if populated ignores splitdata param." << endl;
+    cout << "\t\trandomsplit - if true (non-zero), splits the data randomly, otherwise takes the last 20% for training." << endl << endl;
 }

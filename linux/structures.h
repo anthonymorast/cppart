@@ -46,7 +46,7 @@ struct node {
     int numObs;
     float dev;
     float yval;
-    float improvement;
+    float improvement = 99999;
 
     float** data = NULL;
     string response;
