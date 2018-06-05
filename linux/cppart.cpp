@@ -56,9 +56,9 @@ int main(int argc, char* argv[]) {
         float *sample = p.testData[i];
         int respCol = getResponseColumnNumber(p.response, p.headers);
         float pred = getPrediction(&root, sample, respCol);
-        float e = pred - sample[respCol];
-        relError += abs(e/sample[respCol]);
-        mae += abs(e);
+        float e = abs(pred - sample[respCol]);
+        relError += e/1+abs(sample[respCol]); // class 0 = nan, need to add 1 to denominator
+        mae += e;
         // error += anovaPredict(sample[0], pred); // square error
         //cout << "Actual: " << sample[respCol] << "\tPredicted: " <<  pred << endl;
     }

@@ -198,7 +198,6 @@ int parseParameters(char * argv[], int argc, params *p)
         trainData = deepCopyData(data, lineCount - 1, colCount);
     }
    
-    cout << "do i make it here" << endl; 
     p->response = response;
     p->maxDepth = 30;	// only used to set maxNodes
     p->maxNodes = (int)pow(2, (p->maxDepth + 1)) - 1;
