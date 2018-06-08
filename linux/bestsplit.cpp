@@ -28,7 +28,6 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
     anovaSS(y, numObs, yBar, deviance);
     free1DData(y);
 
-
     for (int varIdx = 0; varIdx < colCount; varIdx++) {
         if (varIdx == respCol) {
             continue;
@@ -225,7 +224,7 @@ void merge(float **x, int low, int high, int mid, int varIdx, int colCount, int 
 
     float **temp = new float*[high - low + 1];
     for (int idx = 0; idx < (high - low + 1); idx++) {
-        temp[idx] = new float[colCount - 1];
+        temp[idx] = new float[colCount];
     }
 
     while (i <= mid && j <= high) {
@@ -236,14 +235,14 @@ void merge(float **x, int low, int high, int mid, int varIdx, int colCount, int 
             k++;
             i++;
         }
-        else if (x[i][varIdx] > x[j][varIdx]) {
+        else if (x[i][varIdx] >= x[j][varIdx]) {
             for (int col = 0; col < colCount; col++) {
                 temp[k][col] = x[j][col];
             }
             k++;
             j++;
         }
-        else { // if equal sort on response column (is this what excel does?)
+        else { // if equal sort on response column (is this what excel does?)[stopped doing this 6/4/18]
             if (x[i][respCol] < x[j][respCol]) {
                 for (int col = 0; col < colCount; col++) {
                     temp[k][col] = x[i][col];
@@ -276,14 +275,13 @@ void merge(float **x, int low, int high, int mid, int varIdx, int colCount, int 
         k++;
         j++;
     }
-
     for (k = 0, i = low; i <= high; ++i, ++k) {
         for (int col = 0; col < colCount; col++) {
             x[i][col] = temp[k][col];
         }
     }
 
-    free2DData(temp, high - low + 1);    
+    free2DData(temp, high - low + 1); 
 }
 
 void getSplitCounts(float ** data, int splitVar, float splitPoint, int direction, int numObs, int & leftCount, int & rightCount)
