@@ -32,16 +32,18 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
         if (varIdx == respCol) {
             continue;
         }
-        // sort on x[varidx]
-        mergeSort(data, 0, numObs-1, varIdx, colCount, respCol); // -1 since we go until <= high
+        // sort on x[varidx
+		// do we only need to sort one column since the data split isn't dependent on the whole data array being sorted??
+		// takes only 60% of the time when using one column only
+        x = getExplanatoryDataCol(p->response, p->headers, data, numObs, varIdx);
+        y = getResponseData(p->response, p->headers, data, numObs);
+        mergeSort(x, y, 0, numObs-1, varIdx, colCount, respCol); // -1 since we go until <= high
 
         // call anova split point
         int where, direction;
         float splitPoint, improve;
         double leftSS, rightSS, mean, thisSS, thisSSLeft, thisSSRight;
 
-        x = getExplanatoryDataCol(p->response, p->headers, data, numObs, varIdx);
-        y = getResponseData(p->response, p->headers, data, numObs);
         anovaSplit(x, y, p, varIdx, where, direction, splitPoint, improve, numObs);
         free1DData(y);
         free1DData(x);
@@ -61,7 +63,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 
         // split the data
         splitData(direction, splitPoint, varIdx, colCount, numObs, L1, L2, data);
-
+        cout << "\t\tVar 1: " << p->varNames[varIdx] << endl;
         if (p->delayed && improve > 0) {
             double bestLeftSS = DBL_MAX, bestRightSS = DBL_MAX;
 
@@ -69,15 +71,15 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 if(varIdx2 == respCol) {
                     continue;
                 }
-                mergeSort(L1, 0, numLeft-1, varIdx2, colCount, respCol);
-                mergeSort(L2, 0, numRight-1, varIdx2, colCount, respCol);
+//                cout << "\t\t\tVar 2: " << p->varNames[varIdx2] << endl;
+                x = getExplanatoryDataCol(p->response, p->headers, L1, numLeft, varIdx2);
+                y = getResponseData(p->response, p->headers, L1, numLeft);
+                mergeSort(x, y, 0, numLeft-1, varIdx2, colCount, respCol);
 
                 int whereL, directionL, whereR, directionR;
                 float splitPointL = 0, improveL, splitPointR = 0, improveR;
 
                 // left data
-                x = getExplanatoryDataCol(p->response, p->headers, L1, numLeft, varIdx2);
-                y = getResponseData(p->response, p->headers, L1, numLeft);
                 anovaSplit(x, y, p, varIdx2, whereL, directionL, splitPointL, improveL, numLeft);
                 free1DData(y);
                 free1DData(x);
@@ -112,6 +114,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 // right data
                 x = getExplanatoryDataCol(p->response, p->headers, L2, numRight, varIdx2);
                 y = getResponseData(p->response, p->headers, L2, numRight);
+                mergeSort(x, y, 0, numRight-1, varIdx2, colCount, respCol);
                 anovaSplit(x, y, p, varIdx2, whereR, directionR, splitPointR, improveR, numRight);
                 free1DData(y);
                 free1DData(x);
@@ -180,7 +183,8 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
             thisSS = leftSS + rightSS;
         }
 
-        if (thisSS < bestSS && improve > 0) {
+		// compare only 6 digits of doubles since roundoff error causes discrepencies between pypart/rpart and cppart
+        if (trunc(1000000.*thisSS) < trunc(1000000.*bestSS) && improve > 0) {
             bestSS = thisSS;
             n->splitPoint = splitPoint;
             n->direction = direction;
@@ -207,81 +211,89 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
     //cout << n->varIndex << "  " << bestSS << "   " << n->splitPoint << "   " << n->index << endl;
 }
 
-void mergeSort(float **x, int low, int high, int varIdx, int colCount, int respCol) {
+void mergeSort(float *x, float *y, int low, int high, int varIdx, int colCount, int respCol) {
     int mid;
     if (low < high) {
         mid = (low + high) / 2;
-        mergeSort(x, low, mid, varIdx, colCount, respCol);
-        mergeSort(x, mid + 1, high, varIdx, colCount, respCol);
+        mergeSort(x, y, low, mid, varIdx, colCount, respCol);
+        mergeSort(x, y, mid + 1, high, varIdx, colCount, respCol);
 
-        merge(x, low, high, mid, varIdx, colCount, respCol);
+        merge(x, y, low, high, mid, varIdx, colCount, respCol);
     }
 }
 
-void merge(float **x, int low, int high, int mid, int varIdx, int colCount, int respCol) {
+void merge(float *x, float *y, int low, int high, int mid, int varIdx, int colCount, int respCol) {
     int i = low, j = mid + 1, k = 0;
     const int size = high - low + 1;
 
-    float **temp = new float*[high - low + 1];
-    for (int idx = 0; idx < (high - low + 1); idx++) {
-        temp[idx] = new float[colCount];
-    }
+    float *tempx = new float[high - low + 1];
+	float *tempy = new float[high - low + 1];
+    //for (int idx = 0; idx < (high - low + 1); idx++) {
+    //    temp[idx] = new float[2];
+    //}
 
     while (i <= mid && j <= high) {
-        if (x[i][varIdx] < x[j][varIdx]) {
-            for (int col = 0; col < colCount; col++) {
-                temp[k][col] = x[i][col];
-            }
+        if (x[i] < x[j]) {
+            //for (int col = 0; col < colCount; col++) {
+                tempx[k] = x[i];
+				tempy[k] = y[i];
+            //}
             k++;
             i++;
         }
-        else if (x[i][varIdx] >= x[j][varIdx]) {
-            for (int col = 0; col < colCount; col++) {
-                temp[k][col] = x[j][col];
-            }
+        else if (x[i] >= x[j]) {
+            //for (int col = 0; col < colCount; col++) {
+                tempx[k] = x[j];
+				tempy[k] = y[j];
+            //}
             k++;
             j++;
         }
-        else { // if equal sort on response column (is this what excel does?)[stopped doing this 6/4/18]
+        /*else { // if equal sort on response column (is this what excel does?)[stopped doing this 6/4/18]
             if (x[i][respCol] < x[j][respCol]) {
-                for (int col = 0; col < colCount; col++) {
-                    temp[k][col] = x[i][col];
-                }
+                //for (int col = 0; col < colCount; col++) {
+                    temp[k] = x[i];
+                //}
                 k++;
                 i++;
             }
             else {
-                for (int col = 0; col < colCount; col++) {
-                    temp[k][col] = x[j][col];
-                }
+                //for (int col = 0; col < colCount; col++) {
+                    temp[k] = x[j];
+                //}
                 k++;
                 j++;
             }
-        }
+        }*/ // did away with this response column stuff...
     }
 
     while (i <= mid) {
-        for (int col = 0; col < colCount; col++) {
-            temp[k][col] = x[i][col];
-        }
+        //for (int col = 0; col < colCount; col++) {
+            tempx[k] = x[i];
+			tempy[k] = y[i];
+        //}
         k++;
         i++;
     }
 
     while (j <= high) {
-        for (int col = 0; col < colCount; col++) {
-            temp[k][col] = x[j][col];
-        }
+        //for (int col = 0; col < colCount; col++) {
+            tempx[k] = x[j];
+			tempy[k] = y[j];
+        //}
         k++;
         j++;
     }
     for (k = 0, i = low; i <= high; ++i, ++k) {
-        for (int col = 0; col < colCount; col++) {
-            x[i][col] = temp[k][col];
-        }
+        //for (int col = 0; col < colCount; col++) {
+            x[i] = tempx[k];
+			y[i] = tempy[k];
+        //}
     }
 
-    free2DData(temp, high - low + 1); 
+    //free2DData(temp, high - low + 1); 
+	free1DData(tempx);
+	free1DData(tempy);
 }
 
 void getSplitCounts(float ** data, int splitVar, float splitPoint, int direction, int numObs, int & leftCount, int & rightCount)

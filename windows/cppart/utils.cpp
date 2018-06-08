@@ -25,6 +25,7 @@ int parseParameters(char * argv[], int argc, params *p)
     int split_data = 0;
     string test_data_filename = "";
     int randomSplit = 1;
+	float cp = 0.01, alpha = 0;
     if(argc > 4) {
         for(int i = 4; i < argc; i++) {
             string param = argv[i];
@@ -32,6 +33,7 @@ int parseParameters(char * argv[], int argc, params *p)
             int pos_split = param.find("splitdata=");
             int pos_test = param.find("testdata=");
             int pos_rand = param.find("randomsplit=");
+ 			int pos_cp = param.find("cp=");
             if(pos_xval != string::npos) {
                 try {
                     xvals = stoi(string(1, argv[i][pos_xval+9]));
@@ -50,15 +52,22 @@ int parseParameters(char * argv[], int argc, params *p)
                 try {
                     randomSplit = stoi(string(1, argv[i][pos_rand+12]));
                 } catch(exception e) {
-                    cout << "Warning: ranomd split integer cannot be parsed." << endl;
+                    cout << "Warning: random split integer cannot be parsed." << endl;
                 }
-            } else {
+            } else if(pos_cp != string::npos) {
+				try {
+					cp = stof(param.substr(pos_cp+3)); 
+				} catch(exception e) {
+					cout << "Warning: cp parameter not parsable as float, dedault 0.01 used." << endl;
+				}
+			}
+			else {
                 cout << "Warning: Unused parameter " << param << "..." << endl;
             }
         }
-    }
-
-    ifstream fin;
+    }	
+	
+	ifstream fin;
     fin.open(filename);
     if (!fin.is_open()) {
         cout << "File \"" << filename << "\" does not exist." << endl;
@@ -100,6 +109,12 @@ int parseParameters(char * argv[], int argc, params *p)
         data[i] = new float[colCount];
     }
     getData(filename, response, headers, data);
+
+	float* y = getResponseData(response, headers, data, lineCount-1);
+	double mean, risk;
+ 	anovaSS(y, lineCount-1, mean, risk);
+	alpha = cp * risk;
+	free1DData(y);
 
     float **testData, **trainData;
     int numObs = lineCount - 1;
@@ -218,6 +233,8 @@ int parseParameters(char * argv[], int argc, params *p)
     p->runXVals = xvals >= 1;
     p->splitdata = split_data >= 1;
     p->testDataFilename = test_data_filename;
+	p->complexity = cp;
+	p->alpha = alpha;
 
     for (int i = 0; i < lineCount; i++) {
         p->where[i] = 0;	

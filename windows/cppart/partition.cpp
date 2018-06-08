@@ -13,6 +13,7 @@
  *	Function Implementations
  */
 int partition(params *p, node* n, int nodeNum, double &sumrisk) {
+    cout << "\tNode ID (is this thing still running?): " << nodeNum << endl;
     float **data = n->data;
     float *y = getResponseData(p->response, p->headers, data, n->numObs);
 
@@ -29,14 +30,15 @@ int partition(params *p, node* n, int nodeNum, double &sumrisk) {
     }
 
     // can we stop?
-    if (nodeNum > p->maxNodes || n->numObs < p->minObs || tempcp <= 0) {
+    if (nodeNum > p->maxNodes || n->numObs < p->minObs || tempcp <= p->alpha) {
         n->leftNode = NULL;
         n->rightNode = NULL;
         n->yval = mean;
-        n->dev = tempcp;
-        n->cp = 0; 
+        //n->dev = tempcp;
+        n->cp = p->alpha;
+	   	sumrisk = n->dev;
         return 0;
-    }
+	}
 
     int numleft = 0, numright = 0;
     bestsplit(n, p, n->response, numleft, numright);
@@ -52,7 +54,7 @@ int partition(params *p, node* n, int nodeNum, double &sumrisk) {
     n->leftNode->numObs = numleft;
     n->leftNode->response = p->response;
     n->leftNode->nodeId = nodeNum * 2;
-    n->leftNode->cp = tempcp;
+    n->leftNode->cp = tempcp - p->alpha;
     leftSplits = partition(p, n->leftNode, (2 * nodeNum), leftRisk);
 
     // update cp
@@ -68,7 +70,7 @@ int partition(params *p, node* n, int nodeNum, double &sumrisk) {
     n->rightNode->numObs = numright;
     n->rightNode->response = p->response;
     n->rightNode->nodeId = (nodeNum * 2) + 1;
-    n->rightNode->cp = tempcp;
+    n->rightNode->cp = tempcp - p->alpha;
     rightSplits = partition(p, n->rightNode, (2 * nodeNum) + 1, rightRisk);
 
     tempcp = (n->dev - (leftRisk + rightRisk)) / (leftSplits + rightSplits + 1);
@@ -94,9 +96,19 @@ int partition(params *p, node* n, int nodeNum, double &sumrisk) {
         }
     }
 
-    // cp and node ids for python is REALLY close, i assum straglers are from the mergesort
     n->cp = (n->dev - (leftRisk + rightRisk)) / (leftSplits + rightSplits + 1);
-    sumrisk = leftRisk + rightRisk;
-
-    return leftSplits + rightSplits + 1;
+	//cout << n->nodeId << ", " << leftRisk << ", " << rightRisk << endl;
+	//cout << n->nodeId << ", " << n->cp << ", " << p->alpha << endl; 
+   
+	if(n->cp <= p->alpha) {
+		sumrisk = n->dev;
+		free2DData(n->rightNode->data, n->rightNode->numObs);
+		free2DData(n->leftNode->data, n->leftNode->numObs);
+		n->rightNode = NULL;
+		n->leftNode = NULL;
+		return 0;
+	} else {
+		sumrisk = leftRisk + rightRisk;
+    	return leftSplits + rightSplits + 1;
+	}
 }

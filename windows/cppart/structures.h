@@ -20,6 +20,8 @@ struct params {
     unsigned int numXval;
     float iscale;
     int* where;
+	float complexity = 0.01;
+	float alpha = 0.00;
     float** trainData;	// 1 row in the dataframe
     float** testData;
     float** data;
