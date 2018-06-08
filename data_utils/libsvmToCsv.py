@@ -87,5 +87,5 @@ if __name__ == '__main__':
     rows = libsvmToRowList(filename, max_col)
 
     """ Change for every dataset!!! """
-    labels = ['class'] + ['pixel' + str(i) for i in range(max_col)]
+    labels = ['class'] + ['col' + str(i) for i in range(max_col)]
     writeCsv(output_filename, rows, labels)
