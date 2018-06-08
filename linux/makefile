@@ -1,4 +1,4 @@
-all: utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o cppart runmany.o runmany
+all: anova.o utils.o data_handler.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o cppart runmany.o runmany
 
 utils.o: utils.cpp
 	g++ --std=c++11 -c utils.cpp

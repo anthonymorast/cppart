@@ -73,17 +73,19 @@ node) split, number observations, deviance, yval
 						80) total.sulfur.dioxide< 76 9  2 4.66667 *
 						81) total.sulfur.dioxide>=76 42  4.78571 5.07143 
 							162) total.sulfur.dioxide> 96.5 23  0.956522 4.95652 
-								324) chlorides< 0.089 7  0.857143 4.85714 *
-								325) chlorides>=0.089 16  0 5 *
+								324) residual.sugar< 2.1 7  0.857143 4.85714 *
+								325) residual.sugar>=2.1 16  0 5 *
 							163) total.sulfur.dioxide<=96.5 19  3.15789 5.21053 *
 					41) alcohol>=9.45 71  14.7887 5.29577 
-						82) chlorides< 0.0755 16  0 5 *
-						83) chlorides>=0.0755 55  12.9818 5.38182 
+						82) residual.sugar> 3.35 16  0 5 *
+						83) residual.sugar<=3.35 55  12.9818 5.38182 
 							166) alcohol< 10.15 48  9.91667 5.29167 
-								332) residual.sugar> 2.35 29  3.44828 5.13793 
-									664) pH< 3.315 19  0.947368 5.05263 *
-									665) pH>=3.315 10  2.1 5.3 *
-								333) residual.sugar<=2.35 19  4.73684 5.52632 *
+								332) residual.sugar> 2.05 35  5.6 5.2 
+									664) total.sulfur.dioxide> 103 11  0 5 *
+									665) total.sulfur.dioxide<=103 24  4.95833 5.29167 
+										1330) total.sulfur.dioxide< 72.5 7  0 5 *
+										1331) total.sulfur.dioxide>=72.5 17  4.11765 5.41176 *
+								333) residual.sugar<=2.05 13  3.23077 5.53846 *
 							167) alcohol>=10.15 7  0 6 *
 				21) total.sulfur.dioxide<=65.5 326  141.472 5.4908 
 					42) pH> 3.535 33  12.9697 5.0303 
@@ -230,8 +232,8 @@ node) split, number observations, deviance, yval
 									924) volatile.acidity> 0.485 29  2.96552 5.96552 
 										1848) volatile.acidity> 0.625 9  1.55556 5.77778 *
 										1849) volatile.acidity<=0.625 20  0.95 6.05 
-											3698) sulphates> 0.755 13  0 6 *
-											3699) sulphates<=0.755 7  0.857143 6.14286 *
+											3698) fixed.acidity< 6.95 13  0 6 *
+											3699) fixed.acidity>=6.95 7  0.857143 6.14286 *
 									925) volatile.acidity<=0.485 9  2 6.33333 *
 								463) density>=0.99728 7  0.857143 6.85714 *
 				29) volatile.acidity<=0.395 95  55.5368 6.34737 

@@ -69,7 +69,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 if(varIdx2 == respCol) {
                     continue;
                 }
-                cout << "\t\t\tVar 2: " << p->varNames[varIdx2] << endl;
+//                cout << "\t\t\tVar 2: " << p->varNames[varIdx2] << endl;
                 mergeSort(L1, 0, numLeft-1, varIdx2, colCount, respCol);
                 mergeSort(L2, 0, numRight-1, varIdx2, colCount, respCol);
 
@@ -181,7 +181,8 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
             thisSS = leftSS + rightSS;
         }
 
-        if (thisSS < bestSS && improve > 0) {
+		// compare only 6 digits of doubles since roundoff error causes discrepencies between pypart/rpart and cppart
+        if (trunc(1000000.*thisSS) < trunc(1000000.*bestSS) && improve > 0) {
             bestSS = thisSS;
             n->splitPoint = splitPoint;
             n->direction = direction;
