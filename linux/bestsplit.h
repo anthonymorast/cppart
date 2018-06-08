@@ -4,6 +4,7 @@
 #include "data_handler.h"
 #include "anova.h"
 #include <cfloat>
+#include <omp.h>
 
 #include <string>
 

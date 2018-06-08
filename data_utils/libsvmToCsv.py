@@ -51,6 +51,8 @@ def libsvmToRowList(filename, max_col):
 
     for row in content:
         s = sample(max_col)
+        row = ' '.join(row.split()) # replace multiple spaces with single space
+        row = row.replace(": ", ":") # some had spaces after colon
         row = row.split(' ')
         s.label = int(row[0])
         row = row[1:]

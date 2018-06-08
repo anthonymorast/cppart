@@ -7,7 +7,7 @@ data_handler.o: data_handler.cpp
 anova.o: anova.cpp
 	g++ --std=c++11 -c anova.cpp
 bestsplit.o: bestsplit.cpp
-	g++ --std=c++11 -c bestsplit.cpp
+	g++ --std=c++11 -fopenmp -c bestsplit.cpp
 xval.o: xval.cpp
 	g++ --std=c++11 -c xval.cpp
 cptable.o: cptable.cpp

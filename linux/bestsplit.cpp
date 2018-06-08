@@ -61,7 +61,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 
         // split the data
         splitData(direction, splitPoint, varIdx, colCount, numObs, L1, L2, data);
-
+        cout << "\t\tVar 1: " << p->varNames[varIdx] << endl;
         if (p->delayed && improve > 0) {
             double bestLeftSS = DBL_MAX, bestRightSS = DBL_MAX;
 
@@ -69,6 +69,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 if(varIdx2 == respCol) {
                     continue;
                 }
+                cout << "\t\t\tVar 2: " << p->varNames[varIdx2] << endl;
                 mergeSort(L1, 0, numLeft-1, varIdx2, colCount, respCol);
                 mergeSort(L2, 0, numRight-1, varIdx2, colCount, respCol);
 

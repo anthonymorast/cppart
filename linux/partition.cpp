@@ -13,6 +13,7 @@
  *	Function Implementations
  */
 int partition(params *p, node* n, int nodeNum, double &sumrisk) {
+    cout << "\tNode ID (is this thing still running?): " << nodeNum << "\n";
     float **data = n->data;
     float *y = getResponseData(p->response, p->headers, data, n->numObs);
 
