@@ -137,8 +137,20 @@ mnist greedy:
 	cp:			0.0100
 
 mnist delayed:
-	Time:		
-	MAE:		
-	Rel Error: 	
+	Time:		69000
+	MAE:		1.50151
+	Rel Error: 	5.98096
 	cp:			0.0100
+
+mnist greedy:
+	Time:	 	517.558
+	MAE: 		0.625066
+	Rel Error:	5.10444
+	cp:			0.0000
+
+mnist delayed:
+	Time:		181,079
+	MAE:		0.62823
+	Rel Error: 	5.10762
+	cp:			0.0000
 
