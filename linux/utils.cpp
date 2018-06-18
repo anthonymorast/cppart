@@ -284,7 +284,7 @@ cpTable *buildCpTable(node *root, params *p)
     double parentCp = root->cp;
     int uniqueCp = 2;
 
-    makeCpList(root, parentCp, cpList, uniqueCp);
+    makeCpList(root, parentCp, cpList, uniqueCp, p);
     sort(cpList.begin(), cpList.end());
     reverse(cpList.begin(), cpList.end());
     p->uniqueCp = cpList.size();
@@ -313,15 +313,12 @@ cpTable *buildCpTable(node *root, params *p)
 
     // cross validations
     if (p->numXval && p->runXVals) {
-        int *xGrps = new int[p->dataLineCount - 1];
-
-        srand(time(NULL));
-        // may need to do some things here where we determine the number of uniqie 
-        // xval values in xGrps so we don't get bad things moving forward. 
-        for (int i = 0; i < root->numObs; i++) {
-            xGrps[i] = rand() % p->numXval;
+        vector<int> groups;
+        for(int i = 0; i < root->numObs; i++) {
+            groups.push_back(i % p->numXval);
         }
-
+        shuffle(groups.begin(), groups.end(), default_random_engine(time(NULL)));
+        int *xGrps = &groups[0];
         xval(cpTableHead, xGrps, *p);
     }
 

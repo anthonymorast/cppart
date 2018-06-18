@@ -27,9 +27,9 @@ void xval(cpTable * tableHead, int xGroups[], params p)
         i++;
     }
 
+    float alphasave = p.alpha;
     float totalWt = numObs;
     float oldWt = numObs;
-
     cout << "\tPerforming cross-validations..." << endl;
     for (int i = 0; i < p.numXval; i++) {
         cout << "\t\tGroup " << (i+1) << " of " << p.numXval << "..." << endl;
@@ -45,11 +45,14 @@ void xval(cpTable * tableHead, int xGroups[], params p)
         }
         getGroupData(p.data, groupData, holdout, xGroups, i, colCount, numObs);
 
-        for (int j = 0; j < p.uniqueCp; j++) {
-            cpList[j] *= (size / oldWt);
+        // rescale the cps
+        int temp = size;
+        for(int j = 0; j < p.uniqueCp; j++) {
+            cpList[j] *= temp/oldWt;
         }
-
-        oldWt = size;
+        p.alpha *= temp/oldWt;
+        oldWt = temp;
+      
         node *xtree = new node();
         xtree->numObs = size;
         xtree->data = deepCopyData(groupData, size, colCount);
@@ -83,13 +86,14 @@ void xval(cpTable * tableHead, int xGroups[], params p)
         tempCpTable->xstd = sqrt(tempCpTable->xstd - (tempCpTable->xrisk * tempCpTable->xrisk) / totalWt);
         tempCpTable = tempCpTable->forward;
     }
-    
+   
+    p.alpha = alphasave; 
     free1DData(xtemp);
     free1DData(xpred);
 }
 
 void rundown(node *tree, float row[], float cpList[], float xtemp[], float xpred[], int uniqueCp, int responseCol)
-{
+{   
     for (int i = 0; i < uniqueCp; i++) {
         float cp = cpList[i];
         while (cp < tree->cp) {
