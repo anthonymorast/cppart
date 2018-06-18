@@ -133,7 +133,7 @@ int parseParameters(char * argv[], int argc, params *p)
         }
 
         // generate random indicies to be held out for testing data, no replacement.
-        float indices[testSize];
+        int indices[testSize];  // this was float... shouldn't it be int?
         int counter = 0;
         if(randomSplit) {
             srand(time(NULL));
