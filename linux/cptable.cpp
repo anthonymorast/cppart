@@ -9,20 +9,20 @@
 
 #include <iostream>
 
-void makeCpList(node *n, double &parentCp, vector<double> &cpList, int & uniqueCp)
+void makeCpList(node *n, double &parentCp, vector<double> &cpList, int & uniqueCp, params *p)
 {
 	if (n->cp > parentCp) {
 		n->cp = parentCp;
 	}
 
 	double myCp = n->cp;
-	if (myCp < 0) {
-		myCp = 0;
+	if (myCp < p->alpha) {
+		myCp = p->alpha;
 	}
 
 	if (n->leftNode != NULL) {
-		makeCpList(n->leftNode, myCp, cpList, uniqueCp);
-		makeCpList(n->rightNode, myCp, cpList, uniqueCp);
+		makeCpList(n->leftNode, myCp, cpList, uniqueCp, p);
+		makeCpList(n->rightNode, myCp, cpList, uniqueCp, p);
 	}
 
 	if (myCp < parentCp) {
