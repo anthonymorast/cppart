@@ -32,6 +32,9 @@ int main(int argc, char* argv[]) {
     int numNodes = 0;
     cout << "Building tree..." << endl;
     node root = buildTree(&p, p.trainSize, numNodes);
+    
+    // stop the clock before xvals
+    end = clock();
     cpTable *cpTableHead = buildCpTable(&root, &p);
 
     vector<int> iNode;
@@ -40,15 +43,17 @@ int main(int argc, char* argv[]) {
 
     int idx = p.filename.find(".");
     string treeFileName = p.filename.substr(0, idx);
+    string cpTableFilename = p.filename.substr(0,idx);
     if(p.delayed) {
         treeFileName += ".delayed";
+        cpTableFilename += ".delayed";
     }
     treeFileName += ".tree";
+    cpTableFilename += ".cptable";
     printTree(&root, treeFileName);
+    printCpTable(cpTableHead, cpTableFilename);
 
-    end = clock();
     cout << "Time elapsed " << ((float)(end - start)) / CLOCKS_PER_SEC << endl;
-
     cout << "\nTest Data: " << endl;
     float mae = 0;
     float relError = 0;

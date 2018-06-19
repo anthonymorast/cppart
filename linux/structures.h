@@ -55,11 +55,11 @@ struct node {
 };
 
 struct cpTable {
-    float cp;
-    float risk;
-    float xrisk;
-    float xstd;
-    int nsplit;
+    float cp = 0;
+    float risk = 0;
+    float xrisk = 0;
+    float xstd = 0;
+    int nsplit = 0;
 
     struct cpTable *forward = NULL;
     struct cpTable *back = NULL;
