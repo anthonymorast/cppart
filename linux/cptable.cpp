@@ -53,3 +53,21 @@ cpTable *makeCpTable(node *n, double parentCp, int nSplit, cpTable *cpTail)
 
 	return table;
 }
+
+void printCpTable(cpTable *table, string filename) {
+    cout << "Creating CP table file '" << filename << "'..." << endl;
+    ofstream fout;
+    fout.open(filename);
+    fout << "CP\tnsplit\trel error\txerror\txstd" << endl;
+    cpTable *temp = table;
+    while(temp != NULL) {
+        fout << temp->cp << "\t" << temp->nsplit << "\t" << temp->risk << "\t"
+           << temp->xrisk << "\t" << temp->xstd;
+        if(temp->risk < (temp->xrisk - temp->xstd)) {
+            fout << "***";
+        }
+        fout << endl;
+        temp = temp->forward;
+    }
+    fout << endl << "*** = rel_error < xerror - xstd" << endl;
+}

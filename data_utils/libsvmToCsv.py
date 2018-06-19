@@ -54,7 +54,9 @@ def libsvmToRowList(filename, max_col):
         row = ' '.join(row.split()) # replace multiple spaces with single space
         row = row.replace(": ", ":") # some had spaces after colon
         row = row.split(' ')
-        s.label = int(row[0])
+        s.label = float(row[0])
+        if int(s.label) == s.label:
+            s.label = int(s.label)
         row = row[1:]
         for val in row:
             col, value = val.split(':')
@@ -87,5 +89,5 @@ if __name__ == '__main__':
     rows = libsvmToRowList(filename, max_col)
 
     """ Change for every dataset!!! """
-    labels = ['class'] + ['col' + str(i) for i in range(max_col)]
+    labels = ['response'] + ['col' + str(i) for i in range(max_col)]
     writeCsv(output_filename, rows, labels)
