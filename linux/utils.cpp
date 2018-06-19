@@ -86,6 +86,7 @@ int parseParameters(char * argv[], int argc, params *p)
         }
         varCount += 1;
     }
+
     string *headerValues = new string[varCount];
     varCount = 0;
     istringstream ss2(headers);
