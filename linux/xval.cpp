@@ -11,7 +11,7 @@
 void xval(cpTable * tableHead, int xGroups[], params p)
 {
     int colCount = getColumnCount(p.headers);
-    int numObs = p.dataLineCount - 1;
+    int numObs = p.trainSize;
     int respColNumber = getResponseColumnNumber(p.response, p.headers);
 
     float *xtemp = new float[p.uniqueCp];
@@ -33,8 +33,8 @@ void xval(cpTable * tableHead, int xGroups[], params p)
     cout << "\tPerforming cross-validations..." << endl;
     for (int i = 0; i < p.numXval; i++) {
         cout << "\t\tGroup " << (i+1) << " of " << p.numXval << "..." << endl;
-        float size = getXGroupSize(xGroups, i, numObs);
-        float **groupData = new float*[(int)size];
+        int size = getXGroupSize(xGroups, i, numObs);
+        float **groupData = new float*[size];
         for (int j = 0; j < size; j++) {
             groupData[j] = new float[colCount];
         }
@@ -44,7 +44,6 @@ void xval(cpTable * tableHead, int xGroups[], params p)
             holdout[j] = new float[colCount];
         }
         getGroupData(p.data, groupData, holdout, xGroups, i, colCount, numObs);
-
         // rescale the cps
         int temp = size;
         for(int j = 0; j < p.uniqueCp; j++) {
@@ -149,7 +148,6 @@ int getXGroupSize(int xGrps[], int group, int numObs)
             size++;
         }
     }
-
     return size;
 }
 
