@@ -34,6 +34,8 @@ int partition(params *p, node* n, int nodeNum, double &sumrisk) {
     if (nodeNum > 1 && tempcp > n->cp) {
         tempcp = n->cp;
     }
+    if(n->numObs == 842) 
+        cout << tempcp << endl;
 
     // can we stop?
     if (nodeNum > p->maxNodes || n->numObs < p->minObs || tempcp <= p->alpha) {

@@ -32,6 +32,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
     double bestSS = DBL_MAX;
     double baseSS = bestSS;
     double yBar, deviance;
+    double bestImprove = 0;
 
     float* x;
     float* y = getResponseData(p->response, p->headers, data, numObs);
@@ -149,7 +150,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 free1DData(y);
                 thisSSRight = l5SS + l6SS;
 
-/*                if(numObs == 43) {
+/*               if(numObs == 43) {
                   cout << p->varNames[varIdx2] << "\n\t" << splitPointR << "\t" << directionR << "\t" << improveR << "\n\t" << splitPointL << "\t" << directionL << "\t" << improveL << endl;
                   }*/
 
@@ -171,8 +172,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 thisSS = baseSS;
             }
 
-        }
-        else {
+        } else {
             y = getResponseData(p->response, p->headers, L1, numLeft);
             (*ss_func)(y, numLeft, mean, leftSS);
             free1DData(y);
@@ -180,8 +180,13 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
             (*ss_func)(y, numRight, mean, rightSS);
             free1DData(y);
             thisSS = leftSS + rightSS;
+            if(numObs == 842)
+                cout << leftSS << " " << rightSS << endl;
         }
 
+        if(numObs == 842 || numObs == 1599) {
+            cout << p->varNames[varIdx] << "\n\t" << splitPoint << "\t" << direction << "\t" << improve << "\t" << thisSS << "\t" << bestSS << endl;
+        }
         if (thisSS == baseSS) {
             y = getResponseData(p->response, p->headers, L1, numLeft);
             (*ss_func)(y, numLeft, mean, leftSS);
@@ -193,8 +198,11 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
         }
 
 		// compare only 6 digits of doubles since roundoff error causes discrepencies between pypart/rpart and cppart
-        if (trunc(1000000.*thisSS) < trunc(1000000.*bestSS) && improve > 0) {
+        if (improve > 0 && improve > bestImprove) {
+                //((p->method == ANOVA && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) ||
+                // (p->method == GINI && improve > bestImprove))) {
             bestSS = thisSS;
+            bestImprove = improve;
             n->splitPoint = splitPoint;
             n->direction = direction;
             n->index = where;
