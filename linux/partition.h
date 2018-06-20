@@ -1,6 +1,6 @@
 #pragma once
 #include "structures.h"
-#include "anova.h"
+#include "methods.h"
 #include "bestsplit.h"
 #include "data_handler.h"
 

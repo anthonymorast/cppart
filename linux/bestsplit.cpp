@@ -12,6 +12,16 @@
 
 void bestsplit(node *n, params *p, string response, int & numleft, int & numright)
 {
+    void (*split_func) (float*, float*, params*, int&, int&, float&, float&, int);
+    void (*ss_func) (float*, int, double&, double&);
+    if(p->method == ANOVA) {
+        split_func = anovaSplit;
+        ss_func = anovaSS;
+    } else {
+        split_func = giniSplit;
+        ss_func = giniDev;
+    }
+
     float **data = n->data;
     n->rightNode = new node;
     n->leftNode = new node;
@@ -25,16 +35,13 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 
     float* x;
     float* y = getResponseData(p->response, p->headers, data, numObs);
-    anovaSS(y, numObs, yBar, deviance);
+    (*ss_func)(y, numObs, yBar, deviance);
     free1DData(y);
-
     for (int varIdx = 0; varIdx < colCount; varIdx++) {
         if (varIdx == respCol) {
             continue;
         }
-        // sort on x[varidx
-		// do we only need to sort one column since the data split isn't dependent on the whole data array being sorted??
-		// takes only 60% of the time when using one column only
+
         x = getExplanatoryDataCol(p->response, p->headers, data, numObs, varIdx);
         y = getResponseData(p->response, p->headers, data, numObs);
         mergeSort(x, y, 0, numObs-1, varIdx, colCount, respCol); // -1 since we go until <= high
@@ -44,7 +51,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
         float splitPoint, improve;
         double leftSS, rightSS, mean, thisSS, thisSSLeft, thisSSRight;
 
-        anovaSplit(x, y, p, varIdx, where, direction, splitPoint, improve, numObs);
+        (*split_func)(x, y, p, where, direction, splitPoint, improve, numObs);
         free1DData(y);
         free1DData(x);
 
@@ -63,7 +70,9 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 
         // split the data
         splitData(direction, splitPoint, varIdx, colCount, numObs, L1, L2, data);
-        cout << "\t\tVar 1: " << p->varNames[varIdx] << endl;
+        if(p->verbose > 1) {
+            cout << "\t\tVar 1: " << p->varNames[varIdx] << endl;
+        }
         if (p->delayed && improve > 0) {
             double bestLeftSS = DBL_MAX, bestRightSS = DBL_MAX;
 
@@ -71,7 +80,6 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 if(varIdx2 == respCol) {
                     continue;
                 }
-//                cout << "\t\t\tVar 2: " << p->varNames[varIdx2] << endl;
                 x = getExplanatoryDataCol(p->response, p->headers, L1, numLeft, varIdx2);
                 y = getResponseData(p->response, p->headers, L1, numLeft);
                 mergeSort(x, y, 0, numLeft-1, varIdx2, colCount, respCol);
@@ -80,7 +88,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 float splitPointL = 0, improveL, splitPointR = 0, improveR;
 
                 // left data
-                anovaSplit(x, y, p, varIdx2, whereL, directionL, splitPointL, improveL, numLeft);
+                (*split_func)(x, y, p, whereL, directionL, splitPointL, improveL, numLeft);
                 free1DData(y);
                 free1DData(x);
 
@@ -98,11 +106,11 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 splitData(directionL, splitPointL, varIdx2, colCount, numLeft, L3, L4, L1);
                 double l3SS, l4SS;
                 y = getResponseData(p->response, p->headers, L3, L3Size);
-                anovaSS(y, L3Size, mean, l3SS);
+                (*ss_func)(y, L3Size, mean, l3SS);
                 free1DData(y);
                 
                 y = getResponseData(p->response, p->headers, L4, L4Size);
-                anovaSS(y, L4Size, mean, l4SS);
+                (*ss_func)(y, L4Size, mean, l4SS);
                 free1DData(y);
 
                 thisSSLeft = l3SS + l4SS;
@@ -115,7 +123,8 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 x = getExplanatoryDataCol(p->response, p->headers, L2, numRight, varIdx2);
                 y = getResponseData(p->response, p->headers, L2, numRight);
                 mergeSort(x, y, 0, numRight-1, varIdx2, colCount, respCol);
-                anovaSplit(x, y, p, varIdx2, whereR, directionR, splitPointR, improveR, numRight);
+
+                (*split_func)(x, y, p, whereR, directionR, splitPointR, improveR, numRight);
                 free1DData(y);
                 free1DData(x);
 
@@ -133,10 +142,10 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 double l5SS, l6SS;
 
                 y = getResponseData(p->response, p->headers, L5, L5Size);
-                anovaSS(y, L5Size, mean, l5SS);
+                (*ss_func)(y, L5Size, mean, l5SS);
                 free1DData(y);
                 y = getResponseData(p->response, p->headers, L6, L6Size);
-                anovaSS(y, L6Size, mean, l6SS);
+                (*ss_func)(y, L6Size, mean, l6SS);
                 free1DData(y);
                 thisSSRight = l5SS + l6SS;
 
@@ -165,20 +174,20 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
         }
         else {
             y = getResponseData(p->response, p->headers, L1, numLeft);
-            anovaSS(y, numLeft, mean, leftSS);
+            (*ss_func)(y, numLeft, mean, leftSS);
             free1DData(y);
             y = getResponseData(p->response, p->headers, L2, numRight);
-            anovaSS(y, numRight, mean, rightSS);
+            (*ss_func)(y, numRight, mean, rightSS);
             free1DData(y);
             thisSS = leftSS + rightSS;
         }
 
         if (thisSS == baseSS) {
             y = getResponseData(p->response, p->headers, L1, numLeft);
-            anovaSS(y, numLeft, mean, leftSS);
+            (*ss_func)(y, numLeft, mean, leftSS);
             free1DData(y);
             y = getResponseData(p->response, p->headers, L2, numRight);
-            anovaSS(y, numRight, mean, rightSS);
+            (*ss_func)(y, numRight, mean, rightSS);
             free1DData(y);
             thisSS = leftSS + rightSS;
         }
@@ -208,7 +217,6 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
         free2DData(L1, numLeft);
         free2DData(L2, numRight);
     }
-    //cout << n->varIndex << "  " << bestSS << "   " << n->splitPoint << "   " << n->index << endl;
 }
 
 void mergeSort(float *x, float *y, int low, int high, int varIdx, int colCount, int respCol) {
