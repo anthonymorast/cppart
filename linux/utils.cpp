@@ -21,11 +21,14 @@ int parseParameters(char * argv[], int argc, params *p)
         printUsage();
         exit(0);
     }
+
     int xvals = 1;
     int split_data = 0;
     string test_data_filename = "";
     int randomSplit = 1;
-	float cp = 0.01, alpha = 0;
+    float cp = 0.01, alpha = 0;
+    methods m = ANOVA;
+    int verbose = 0;
     if(argc > 4) {
         for(int i = 4; i < argc; i++) {
             string param = argv[i];
@@ -33,7 +36,9 @@ int parseParameters(char * argv[], int argc, params *p)
             int pos_split = param.find("splitdata=");
             int pos_test = param.find("testdata=");
             int pos_rand = param.find("randomsplit=");
- 			int pos_cp = param.find("cp=");
+            int pos_cp = param.find("cp=");
+            int pos_meth = param.find("method=");
+            int pos_verbose = param.find("verbose=");
             if(pos_xval != string::npos) {
                 try {
                     xvals = stoi(string(1, argv[i][pos_xval+9]));
@@ -55,19 +60,34 @@ int parseParameters(char * argv[], int argc, params *p)
                     cout << "Warning: random split integer cannot be parsed." << endl;
                 }
             } else if(pos_cp != string::npos) {
-				try {
-					cp = stof(param.substr(pos_cp+3)); 
-				} catch(exception e) {
-					cout << "Warning: cp parameter not parsable as float, dedault 0.01 used." << endl;
-				}
-			}
-			else {
+                try {
+                    cp = stof(param.substr(pos_cp+3)); 
+                } catch(exception e) {
+                    cout << "Warning: cp parameter not parsable as float, dedault 0.01 used." << endl;
+                }
+            } else if(pos_meth != string::npos) {
+                try {
+                    string val = param.substr(pos_meth+7);
+                    transform(val.begin(), val.end(), val.begin(), ::tolower);
+                    if (val == "gini") {
+                        m = GINI;
+                    }
+                } catch(exception e) {
+                    cout << "Warning: method parameter not parsable, defaulting to anova." << endl;
+                }
+            } else if (pos_verbose != string::npos) {
+                try {
+                    verbose = stoi(string(1, argv[i][pos_verbose+8]));
+                } catch(exception e) {
+                    cout << "Warning: verbose parameter no parsable integer, defaulting to 0." << endl;
+                }
+            } else {
                 cout << "Warning: Unused parameter " << param << "..." << endl;
             }
         }
     }	
-	
-	ifstream fin;
+
+    ifstream fin;
     fin.open(filename);
     if (!fin.is_open()) {
         cout << "File \"" << filename << "\" does not exist." << endl;
@@ -111,11 +131,11 @@ int parseParameters(char * argv[], int argc, params *p)
     }
     getData(filename, response, headers, data);
 
-	float* y = getResponseData(response, headers, data, lineCount-1);
-	double mean, risk;
- 	anovaSS(y, lineCount-1, mean, risk);
-	alpha = cp * risk;
-	free1DData(y);
+    float* y = getResponseData(response, headers, data, lineCount-1);
+    double mean, risk;
+    anovaSS(y, lineCount-1, mean, risk);
+    alpha = cp * risk;
+    free1DData(y);
 
     float **testData, **trainData;
     int numObs = lineCount - 1;
@@ -201,7 +221,7 @@ int parseParameters(char * argv[], int argc, params *p)
 
         int tlineCount = getLineCount(test_data_filename);
         int tcolCount = getColumnCount(theaders);
-       
+
         testData = new float*[tlineCount - 1];
         for (int i = 0; i < tlineCount-1; i++) {
             testData[i] = new float[tcolCount];
@@ -213,7 +233,34 @@ int parseParameters(char * argv[], int argc, params *p)
     } else {
         trainData = deepCopyData(data, lineCount - 1, colCount);
     }
-   
+
+    // get number of classes
+    int numclasses = 0;
+    if(m == GINI) { //classification problem
+        vector<float> classes;
+        int respCol = getResponseColumnNumber(response, headers);
+        // get all unique classes in training data
+        for(int i = 0; i < trainSize; i++) {
+            float c = trainData[i][respCol];
+            if(!classes.empty()) {
+                if(find(classes.begin(), classes.end(), c) == classes.end()) {
+                    classes.push_back(c);
+                }
+            } else {
+                classes.push_back(c);
+            }
+        }
+        // testing data may have unseen classes
+        for(int i = 0; i < testSize; i++) {
+            // assuming at least one example in the training data is labeled
+            float c = testData[i][respCol];
+            if(find(classes.begin(), classes.end(), c) == classes.end()) {
+                classes.push_back(c);
+            }
+        }
+        numclasses = classes.size();
+    }
+
     p->response = response;
     p->maxDepth = 30;	// only used to set maxNodes
     p->maxNodes = (int)pow(2, (p->maxDepth + 1)) - 1;
@@ -234,8 +281,11 @@ int parseParameters(char * argv[], int argc, params *p)
     p->runXVals = xvals >= 1;
     p->splitdata = split_data >= 1;
     p->testDataFilename = test_data_filename;
-	p->complexity = cp;
-	p->alpha = alpha;
+    p->complexity = cp;
+    p->alpha = alpha;
+    p->method = m;
+    p->numclasses = numclasses;
+    p->verbose = verbose;
 
     for (int i = 0; i < lineCount; i++) {
         p->where[i] = 0;	
@@ -314,6 +364,7 @@ cpTable *buildCpTable(node *root, params *p)
 
     // cross validations
     if (p->numXval && p->runXVals) {
+        cout << "Running cross-validations..." << endl;
         vector<int> groups;
         for(int i = 0; i < root->numObs; i++) {
             groups.push_back(i % p->numXval);

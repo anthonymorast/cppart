@@ -7,6 +7,7 @@
 #include <algorithm> 
 #include <time.h> 
 #include <stdlib.h>
+#include <algorithm>
 
 #include "structures.h"
 #include "data_handler.h"

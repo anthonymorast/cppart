@@ -1,0 +1,20 @@
+node) split, number observations, deviance, yval
+* denotes a terminal node
+
+1) root 1280 845.218 5
+	2) sulphates< 0.645 728  369.995 5 
+		4) alcohol< 11.45 627  255.841 5 
+			8) alcohol< 9.95 389  111.548 5 *
+			9) alcohol>=9.95 238  131.5 6 
+				18) pH> 3.425 55  31.7091 5 *
+				19) pH<=3.425 183  86.7322 6 *
+		5) alcohol>=11.45 101  61.0099 6 *
+	3) sulphates>=0.645 552  378.781 6 
+		6) alcohol< 10.55 281  142.285 5 
+			12) total.sulfur.dioxide> 50.5 105  33.5619 5 *
+			13) total.sulfur.dioxide<=50.5 176  89.7955 6 
+				26) fixed.acidity< 11.55 150  65.3333 6 *
+				27) fixed.acidity>=11.55 26  10.4615 6 *
+		7) alcohol>=10.55 271  146.539 6 
+			14) alcohol< 11.55 152  73.5197 6 *
+			15) alcohol>=11.55 119  53.1092 7 *

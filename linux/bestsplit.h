@@ -2,7 +2,7 @@
 #include "globals.h"
 #include "structures.h"
 #include "data_handler.h"
-#include "anova.h"
+#include "methods.h"
 #include <cfloat>
 #include <omp.h>
 

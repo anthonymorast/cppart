@@ -30,9 +30,13 @@ void xval(cpTable * tableHead, int xGroups[], params p)
     float alphasave = p.alpha;
     float totalWt = numObs;
     float oldWt = numObs;
-    cout << "\tPerforming cross-validations..." << endl;
+    if(p.verbose > 0) {
+        cout << "\tPerforming cross-validations..." << endl;
+    }
     for (int i = 0; i < p.numXval; i++) {
-        cout << "\t\tGroup " << (i+1) << " of " << p.numXval << "..." << endl;
+        if(p.verbose > 1) {
+            cout << "\t\tGroup " << (i+1) << " of " << p.numXval << "..." << endl;
+        }
         int size = getXGroupSize(xGroups, i, numObs);
         float **groupData = new float*[size];
         for (int j = 0; j < size; j++) {

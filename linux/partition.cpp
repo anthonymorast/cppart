@@ -13,12 +13,18 @@
  *	Function Implementations
  */
 int partition(params *p, node* n, int nodeNum, double &sumrisk) {
-    cout << "\tNode ID (is this thing still running?): " << nodeNum << endl;
+    if(p->verbose > 0) {
+        cout << "\tNode ID (is this thing still running?): " << nodeNum << endl;
+    }
     float **data = n->data;
     float *y = getResponseData(p->response, p->headers, data, n->numObs);
 
     double tempcp, mean;
-    anovaSS(y, n->numObs, mean, tempcp);
+    if(p->method == ANOVA) {
+        anovaSS(y, n->numObs, mean, tempcp);
+    } else if(p->method == GINI) {
+        giniDev(y, n->numObs, mean, tempcp);
+    }
     n->dev = tempcp;
     free1DData(y);
 

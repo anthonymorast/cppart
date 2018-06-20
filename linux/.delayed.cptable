@@ -1,0 +1,5 @@
+CP	nsplit	rel error	xerror	xstd
+0.0305097	0	1	0	0
+0.0128174	5	0.847451	0	0
+
+*** = rel_error < xerror - xstd
