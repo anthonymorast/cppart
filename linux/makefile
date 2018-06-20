@@ -20,11 +20,11 @@ partition.o: partition.cpp
 	g++ --std=c++11 -c partition.cpp
 cppart.o: cppart.cpp 
 	g++ --std=c++11 -c cppart.cpp
-cppart: data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o
+cppart: gini.o utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o
 	g++ --std=c++11 gini.o utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o -o cppart
-runmany.o:
+runmany.o: runmany.cpp
 	g++ --std=c++11 -c runmany.cpp
-runmany:	
+runmany: gini.o utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o
 	g++ --std=c++11 -pthread gini.o utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o runmany.o -o runmany
 
 clean:
