@@ -49,7 +49,7 @@ void anovaSplit(float *x, float * y, params *p, int &which,
 	direction = LEFT;
 
 	double mean, myrisk;
-	anovaSS(y, numValues, mean, myrisk);
+	anovaSS(y, numValues, mean, myrisk); // myrisk == sum_squares 
 
 	right_wt = numValues;
 	right_n = numValues;
@@ -86,7 +86,6 @@ void anovaSplit(float *x, float * y, params *p, int &which,
 			}
 		}
 	}
-	
     improve = myrisk == 0 ? 0 : best / myrisk;
 	splitPoint = (numValues > which + 1) ? ((x[which] + x[which + 1]) / 2) : x[which];
 }
