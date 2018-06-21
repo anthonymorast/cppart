@@ -413,6 +413,7 @@ float getPrediction(node *tree, float row[], int responseCol)
         }
     } else {
         if(tree->rightNode == NULL) {
+            cout << tree->yval << endl;
             return tree->yval;
         } else {
             predValue = getPrediction(tree->rightNode, row, responseCol);

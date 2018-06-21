@@ -93,7 +93,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 (*split_func)(x, y, p, whereL, directionL, splitPointL, improveL, numLeft);
                 free1DData(y);
                 free1DData(x);
-
+/*
                 int L3Size = 0, L4Size = 0;
                 getSplitCounts(L1, varIdx2, splitPointL, directionL, numLeft, L3Size, L4Size);
                 float **L3 = new float*[L3Size];
@@ -110,7 +110,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 y = getResponseData(p->response, p->headers, L3, L3Size);
                 (*ss_func)(y, L3Size, mean, l3SS);
                 free1DData(y);
-
+                
                 y = getResponseData(p->response, p->headers, L4, L4Size);
                 (*ss_func)(y, L4Size, mean, l4SS);
                 free1DData(y);
@@ -125,11 +125,11 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 x = getExplanatoryDataCol(p->response, p->headers, L2, numRight, varIdx2);
                 y = getResponseData(p->response, p->headers, L2, numRight);
                 mergeSort(x, y, 0, numRight-1, varIdx2, colCount, respCol);
-
+*/
                 (*split_func)(x, y, p, whereR, directionR, splitPointR, improveR, numRight);
                 free1DData(y);
                 free1DData(x);
-
+/*
                 int L5Size = 0, L6Size = 0;
                 getSplitCounts(L2, varIdx2, splitPointR, directionR, numRight, L5Size, L6Size);
                 float **L5 = new float*[L5Size];
@@ -149,11 +149,15 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 y = getResponseData(p->response, p->headers, L6, L6Size);
                 (*ss_func)(y, L6Size, mean, l6SS);
                 free1DData(y);
-                thisSSRight = l5SS + l6SS;
+                thisSSRight = l5SS + l6SS;*/
 
-                if (thisSSRight < bestRightSS && improveR > 0) {
-                    bestRightSS = thisSSRight;
-                }
+/*               if(numObs == 43) {
+                  cout << p->varNames[varIdx2] << "\n\t" << splitPointR << "\t" << directionR << "\t" << improveR << "\n\t" << splitPointL << "\t" << directionL << "\t" << improveL << endl;
+                  }*/
+
+//                if (thisSSRight < bestRightSS && improveR > 0) {
+//                    bestRightSS = thisSSRight;
+//                }
                 if (improveR > bestImproveR) {
                     bestImproveR = improveR;
                 }
@@ -162,22 +166,20 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 }
 
                 // Free memory
-                free2DData(L3, L3Size);
+               /* free2DData(L3, L3Size);
                 free2DData(L4, L4Size);
                 free2DData(L5, L5Size);
-                free2DData(L6, L6Size);
+                free2DData(L6, L6Size);*/
             }
 
-            if (bestLeftSS != baseSS && bestRightSS != baseSS) {
+            /*if (bestLeftSS != baseSS && bestRightSS != baseSS) {
                 thisSS = bestLeftSS + bestRightSS;
             }
             else {
                 thisSS = baseSS;
-            }
-
-            if(p->method == GINI) {
-                improve = bestImproveL + bestImproveR;
-            }
+            }*/
+           
+            improve = bestImproveL + bestImproveR;
         } else {
             y = getResponseData(p->response, p->headers, L1, numLeft);
             (*ss_func)(y, numLeft, mean, leftSS);
@@ -198,31 +200,31 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
             thisSS = leftSS + rightSS;
         }
 
-        // compare only 6 digits of doubles since roundoff error causes discrepencies between pypart/rpart and cppart
-        if (improve > 0 && //improve > bestImprove) {
-            ((p->method == ANOVA && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) ||
-            (p->method == GINI && improve > bestImprove))) {
-                 bestSS = thisSS;
-                 bestImprove = improve;
-                 n->splitPoint = splitPoint;
-                 n->direction = direction;
-                 n->index = where;
-                 n->varIndex = varIdx;
-                 n->varName = p->varNames[varIdx];
-                 n->yval = yBar;
-                 n->dev = deviance;
-                 n->improvement = improve;
+		// compare only 6 digits of doubles since roundoff error causes discrepencies between pypart/rpart and cppart
+        if (improve > 0 && improve > bestImprove) {
+                //((p->method == ANOVA && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) ||
+                // (p->method == GINI && improve > bestImprove))) {
+            bestSS = thisSS;
+            bestImprove = improve;
+            n->splitPoint = splitPoint;
+            n->direction = direction;
+            n->index = where;
+            n->varIndex = varIdx;
+            n->varName = p->varNames[varIdx];
+            n->yval = yBar;
+            n->dev = deviance;
+            n->improvement = improve;
 
-                 // free old data before reassigning pointer to data
-                 free2DData(n->rightNode->data, numright);
-                 free2DData(n->leftNode->data, numleft);
+            // free old data before reassigning pointer to data
+            free2DData(n->rightNode->data, numright);
+            free2DData(n->leftNode->data, numleft);
+            
+            n->rightNode->data = deepCopyData(L2, numRight, colCount);
+            n->leftNode->data = deepCopyData(L1, numLeft, colCount);
 
-                 n->rightNode->data = deepCopyData(L2, numRight, colCount);
-                 n->leftNode->data = deepCopyData(L1, numLeft, colCount);
-
-                 numleft = numLeft;
-                 numright = numRight;
-             }
+            numleft = numLeft;
+            numright = numRight;
+        }
         free2DData(L1, numLeft);
         free2DData(L2, numRight);
     }
@@ -244,42 +246,73 @@ void merge(float *x, float *y, int low, int high, int mid, int varIdx, int colCo
     const int size = high - low + 1;
 
     float *tempx = new float[high - low + 1];
-    float *tempy = new float[high - low + 1];
+	float *tempy = new float[high - low + 1];
+    //for (int idx = 0; idx < (high - low + 1); idx++) {
+    //    temp[idx] = new float[2];
+    //}
 
     while (i <= mid && j <= high) {
         if (x[i] < x[j]) {
-            tempx[k] = x[i];
-            tempy[k] = y[i];
+            //for (int col = 0; col < colCount; col++) {
+                tempx[k] = x[i];
+				tempy[k] = y[i];
+            //}
             k++;
             i++;
         }
         else if (x[i] >= x[j]) {
-            tempx[k] = x[j];
-            tempy[k] = y[j];
+            //for (int col = 0; col < colCount; col++) {
+                tempx[k] = x[j];
+				tempy[k] = y[j];
+            //}
             k++;
             j++;
         }
+        /*else { // if equal sort on response column (is this what excel does?)[stopped doing this 6/4/18]
+            if (x[i][respCol] < x[j][respCol]) {
+                //for (int col = 0; col < colCount; col++) {
+                    temp[k] = x[i];
+                //}
+                k++;
+                i++;
+            }
+            else {
+                //for (int col = 0; col < colCount; col++) {
+                    temp[k] = x[j];
+                //}
+                k++;
+                j++;
+            }
+        }*/ // did away with this response column stuff...
     }
+
     while (i <= mid) {
-        tempx[k] = x[i];
-        tempy[k] = y[i];
+        //for (int col = 0; col < colCount; col++) {
+            tempx[k] = x[i];
+			tempy[k] = y[i];
+        //}
         k++;
         i++;
     }
 
     while (j <= high) {
-        tempx[k] = x[j];
-        tempy[k] = y[j];
+        //for (int col = 0; col < colCount; col++) {
+            tempx[k] = x[j];
+			tempy[k] = y[j];
+        //}
         k++;
         j++;
     }
     for (k = 0, i = low; i <= high; ++i, ++k) {
-        x[i] = tempx[k];
-        y[i] = tempy[k];
+        //for (int col = 0; col < colCount; col++) {
+            x[i] = tempx[k];
+			y[i] = tempy[k];
+        //}
     }
 
-    free1DData(tempx);
-    free1DData(tempy);
+    //free2DData(temp, high - low + 1); 
+	free1DData(tempx);
+	free1DData(tempy);
 }
 
 void getSplitCounts(float ** data, int splitVar, float splitPoint, int direction, int numObs, int & leftCount, int & rightCount)
@@ -339,4 +372,5 @@ void splitData(int direction, float splitPoint, int splitVar, int colCount, int 
             }
         }
     }
+
 }

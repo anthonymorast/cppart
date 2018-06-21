@@ -106,7 +106,7 @@ void giniSplit(float *x, float *y, params *p, int &which,
             if (temp < best) {
                 best = temp;
                 which = i;
-                direction = lmean < rmean ? LEFT : RIGHT;
+                direction = lmean < rmean ? RIGHT : LEFT;
             }
         }
     }
