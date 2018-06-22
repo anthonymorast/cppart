@@ -46,6 +46,27 @@ void giniDev(float y[], int numValues, double &classification, double &deviance)
     }
 }
 
+double giniCalc(int n, float y[]) {
+    double gini = 0;
+
+    map<float, int> freqs; // map class label to occurrence frequency
+    for(int i = 0; i < n; i++) {
+        if(freqs.count(y[i])) { // if == 1, key is in map
+            freqs.at(y[i])++; 
+        } else {
+            freqs.insert(pair<float, int>(y[i], 1));
+        }
+    }
+
+    double temp;
+    for(auto it = freqs.cbegin(); it != freqs.cend(); it++) {
+        //gini += ((it->second/(double)n) * (it->second/(double)n)); // gini = 1 - sum(freq_j / total obs);
+        temp = it->second / (double)n;
+        gini += (double)n * impure(temp);
+    }
+    return gini;
+}
+
 // ripped off directly from rpart
 void giniSplit(float *x, float *y, params *p, int &which, 
 				int &direction, float &splitPoint, float &improve, int n) {
@@ -93,20 +114,22 @@ void giniSplit(float *x, float *y, params *p, int &which,
             temp = 0;
             lmean = 0;
             rmean = 0;
+            j = 0;
             for(auto right = rightMap.cbegin(), left = leftMap.cbegin(); 
                     right != rightMap.cend() && left != leftMap.cend();  right++, left++) {
                 // key order should always be the same for std::map structures
                 pp = 1 * left->second / lwt; // aprior[j] * left[j] / lwt
                 temp += lwt * impure(pp);
-                lmean += pp * j;
+                lmean += pp * j; 
                 pp = 1 * right->second / rwt; // aprior[j] * right[j] / rwt
                 temp += rwt * impure(pp);
                 rmean += pp * j;
+                j++;
             }
             if (temp < best) {
                 best = temp;
                 which = i;
-                direction = lmean < rmean ? RIGHT : LEFT;
+                direction = lmean < rmean ? LEFT : RIGHT;
             }
         }
     }

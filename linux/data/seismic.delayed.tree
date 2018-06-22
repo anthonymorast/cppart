@@ -1,0 +1,8 @@
+node) split, number observations, deviance, yval
+* denotes a terminal node
+
+1) root 78823 39351 3
+	2) col0> -0.100662 51881  32282 2 
+		4) col49< -0.0213646 49231  30426 2 *
+		5) col49>=-0.0213646 2650  945 3 *
+	3) col0<=-0.100662 26942  1758 3 *
