@@ -13,6 +13,11 @@
  *	Function Implementations
  */
 int partition(params *p, node* n, int nodeNum, double &sumrisk) {
+
+    //float t[14] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2};
+    //int nn = 14;
+    //cout << giniCalc(nn, t) << endl;
+    //exit(0);
     if(p->verbose > 0) {
         cout << "\tNode ID (is this thing still running?): " << nodeNum << endl;
     }

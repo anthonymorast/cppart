@@ -37,6 +37,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
     float* x;
     float* y = getResponseData(p->response, p->headers, data, numObs);
     (*ss_func)(y, numObs, yBar, deviance);
+    double totalGini = getSplitCriteria(p->method, numObs, numObs, y);
     free1DData(y);
     for (int varIdx = 0; varIdx < colCount; varIdx++) {
         if (varIdx == respCol) {
@@ -50,9 +51,10 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
         // call anova split point
         int where, direction;
         float splitPoint, improve;
-        double leftSS, rightSS, mean, thisSS, thisSSLeft, thisSSRight;
+        double leftSS, rightSS, mean, thisSS, thisSSLeft, thisSSRight, compImprove = 0;
 
         (*split_func)(x, y, p, where, direction, splitPoint, improve, numObs);
+        compImprove = improve;
         free1DData(y);
         free1DData(x);
 
@@ -108,11 +110,11 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 splitData(directionL, splitPointL, varIdx2, colCount, numLeft, L3, L4, L1);
                 double l3SS, l4SS;
                 y = getResponseData(p->response, p->headers, L3, L3Size);
-                (*ss_func)(y, L3Size, mean, l3SS);
+                l3SS = getSplitCriteria(p->method, numLeft, L3Size, y);
                 free1DData(y);
 
                 y = getResponseData(p->response, p->headers, L4, L4Size);
-                (*ss_func)(y, L4Size, mean, l4SS);
+                l4SS = getSplitCriteria(p->method, numLeft, L4Size, y);
                 free1DData(y);
 
                 thisSSLeft = l3SS + l4SS;
@@ -144,23 +146,18 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                 double l5SS, l6SS;
 
                 y = getResponseData(p->response, p->headers, L5, L5Size);
-                (*ss_func)(y, L5Size, mean, l5SS);
+                l5SS = getSplitCriteria(p->method, numRight, L5Size, y);
                 free1DData(y);
                 y = getResponseData(p->response, p->headers, L6, L6Size);
-                (*ss_func)(y, L6Size, mean, l6SS);
+                l6SS = getSplitCriteria(p->method, numRight, L6Size, y);
                 free1DData(y);
+
                 thisSSRight = l5SS + l6SS;
 
                 if (thisSSRight < bestRightSS && improveR > 0) {
                     bestRightSS = thisSSRight;
                 }
-                if (improveR > bestImproveR) {
-                    bestImproveR = improveR;
-                }
-                if (improveL > bestImproveL) {
-                    bestImproveL = improveL;
-                }
-
+                
                 // Free memory
                 free2DData(L3, L3Size);
                 free2DData(L4, L4Size);
@@ -174,36 +171,34 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
             else {
                 thisSS = baseSS;
             }
-
-            if(p->method == GINI) {
-                improve = bestImproveL + bestImproveR;
-            }
         } else {
             y = getResponseData(p->response, p->headers, L1, numLeft);
-            (*ss_func)(y, numLeft, mean, leftSS);
+            leftSS = getSplitCriteria(p->method, numObs, numLeft, y);
             free1DData(y);
+
             y = getResponseData(p->response, p->headers, L2, numRight);
-            (*ss_func)(y, numRight, mean, rightSS);
+            rightSS = getSplitCriteria(p->method, numObs, numRight, y);
             free1DData(y);
+
             thisSS = leftSS + rightSS;
         }
 
         if (thisSS == baseSS) {
             y = getResponseData(p->response, p->headers, L1, numLeft);
-            (*ss_func)(y, numLeft, mean, leftSS);
+            leftSS = getSplitCriteria(p->method, numObs, numLeft, y);
             free1DData(y);
             y = getResponseData(p->response, p->headers, L2, numRight);
-            (*ss_func)(y, numRight, mean, rightSS);
+            rightSS = getSplitCriteria(p->method, numObs, numRight, y);
             free1DData(y);
             thisSS = leftSS + rightSS;
         }
 
         // compare only 6 digits of doubles since roundoff error causes discrepencies between pypart/rpart and cppart
-        if (improve > 0 && //improve > bestImprove) {
-            ((p->method == ANOVA && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) ||
-            (p->method == GINI && improve > bestImprove))) {
+        if (improve > 0 && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) { //improve > bestImprove) {
+            //((p->method == ANOVA && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) ||
+            //(p->method == GINI && compImprove > bestImprove))) {
                  bestSS = thisSS;
-                 bestImprove = improve;
+                 bestImprove = compImprove;
                  n->splitPoint = splitPoint;
                  n->direction = direction;
                  n->index = where;
@@ -222,10 +217,22 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 
                  numleft = numLeft;
                  numright = numRight;
-             }
+        }
         free2DData(L1, numLeft);
         free2DData(L2, numRight);
     }
+}
+
+double getSplitCriteria(methods m, int totalObs, int n, float y[]) {
+    double value = 0;
+
+    if(m == ANOVA) {
+        double mean = 0;
+        anovaSS(y, n, mean, value);
+    } else if(m == GINI) {
+        value = giniCalc(n, y);
+    }
+    return value;
 }
 
 void mergeSort(float *x, float *y, int low, int high, int varIdx, int colCount, int respCol) {

@@ -14,3 +14,5 @@ void merge(float *x, float *y, int low, int high, int mid, int varIdx, int colCo
 
 void getSplitCounts(float **data, int splitVar, float splitPoint, int direction, int numObs, int &leftCount, int &rightCount);
 void splitData(int direction, float splitPoint, int splitVar, int colCount, int numObs, float **left, float **right, float **data);
+
+double getSplitCriteria(methods m, int total, int n, float y[]);
