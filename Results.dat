@@ -20,7 +20,7 @@ connect-4 delayed:
 	Time:		3424.23
 	MAE:		0.751109
 	Rel Error: 	1.62241
-	C-Error:	60.8023% correct classification
+	C-Error:	60.8023% correct
 	cp:		0.0100
 
 
