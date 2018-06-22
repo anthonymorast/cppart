@@ -1,0 +1,62 @@
+PROTEIN: 
+
+./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv
+
+Results: 
+Time elapsed 185.596
+Test Data: 
+	Correct Classifications: 3424
+	Incorrect Classifications: 3197
+	Classification Error (correct/total): 0.517142
+	Relative Error: 1.58934
+
+./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv
+
+Results: 
+Time elapsed 59491.5
+Test Data: 
+	Correct Classifications: 3500
+	Incorrect Classifications: 3121
+	Classification Error (correct/total): 0.528621
+	Relative Error: 1.5842
+
+
+
+SENSIT:
+
+./cppart data/seismic.csv class 0 cp=0 runxvals=0 method=gini testdata=data/seismic.t.csv
+
+Results: 
+Time elapsed 88.5718
+Test Data: 
+	Correct Classifications: 13188
+	Incorrect Classifications: 6517
+	Classification Error (correct/total): 0.669272
+	Relative Error: 2.65785
+
+
+
+
+CONNECT 4:
+
+./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini
+
+Results: 
+Time elapsed 116.374
+Test Data: 
+	Correct Classifications: 8694
+	Incorrect Classifications: 4817
+	Classification Error (correct/total): 0.643476
+	Relative Error: 1.44009
+
+
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini
+
+Results: 
+Time elapsed 9000.62
+Test Data: 
+	Correct Classifications: 8725
+	Incorrect Classifications: 4786
+	Classification Error (correct/total): 0.64577
+	Relative Error: 1.41603
+
