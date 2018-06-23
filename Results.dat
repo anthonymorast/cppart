@@ -113,9 +113,10 @@ Applied PCA first, used transformed dataset
 - build correlation matrix without response col 
 	- mnist.cor <- cor(mnist[,2:ncol(mnist)])
 - find eigenvalues and variance explained by components and do pca
+    - p = # rows
 	- prop.var <- mnist.eig$values / p
 	- sum(prop.var[1:350])
-		[1] 0.9560664
+		[1] 0.9567
 	- mnist.pca <- princomp(mnist, cor=TRUE)
 - get new (rotated) dataset
 	- mnist.rotated <- as.data.frame(mnist.pca$scores)
@@ -131,6 +132,10 @@ Applied PCA first, used transformed dataset
 - write dataframes to new csv
 	- write.csv(mnist.rotated.test, 'mnist.rotated.test.csv', row.names=FALSE, quote = FALSE)
 	- write.csv(mnist.rotated.train, 'mnist.rotated.csv', row.names=FALSE, quote = FALSE)
+
+UPDATE:
+    - created center.R to center the data before applying PCA
+    - applied PCA only to the training date then rotated the test data
 
 mnist greedy:
 	Time:	 	228.72
