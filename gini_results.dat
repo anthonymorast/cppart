@@ -99,6 +99,28 @@ Test Data:
 	Classification Error (correct/total): 0.64577
 	Relative Error: 1.41603
 
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0.00017 splitdata=1 randomsplit=0 method=gini
+
+Results:
+Time elapsed 8470.68
+Test Data:
+        Correct Classifications: 8639
+        Incorrect Classifications: 4872
+        Classification Error (correct/total): 0.639405
+        Relative Error: 1.46192
+
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0.000057 splitdata=1 randomsplit=0 method=gini
+
+Results:
+Time elapsed 8814.83
+Test Data:
+        Correct Classifications: 8762
+        Incorrect Classifications: 4749
+        Classification Error (correct/total): 0.648509
+        Relative Error: 1.42388
+
+
+
 MNIST:
 
 ./cppart data/mnist.rotated.csv response 0 cp=0 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=2
@@ -120,6 +142,17 @@ Test Data:
         Incorrect Classifications: 6749
         Classification Error (correct/total): 0.3251
         Relative Error: 6.7904
+
+./cppart data/mnist.rotated.csv response 0 cp=0.00004 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=0
+
+Results:
+Time elapsed 696.605
+Test Data:
+        Correct Classifications: 4858
+        Incorrect Classifications: 5142
+        Classification Error (correct/total): 0.4858
+        Relative Error: 6.3822
+
 
 
 
