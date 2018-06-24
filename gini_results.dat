@@ -10,6 +10,16 @@ Test Data:
 	Classification Error (correct/total): 0.517142
 	Relative Error: 1.58934
 
+./cppart data/protein.csv class 0 cp=0.0009 runxvals=0 method=gini testdata=data/protein.t.csv
+
+Results:
+Time elapsed 155.803
+Test Data:
+        Correct Classifications: 3852
+        Incorrect Classifications: 2769
+        Classification Error (correct/total): 0.581785
+        Relative Error: 1.50838
+
 ./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv
 
 Results: 
@@ -34,6 +44,25 @@ Test Data:
 	Classification Error (correct/total): 0.669272
 	Relative Error: 2.65785
 
+./cppart data/seismic.csv class 0 cp=0.0009 runxvals=0 method=gini testdata=data/seismic.t.csv
+
+Results:
+Time elapsed 59.3022
+Test Data:
+        Correct Classifications: 13601
+        Incorrect Classifications: 6104
+        Classification Error (correct/total): 0.690231
+        Relative Error: 2.62268
+
+./cppart data/seismic.csv class 1 cp=0.0004 runxvals=0 method=gini testdata=data/seismic.t.csv
+
+Results:
+Time elapsed 2914.97
+Test Data:
+        Correct Classifications: 13921
+        Incorrect Classifications: 5784
+        Classification Error (correct/total): 0.70647
+        Relative Error: 2.60563
 
 
 
@@ -50,6 +79,16 @@ Test Data:
 	Relative Error: 1.44009
 
 
+./cppart data/connect-4.csv class 0 runxvals=0 cp=0.00017 splitdata=1 randomsplit=0 method=gini
+
+Results:
+Time elapsed 102.527
+Test Data:
+        Correct Classifications: 8711
+        Incorrect Classifications: 4800
+        Classification Error (correct/total): 0.644734
+        Relative Error: 1.45282
+
 ./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini
 
 Results: 
@@ -61,15 +100,27 @@ Test Data:
 	Relative Error: 1.41603
 
 MNIST:
+
 ./cppart data/mnist.rotated.csv response 0 cp=0 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=2
 
 Results:
-Time elapsed 3161.58
+Time elapsed 1105.27
 Test Data:
-        Correct Classifications: 4604
-        Incorrect Classifications: 5396
-        Classification Error (correct/total): 0.4604
-        Relative Error: 6.687
+        Correct Classifications: 4683
+        Incorrect Classifications: 5317
+        Classification Error (correct/total): 0.4683
+        Relative Error: 6.6859
+
+./cppart data/mnist.rotated.csv response 0 cp=0.0008 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=0
+
+Results:
+Time elapsed 393.594
+Test Data:
+        Correct Classifications: 3251
+        Incorrect Classifications: 6749
+        Classification Error (correct/total): 0.3251
+        Relative Error: 6.7904
+
 
 
 
