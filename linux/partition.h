@@ -10,4 +10,4 @@ using namespace std;
 /*
 *	Function Definitions
 */
-int partition(params *p, node* root, int nodeNum, double &sumrisk);
+int partition(params *p, node* root, long nodeNum, double &sumrisk);
