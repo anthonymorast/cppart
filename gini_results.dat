@@ -51,6 +51,18 @@ Test Data:
         Classification Error (correct/total): 0.543422
         Relative Error: 1.56427
 
+./cppart data/protein.csv class 1 cp=0.00125 runxvals=0 method=gini testdata=data/protein.t.csv
+
+Results:
+Time elapsed 53263.3
+Test Data:
+        Correct Classifications: 3793
+        Incorrect Classifications: 2828
+        Classification Error (correct/total): 0.572874
+        Relative Error: 1.52349
+
+
+
 
 
 SENSIT:
@@ -172,6 +184,16 @@ Test Data:
         Incorrect Classifications: 4749
         Classification Error (correct/total): 0.648509
         Relative Error: 1.42388
+
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0.00017 splitdata=1 randomsplit=0 method=gini
+
+Results:
+Time elapsed 9270.73
+Test Data:
+        Correct Classifications: 8639
+        Incorrect Classifications: 4872
+        Classification Error (correct/total): 0.639405
+        Relative Error: 1.46192
 
 
 
