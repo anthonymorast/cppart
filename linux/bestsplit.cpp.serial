@@ -10,10 +10,6 @@
 
 #include "bestsplit.h"
 
-double bestLeftSS = DBL_MAX, bestRightSS = DBL_MAX;
-unsigned int threads_ready = 0;
-pthread_mutex_t indexMutex = PTHREAD_MUTEX_INITIALIZER, threadMutex = PTHREAD_MUTEX_INITIALIZER;
-
 void bestsplit(node *n, params *p, string response, int & numleft, int & numright)
 {
     void (*split_func) (float*, float*, params*, int&, int&, float&, float&, int);
@@ -81,47 +77,98 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
             cout << "\t\tVar 1: " << p->varNames[varIdx] << endl;
         }
         if (p->delayed && improve > 0) {
-            bestLeftSS = DBL_MAX, bestRightSS = DBL_MAX;
-            int varIdx2 = 0;
-            threads_ready = thread::hardware_concurrency();
-            vector<pthread_t> thread_vec;
-            while(varIdx2 < colCount) {
-                if(varIdx2 == respCol)
-                    varIdx2++;
+            double bestLeftSS = DBL_MAX, bestRightSS = DBL_MAX;
+            double bestImproveR = 0, bestImproveL = 0;
 
-                pthread_mutex_lock(&threadMutex);
-                for(int i = 0; i < threads_ready; i++) {
-                    if(varIdx2 == colCount) {
-                        break;
-                    }
-                    thread_params param;
-                    param.L1 = deepCopyData(L1, numLeft, colCount);
-                    param.L2 = deepCopyData(L2, numRight, colCount);
-                    param.varIdx2 = varIdx2;
-                    param.p = p;
-                    param.numLeft = numLeft;
-                    param.numRight = numRight;
-                    param.colCount = colCount;
-                    param.respCol = respCol;
-                    param.split_func = split_func;
-
-                    pthread_t thread;
-                    thread_vec.push_back(thread);
-                    pthread_create(&thread, NULL, delayedThread, &param);
-                    varIdx2++;
+            for (int varIdx2 = 0; varIdx2 < colCount; varIdx2++) {
+                if(varIdx2 == respCol) {
+                    continue;
                 }
-                threads_ready = 0;
-                pthread_mutex_unlock(&threadMutex);
-            }
+                x = getExplanatoryDataCol(p->response, p->headers, L1, numLeft, varIdx2);
+                y = getResponseData(p->response, p->headers, L1, numLeft);
+                mergeSort(x, y, 0, numLeft-1, varIdx2, colCount, respCol);
 
-            // wait for the last threads running to finish
-            for(int i = 0; i < thread_vec.size(); i++) {
-                pthread_join(thread_vec.at(i), NULL);
+                int whereL, directionL, whereR, directionR;
+                float splitPointL = 0, improveL, splitPointR = 0, improveR;
+
+                // left data
+                (*split_func)(x, y, p, whereL, directionL, splitPointL, improveL, numLeft);
+                free1DData(y);
+                free1DData(x);
+
+                int L3Size = 0, L4Size = 0;
+                getSplitCounts(L1, varIdx2, splitPointL, directionL, numLeft, L3Size, L4Size);
+                float **L3 = new float*[L3Size];
+                float **L4 = new float*[L4Size];
+                for (int i = 0; i < L3Size; i++) {
+                    L3[i] = new float[colCount];
+                }
+                for (int i = 0; i < L4Size; i++) {
+                    L4[i] = new float[colCount];
+                }
+
+                splitData(directionL, splitPointL, varIdx2, colCount, numLeft, L3, L4, L1);
+                double l3SS, l4SS;
+                y = getResponseData(p->response, p->headers, L3, L3Size);
+                l3SS = getSplitCriteria(p->method, numLeft, L3Size, y);
+                free1DData(y);
+
+                y = getResponseData(p->response, p->headers, L4, L4Size);
+                l4SS = getSplitCriteria(p->method, numLeft, L4Size, y);
+                free1DData(y);
+
+                thisSSLeft = l3SS + l4SS;
+
+                if (thisSSLeft < bestLeftSS && improveL > 0) {
+                    bestLeftSS = thisSSLeft;
+                }
+
+                // right data
+                x = getExplanatoryDataCol(p->response, p->headers, L2, numRight, varIdx2);
+                y = getResponseData(p->response, p->headers, L2, numRight);
+                mergeSort(x, y, 0, numRight-1, varIdx2, colCount, respCol);
+
+                (*split_func)(x, y, p, whereR, directionR, splitPointR, improveR, numRight);
+                free1DData(y);
+                free1DData(x);
+
+                int L5Size = 0, L6Size = 0;
+                getSplitCounts(L2, varIdx2, splitPointR, directionR, numRight, L5Size, L6Size);
+                float **L5 = new float*[L5Size];
+                float **L6 = new float*[L6Size];
+                for (int i = 0; i < L5Size; i++) {
+                    L5[i] = new float[colCount];
+                }
+                for (int i = 0; i < L6Size; i++) {
+                    L6[i] = new float[colCount];
+                }
+                splitData(directionR, splitPointR, varIdx2, colCount, numRight, L5, L6, L2);
+                double l5SS, l6SS;
+
+                y = getResponseData(p->response, p->headers, L5, L5Size);
+                l5SS = getSplitCriteria(p->method, numRight, L5Size, y);
+                free1DData(y);
+                y = getResponseData(p->response, p->headers, L6, L6Size);
+                l6SS = getSplitCriteria(p->method, numRight, L6Size, y);
+                free1DData(y);
+
+                thisSSRight = l5SS + l6SS;
+
+                if (thisSSRight < bestRightSS && improveR > 0) {
+                    bestRightSS = thisSSRight;
+                }
+                
+                // Free memory
+                free2DData(L3, L3Size);
+                free2DData(L4, L4Size);
+                free2DData(L5, L5Size);
+                free2DData(L6, L6Size);
             }
 
             if (bestLeftSS != baseSS && bestRightSS != baseSS) {
                 thisSS = bestLeftSS + bestRightSS;
-            }else {
+            }
+            else {
                 thisSS = baseSS;
             }
         } else {
@@ -145,134 +192,35 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
             free1DData(y);
             thisSS = leftSS + rightSS;
         }
-        
+
         // compare only 6 digits of doubles since roundoff error causes discrepencies between pypart/rpart and cppart
-        if (improve > 0 && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) { 
-            bestSS = thisSS;
-            n->splitPoint = splitPoint;
-            n->direction = direction;
-            n->index = where;
-            n->varIndex = varIdx;
-            n->varName = p->varNames[varIdx];
-            n->yval = yBar;
-            n->dev = deviance;
-            n->improvement = improve;
+        if (improve > 0 && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) { //improve > bestImprove) {
+            //((p->method == ANOVA && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) ||
+            //(p->method == GINI && compImprove > bestImprove))) {
+                 bestSS = thisSS;
+                 bestImprove = compImprove;
+                 n->splitPoint = splitPoint;
+                 n->direction = direction;
+                 n->index = where;
+                 n->varIndex = varIdx;
+                 n->varName = p->varNames[varIdx];
+                 n->yval = yBar;
+                 n->dev = deviance;
+                 n->improvement = improve;
 
-            // free old data before reassigning pointer to data
-            free2DData(n->rightNode->data, numright);
-            free2DData(n->leftNode->data, numleft);
+                 // free old data before reassigning pointer to data
+                 free2DData(n->rightNode->data, numright);
+                 free2DData(n->leftNode->data, numleft);
 
-            n->rightNode->data = deepCopyData(L2, numRight, colCount);
-            n->leftNode->data = deepCopyData(L1, numLeft, colCount);
+                 n->rightNode->data = deepCopyData(L2, numRight, colCount);
+                 n->leftNode->data = deepCopyData(L1, numLeft, colCount);
 
-            numleft = numLeft;
-            numright = numRight;
+                 numleft = numLeft;
+                 numright = numRight;
         }
         free2DData(L1, numLeft);
         free2DData(L2, numRight);
     }
-    cout << n->splitPoint << "  " << n->varName << endl;
-}
-
-void *delayedThread(void *param_cast) {
-    struct thread_params *param = (thread_params*)param_cast;
-
-    params *p = param->p;
-    int numLeft = param->numLeft, numRight = param->numRight, varIdx2 = param->varIdx2;
-    int respCol = param->respCol, colCount = param->colCount;
-    float thisSSLeft = 0, thisSSRight = 0;
-
-    float *x = getExplanatoryDataCol(p->response, p->headers, param->L1, numLeft, varIdx2);
-    float *y = getResponseData(p->response, p->headers, param->L1, numLeft);
-    mergeSort(x, y, 0, numLeft-1, varIdx2, colCount, respCol);
-
-    int whereL, directionL, whereR, directionR;
-    float splitPointL = 0, improveL, splitPointR = 0, improveR;
-
-    // left data
-    (*param->split_func)(x, y, p, whereL, directionL, splitPointL, improveL, numLeft);
-    free1DData(y);
-    free1DData(x);
-
-    int L3Size = 0, L4Size = 0;
-    getSplitCounts(param->L1, varIdx2, splitPointL, directionL, numLeft, L3Size, L4Size);
-    float **L3 = new float*[L3Size];
-    float **L4 = new float*[L4Size];
-    for (int i = 0; i < L3Size; i++) {
-        L3[i] = new float[colCount];
-    }
-    for (int i = 0; i < L4Size; i++) {
-        L4[i] = new float[colCount];
-    }
-
-    splitData(directionL, splitPointL, varIdx2, colCount, numLeft, L3, L4, param->L1);
-    double l3SS, l4SS;
-    y = getResponseData(p->response, p->headers, L3, L3Size);
-    l3SS = getSplitCriteria(p->method, numLeft, L3Size, y);
-    free1DData(y);
-
-    y = getResponseData(p->response, p->headers, L4, L4Size);
-    l4SS = getSplitCriteria(p->method, numLeft, L4Size, y);
-    free1DData(y);
-
-    thisSSLeft = l3SS + l4SS;
-
-    // right data
-    x = getExplanatoryDataCol(p->response, p->headers, param->L2, numRight, varIdx2);
-    y = getResponseData(p->response, p->headers, param->L2, numRight);
-    mergeSort(x, y, 0, numRight-1, varIdx2, colCount, respCol);
-
-    (*param->split_func)(x, y, p, whereR, directionR, splitPointR, improveR, numRight);
-    free1DData(y);
-    free1DData(x);
-
-    int L5Size = 0, L6Size = 0;
-    getSplitCounts(param->L2, varIdx2, splitPointR, directionR, numRight, L5Size, L6Size);
-    float **L5 = new float*[L5Size];
-    float **L6 = new float*[L6Size];
-    for (int i = 0; i < L5Size; i++) {
-        L5[i] = new float[colCount];
-    }
-    for (int i = 0; i < L6Size; i++) {
-        L6[i] = new float[colCount];
-    }
-    splitData(directionR, splitPointR, varIdx2, colCount, numRight, L5, L6, param->L2);
-    double l5SS, l6SS;
-
-    y = getResponseData(p->response, p->headers, L5, L5Size);
-    l5SS = getSplitCriteria(p->method, numRight, L5Size, y);
-    free1DData(y);
-    y = getResponseData(p->response, p->headers, L6, L6Size);
-    l6SS = getSplitCriteria(p->method, numRight, L6Size, y);
-    free1DData(y);
-
-    thisSSRight = l5SS + l6SS;
-
-    // Free memory
-    free2DData(L3, L3Size);
-    free2DData(L4, L4Size);
-    free2DData(L5, L5Size);
-    free2DData(L6, L6Size);
-
-    // get mutex for bestLeft/Right SS, if thisSSLeft/Right > bestSSLeft/Right, update globals 
-    pthread_mutex_lock(&indexMutex);
-    if (thisSSLeft < bestLeftSS && improveL > 0) {
-        cout << varIdx2 << "  " << thisSSLeft << endl;
-        bestLeftSS = thisSSLeft;
-    }
-    if (thisSSRight < bestRightSS && improveR > 0) {
-        cout << varIdx2 << "  " << thisSSRight << endl;
-        bestRightSS = thisSSRight;
-    }
-    pthread_mutex_unlock(&indexMutex);
-
-    // tell the main loop we're ready for more threads.
-    pthread_mutex_lock(&threadMutex);
-    threads_ready++;
-    pthread_mutex_unlock(&threadMutex);
-
-    /*free2DData(param->L1, numLeft);
-    free2DData(param->L2, numRight);*/
 }
 
 double getSplitCriteria(methods m, int totalObs, int n, float y[]) {
