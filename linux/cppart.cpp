@@ -11,9 +11,7 @@
 #include <fstream>
 
 int main(int argc, char* argv[]) {
-    clock_t start, end;
-
-    start = clock();
+    auto start = chrono::system_clock::now();
 
     if (argc < 4) {
         printUsage();
@@ -34,7 +32,7 @@ int main(int argc, char* argv[]) {
     node root = buildTree(&p, p.trainSize, numNodes);
     
     // stop the clock before xvals
-    end = clock();
+    auto end = chrono::system_clock::now();
     cpTable *cpTableHead = buildCpTable(&root, &p);
 
     vector<int> iNode;
@@ -54,7 +52,8 @@ int main(int argc, char* argv[]) {
     printCpTable(cpTableHead, cpTableFilename);
 
     cout << endl << endl << "Results: " << endl;
-    cout << "Time elapsed " << ((float)(end - start)) / CLOCKS_PER_SEC << endl;
+    auto elapsed = chrono::duration_cast<chrono::milliseconds>(end-start);
+    cout << "Time elapsed " << ((float)elapsed.count() / 1000) << endl;
     cout << "Test Data: " << endl;
     float mae = 0;
     float relError = 0;

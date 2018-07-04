@@ -83,14 +83,15 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
         if (p->delayed && improve > 0) {
             bestLeftSS = DBL_MAX, bestRightSS = DBL_MAX;
             int varIdx2 = 0;
+            int indx = 0;
             threads_ready = thread::hardware_concurrency();
-            vector<pthread_t> thread_vec;
+            pthread_t *thread_vec = new pthread_t[threads_ready];
+            thread_params *parameters = new thread_params[threads_ready];
             while(varIdx2 < colCount) {
-                if(varIdx2 == respCol)
-                    varIdx2++;
-
-                pthread_mutex_lock(&threadMutex);
                 for(int i = 0; i < threads_ready; i++) {
+                    if(varIdx2 == respCol) {
+                        varIdx2++;
+                    }
                     if(varIdx2 == colCount) {
                         break;
                     }
@@ -106,17 +107,19 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                     param.split_func = split_func;
 
                     pthread_t thread;
-                    thread_vec.push_back(thread);
-                    pthread_create(&thread, NULL, delayedThread, &param);
+                    thread_vec[i] = thread;
+                    parameters[i] = param;
                     varIdx2++;
+                    indx++;
                 }
-                threads_ready = 0;
-                pthread_mutex_unlock(&threadMutex);
-            }
-
-            // wait for the last threads running to finish
-            for(int i = 0; i < thread_vec.size(); i++) {
-                pthread_join(thread_vec.at(i), NULL);
+                for(int i = 0; i < indx; i++) {
+                    pthread_create(&(thread_vec[i]), NULL, delayedThread, &(parameters[i]));
+                }
+                for(int i = 0; i < indx; i++) {
+                    cout << i << endl;
+                    pthread_join(thread_vec[i], NULL);
+                }
+                indx = 0;
             }
 
             if (bestLeftSS != baseSS && bestRightSS != baseSS) {
@@ -257,22 +260,16 @@ void *delayedThread(void *param_cast) {
     // get mutex for bestLeft/Right SS, if thisSSLeft/Right > bestSSLeft/Right, update globals 
     pthread_mutex_lock(&indexMutex);
     if (thisSSLeft < bestLeftSS && improveL > 0) {
-        cout << varIdx2 << "  " << thisSSLeft << endl;
         bestLeftSS = thisSSLeft;
     }
     if (thisSSRight < bestRightSS && improveR > 0) {
-        cout << varIdx2 << "  " << thisSSRight << endl;
         bestRightSS = thisSSRight;
     }
     pthread_mutex_unlock(&indexMutex);
 
-    // tell the main loop we're ready for more threads.
-    pthread_mutex_lock(&threadMutex);
-    threads_ready++;
-    pthread_mutex_unlock(&threadMutex);
-
     /*free2DData(param->L1, numLeft);
     free2DData(param->L2, numRight);*/
+    cout << "Done with var " << p->varNames[varIdx2] << "  " << varIdx2 << endl;
 }
 
 double getSplitCriteria(methods m, int totalObs, int n, float y[]) {
