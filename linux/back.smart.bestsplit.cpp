@@ -86,12 +86,11 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
             int indx = 0;
             threads_ready = thread::hardware_concurrency();
             pthread_t *thread_vec = new pthread_t[threads_ready];
-            thread_params *parameters = new thread_params[threads_ready];
             while(varIdx2 < colCount) {
+                if(varIdx2 == respCol)
+                    varIdx2++;
+
                 for(int i = 0; i < threads_ready; i++) {
-                    if(varIdx2 == respCol) {
-                        varIdx2++;
-                    }
                     if(varIdx2 == colCount) {
                         break;
                     }
@@ -108,18 +107,17 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
 
                     pthread_t thread;
                     thread_vec[i] = thread;
-                    parameters[i] = param;
+                    pthread_create(&thread, NULL, delayedThread, &param);
                     varIdx2++;
-                    indx++;
-                }
-                for(int i = 0; i < indx; i++) {
-                    pthread_create(&(thread_vec[i]), NULL, delayedThread, &(parameters[i]));
                 }
                 for(int i = 0; i < indx; i++) {
                     pthread_join(thread_vec[i], NULL);
                 }
-                indx = 0;
             }
+
+            // wait for the last threads running to finishi
+            int jj = 0;
+            cin >> jj;
 
             if (bestLeftSS != baseSS && bestRightSS != baseSS) {
                 thisSS = bestLeftSS + bestRightSS;
@@ -173,6 +171,7 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
         free2DData(L1, numLeft);
         free2DData(L2, numRight);
     }
+    cout << n->splitPoint << "  " << n->varName << endl;
 }
 
 void *delayedThread(void *param_cast) {
@@ -187,7 +186,8 @@ void *delayedThread(void *param_cast) {
     float *y = getResponseData(p->response, p->headers, param->L1, numLeft);
     mergeSort(x, y, 0, numLeft-1, varIdx2, colCount, respCol);
 
-    int whereL, directionL, whereR, directionR;
+    usleep(varIdx2 * 100000);
+/*    int whereL, directionL, whereR, directionR;
     float splitPointL = 0, improveL, splitPointR = 0, improveR;
 
     // left data
@@ -256,19 +256,18 @@ void *delayedThread(void *param_cast) {
     free2DData(L6, L6Size);
 
     // get mutex for bestLeft/Right SS, if thisSSLeft/Right > bestSSLeft/Right, update globals 
+    pthread_mutex_lock(&indexMutex);
     if (thisSSLeft < bestLeftSS && improveL > 0) {
-        pthread_mutex_lock(&indexMutex);
         bestLeftSS = thisSSLeft;
-        pthread_mutex_unlock(&indexMutex);
     }
     if (thisSSRight < bestRightSS && improveR > 0) {
-        pthread_mutex_lock(&indexMutex);
         bestRightSS = thisSSRight;
-        pthread_mutex_unlock(&indexMutex);
     }
+    pthread_mutex_unlock(&indexMutex);*/
 
-    free2DData(param->L1, numLeft);
-    free2DData(param->L2, numRight);
+    /*free2DData(param->L1, numLeft);
+    free2DData(param->L2, numRight);*/
+    cout << "Done with var " << p->varNames[varIdx2] << "  " << varIdx2 << endl;
 }
 
 double getSplitCriteria(methods m, int totalObs, int n, float y[]) {
