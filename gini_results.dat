@@ -269,6 +269,15 @@ Test Data:
         Classification Error (correct/total): 0.4285
         Relative Error: 6.5981
 
+./cppart data/mnist.rotated.csv response 1 cp=0.0008 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=2
+
+Results:
+Time elapsed 137736
+Test Data:
+        Correct Classifications: 3535
+        Incorrect Classifications: 6465
+        Classification Error (correct/total): 0.3535
+        Relative Error: 7.069
 
 
 

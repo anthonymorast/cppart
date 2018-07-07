@@ -29,6 +29,7 @@ int parseParameters(char * argv[], int argc, params *p)
     float cp = 0.01, alpha = 0;
     methods m = ANOVA;
     int verbose = 0;
+    int maxDepth = 30;
     if(argc > 4) {
         for(int i = 4; i < argc; i++) {
             string param = argv[i];
@@ -39,6 +40,7 @@ int parseParameters(char * argv[], int argc, params *p)
             int pos_cp = param.find("cp=");
             int pos_meth = param.find("method=");
             int pos_verbose = param.find("verbose=");
+            int pos_max_depth = param.find("maxdepth=");
             if(pos_xval != string::npos) {
                 try {
                     xvals = stoi(string(1, argv[i][pos_xval+9]));
@@ -80,6 +82,12 @@ int parseParameters(char * argv[], int argc, params *p)
                     verbose = stoi(string(1, argv[i][pos_verbose+8]));
                 } catch(exception e) {
                     cout << "Warning: verbose parameter no parsable integer, defaulting to 0." << endl;
+                }
+            } else if(pos_max_depth != string::npos) {
+                try {
+                    maxDepth = stoi(param.substr(pos_max_depth+9));;
+                } catch(exception e) {
+                    cout << "Warning: unable to parse max depth parameter, defaulting to 30." << endl;
                 }
             } else {
                 cout << "Warning: Unused parameter " << param << "..." << endl;
@@ -262,8 +270,8 @@ int parseParameters(char * argv[], int argc, params *p)
     }
 
     p->response = response;
-    p->maxDepth = 30;	// only used to set maxNodes
-    p->maxNodes = (int)pow(2, (p->maxDepth + 1)) - 1;
+    p->maxDepth = maxDepth;	// only used to set maxNodes
+    p->maxNodes = (int)pow(2, p->maxDepth) - 1;
     p->minObs = 20;
     p->minNode = 7;
     p->numXval = 10;
@@ -423,3 +431,15 @@ float getPrediction(node *tree, float row[], int responseCol)
     return predValue;
 }
 
+void getTreeDeviance(node *n, float &dev) {
+    if (n->leftNode == NULL && n->rightNode == NULL) {
+        dev += n->dev;
+    }
+
+	if (n->leftNode != NULL) {
+		getTreeDeviance(n->leftNode, dev);
+	}
+	if (n->rightNode != NULL) {
+		getTreeDeviance(n->rightNode, dev);
+	}
+}

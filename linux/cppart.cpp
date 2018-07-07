@@ -51,9 +51,13 @@ int main(int argc, char* argv[]) {
     printTree(&root, treeFileName);
     printCpTable(cpTableHead, cpTableFilename);
 
+    float dev = 0;
+    getTreeDeviance(&root, dev);
+
     cout << endl << endl << "Results: " << endl;
     auto elapsed = chrono::duration_cast<chrono::milliseconds>(end-start);
     cout << "Time elapsed " << ((float)elapsed.count() / 1000) << endl;
+    cout << "Tree Deviance/Impurity: " << dev << endl << endl;
     cout << "Test Data: " << endl;
     float mae = 0;
     float relError = 0;
@@ -80,7 +84,7 @@ int main(int argc, char* argv[]) {
         cout << "\tIncorrect Classifications: " << incorrect << endl;
         cout << "\tClassification Error (correct/total): " << (double)correct/p.testSize << endl;
     }
-    cout << "\tRelative Error: " << relError/p.testSize << endl << endl;
+    cout << "\tRelative Error: " << relError/p.testSize << endl;
 
     return 0;
 }

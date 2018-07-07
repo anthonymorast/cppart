@@ -116,7 +116,6 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
                     pthread_create(&(thread_vec[i]), NULL, delayedThread, &(parameters[i]));
                 }
                 for(int i = 0; i < indx; i++) {
-                    cout << i << endl;
                     pthread_join(thread_vec[i], NULL);
                 }
                 indx = 0;
@@ -174,7 +173,6 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
         free2DData(L1, numLeft);
         free2DData(L2, numRight);
     }
-    cout << n->splitPoint << "  " << n->varName << endl;
 }
 
 void *delayedThread(void *param_cast) {
@@ -258,18 +256,19 @@ void *delayedThread(void *param_cast) {
     free2DData(L6, L6Size);
 
     // get mutex for bestLeft/Right SS, if thisSSLeft/Right > bestSSLeft/Right, update globals 
-    pthread_mutex_lock(&indexMutex);
     if (thisSSLeft < bestLeftSS && improveL > 0) {
+        pthread_mutex_lock(&indexMutex);
         bestLeftSS = thisSSLeft;
+        pthread_mutex_unlock(&indexMutex);
     }
     if (thisSSRight < bestRightSS && improveR > 0) {
+        pthread_mutex_lock(&indexMutex);
         bestRightSS = thisSSRight;
+        pthread_mutex_unlock(&indexMutex);
     }
-    pthread_mutex_unlock(&indexMutex);
 
-    /*free2DData(param->L1, numLeft);
-    free2DData(param->L2, numRight);*/
-    cout << "Done with var " << p->varNames[varIdx2] << "  " << varIdx2 << endl;
+    free2DData(param->L1, numLeft);
+    free2DData(param->L2, numRight);
 }
 
 double getSplitCriteria(methods m, int totalObs, int n, float y[]) {
