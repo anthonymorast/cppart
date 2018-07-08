@@ -9,21 +9,21 @@ Fast:
 
 Protein:
 
-./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=6
-./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=8
-./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=10
-./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=12
-./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=14
-./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=16
-./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=18
+./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=6	x
+./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=8	x
+./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=10	x
+./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=12	x
+./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=14	x
+./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=16	x
+./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=18	x
 
-./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=6
-./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=8
-./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=10
-./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=12
-./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=14
-./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=16
-./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=18
+./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=6	x
+./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=8	x
+./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=10	x
+./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=12	x
+./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=14	x
+./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=16	x
+./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv maxdepth=18	x
 
 
 
@@ -49,21 +49,41 @@ SensIT:
 
 Connect-4:
 
-./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=6
-./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=8
-./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=10
-./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=12
-./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=14
-./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=16
-./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=18
+./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=6	x
+./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=8	x
+./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=10	x
+./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=12	x
+./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=14	x
+./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=16	x
+./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=18	x
 
-./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=6
-./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=8
-./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=10
-./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=12
-./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=14
-./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=16
-./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=18
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=6	x
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=8	x
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=10	x
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=12	x
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=14	x
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=16	x
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini maxdepth=18	x
+
+
+
+MNIST:
+
+./cppart data/mnist.csv response 0 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=6	x
+./cppart data/mnist.csv response 0 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=8	x
+./cppart data/mnist.csv response 0 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=10	x
+./cppart data/mnist.csv response 0 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=12	x
+./cppart data/mnist.csv response 0 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=14	x
+./cppart data/mnist.csv response 0 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=16	x
+./cppart data/mnist.csv response 0 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=18	x
+
+./cppart data/mnist.csv response 1 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=6	x
+./cppart data/mnist.csv response 1 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=8	x
+./cppart data/mnist.csv response 1 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=10	x
+./cppart data/mnist.csv response 1 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=12	x
+./cppart data/mnist.csv response 1 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=14	x
+./cppart data/mnist.csv response 1 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=16	x
+./cppart data/mnist.csv response 1 cp=0 runxvals=0 method=gini testdata=data/mnist.t.csv verbose=2 maxdepth=18	x
 
 
 
