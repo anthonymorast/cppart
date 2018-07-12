@@ -1,6 +1,7 @@
 run <- function(save_acc_plots=FALSE, save_imp_plots=FALSE) {
 
     results <- read.csv("./error_to_depth.csv", stringsAsFactors = FALSE)
+    print(results)
     colnames(results)[6] <- "classification"
     results$classification <- as.numeric(results$classification)/100
     
@@ -19,90 +20,112 @@ run <- function(save_acc_plots=FALSE, save_imp_plots=FALSE) {
     mnist.delayed <- results[results$dataset == "mnist" & results$delayed == 1,]
     mnist.greedy <- results[results$dataset == "mnist" & results$delayed == 0,]
     
-    
     if(save_acc_plots) {
         ############ Depth vs. Accuracy plots ############
-        
-        # Wine
         setEPS()
-        postscript("depth_plots/wine_acc2dep.eps")
-        plot(wine.greedy$classification~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(.45, .60), xlab="Depth", ylab="Test Accuracy")
-        lines(wine.delayed$classification~wine.delayed$depth, type="o", pch=19, col="blue3")
-        legend(16, .60, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
-        dev.off()
-        
-        # SensIT
-        setEPS()
-        postscript("depth_plots/sensit_acc2dep.eps")
-        plot(sensit.greedy$classification~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(.65, .72), xlab="Depth", ylab="Test Accuracy")
-        lines(sensit.delayed$classification~wine.delayed$depth, type="o", pch=19, col="blue3")
-        legend(16, .72, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
-        dev.off()
-        
-        # Protein
-        setEPS()
-        postscript("depth_plots/protein_acc2dep.eps")
-        plot(protein.greedy$classification~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(.5, .58), xlab="Depth", ylab="Test Accuracy")
-        lines(protein.delayed$classification~wine.delayed$depth, type="o", pch=19, col="blue3")
-        legend(16, .58, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
-        dev.off()
-        
-        # Connect-4
-        setEPS()
-        postscript("depth_plots/c4_acc2dep.eps")
-        plot(c4.greedy$classification~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(.6, .68), xlab="Depth", ylab="Test Accuracy")
-        lines(c4.delayed$classification~wine.delayed$depth, type="o", pch=19, col="blue3")
-        legend(16, .68, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
-        dev.off()
+        postscript("depth_plots/depth_vs_accuracy4x2.eps")
+        layout(matrix(c(1, 2, 3, 4, 5, 6, 7, 7), 4, 2, byrow=TRUE), heights=c(6, 6, 6, 3.8))
+        #layout(matrix(c(1, 2, 3, 4, 5, 6), 3, 2, byrow=TRUE))#, heights=c(6, 6))
+        par(xpd=NA)
         
         # Cars
-        setEPS()
-        postscript("depth_plots/cars_acc2dep.eps")
-        plot(cars.greedy$mae~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(6.1, 6.35), xlab="Depth", ylab="MAE")
+        #setEPS()
+        #postscript("depth_plots/cars_acc2dep.eps")
+        plot(cars.greedy$mae~wine.delayed$depth, type="o", pch=17, col="red3", ylim=c(3.2, 4), xlab="Depth", ylab="MAE", main="Cars")
         lines(cars.delayed$mae~wine.delayed$depth, type="o", pch=19, col="blue3")
-        legend(16, 6.35, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
+        
+        # Wine
+        #par(mai=rep(0.5, 4))
+        #postscript("depth_plots/wine_acc2dep.eps")
+        plot(wine.greedy$classification~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(.51, .6), xlab="Depth", ylab="Test Accuracy", main="Wine")
+        lines(wine.delayed$classification~wine.delayed$depth, type="o", pch=19, col="blue3")
+        #legend(5, .6, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
+        #dev.off()
+        
+        # SensIT
+        #setEPS()
+        #postscript("depth_plots/sensit_acc2dep.eps")
+        plot(sensit.greedy$classification~sensit.greedy$depth, type="o", pch=17, col="red3", ylim=c(.67, .71), xlab="Depth", ylab="Test Accuracy", main="SensIT")
+        lines(sensit.delayed$classification~sensit.greedy$depth, type="o", pch=19, col="blue3")
+        #legend(16, .72, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
+        #dev.off()
+        
+        # Protein
+        #setEPS()
+        #postscript("depth_plots/protein_acc2dep.eps")
+        plot(protein.greedy$classification~sensit.greedy$depth, type="o", pch=17, col="red3", ylim=c(.51, .56), xlab="Depth", ylab="Test Accuracy", main="Protein")
+        lines(protein.delayed$classification~sensit.greedy$depth, type="o", pch=19, col="blue3")
+        #legend(16, .58, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
+        #dev.off()
+        
+        # Connect-4
+        #setEPS()
+        #postscript("depth_plots/c4_acc2dep.eps")
+        plot(c4.greedy$classification~sensit.greedy$depth, type="o", pch=17, col="red3", ylim=c(.7, .8), xlab="Depth", ylab="Test Accuracy", main="Connect-4")
+        lines(c4.delayed$classification~sensit.greedy$depth, type="o", pch=19, col="blue3")
+        #legend(16, .805, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
+        #dev.off()
+        
+        plot(mnist.greedy$classification~sensit.greedy$depth, type="o", pch=17, col="red3", ylim=c(.7, .9), xlab="Depth", ylab="Test Accuracy", main="MNIST")
+        lines(mnist.delayed$classification~sensit.greedy$depth, type="o", pch=19, col="blue3")
+    
+        plot.new()
+        legend("center", ncol=2, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"), cex=1.5)
+        #legend("bottomright", legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"), cex=1.3)
+        
         dev.off()
     }
     
     ############ Depth vs. Impurity plots ############
     if(save_imp_plots) {
         setEPS()
-        postscript("depth_plots/wine_imp2dep.eps")
-        plot(wine.greedy$Impurity.deviance~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(280, 400), xlab="Depth", ylab="Impurity")
-        lines(wine.delayed$Impurity.deviance~wine.delayed$depth, type="o", pch=19, col="blue3")
-        legend(16, 400, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
-        dev.off()
-        
-        # SensIT
-        setEPS()
-        postscript("depth_plots/sensit_imp2dep.eps")
-        plot(sensit.greedy$Impurity.deviance~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(14050, 24100), xlab="Depth", ylab="Impurity")
-        lines(sensit.delayed$Impurity.deviance~wine.delayed$depth, type="o", pch=19, col="blue3")
-        legend(16, 24100, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
-        dev.off()
-        
-        # Protein
-        setEPS()
-        postscript("depth_plots/protein_imp2dep.eps")
-        plot(protein.greedy$Impurity.deviance~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(4200, 8050), xlab="Depth", ylab="Impurity")
-        lines(protein.delayed$Impurity.deviance~wine.delayed$depth, type="o", pch=19, col="blue3")
-        legend(16, 8050, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
-        dev.off()
-        
-        # Connect-4
-        setEPS()
-        postscript("depth_plots/c4_imp2dep.eps")
-        plot(c4.greedy$Impurity.deviance~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(7700, 14500), xlab="Depth", ylab="Impurity")
-        lines(c4.delayed$Impurity.deviance~wine.delayed$depth, type="o", pch=19, col="blue3")
-        legend(16, 14500, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
-        dev.off()
+        postscript("depth_plots/depth_vs_impurity3x2.eps")
+        #layout(matrix(c(1, 2, 3, 4, 5, 6, 7, 7, 7), 3, 3, byrow=TRUE), heights=c(6, 6, 3.8))
+        layout(matrix(c(1, 2, 3, 4, 5, 6), 3, 2, byrow=TRUE))#, heights=c(6, 6))
+        par(xpd=NA)
         
         # Cars
-        setEPS()
-        postscript("depth_plots/cars_imp2dep.eps")
-        plot(cars.greedy$Impurity.deviance~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(1750, 1915), xlab="Depth", ylab="Deviance")
+        #setEPS()
+        #postscript("depth_plots/cars_imp2dep.eps")
+        plot(cars.greedy$Impurity.deviance~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(2940, 8220), xlab="Depth", ylab="Deviance", main="Cars")
         lines(cars.delayed$Impurity.deviance~wine.delayed$depth, type="o", pch=19, col="blue3")
-        legend(16, 1915, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
+        
+        print(wine.greedy)
+        plot(wine.greedy$Impurity.deviance~wine.greedy$depth, type="o", pch=17, col="red3", ylim=c(375, 600), xlab="Depth", ylab="Impurity", main="Wine")
+        lines(wine.delayed$Impurity.deviance~wine.delayed$depth, type="o", pch=19, col="blue3")
+        #legend(5, 580, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
+        #dev.off()
+        
+        # SensIT
+        #setEPS()
+        #postscript("depth_plots/sensit_imp2dep.eps")
+        plot(sensit.greedy$Impurity.deviance~sensit.greedy$depth, type="o", pch=17, col="red3", ylim=c(14050, 24100), xlab="Depth", ylab="Impurity", main="SensIT")
+        lines(sensit.delayed$Impurity.deviance~sensit.greedy$depth, type="o", pch=19, col="blue3")
+        #legend(16, 24100, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
+        #dev.off()
+        
+        # Protein
+        #setEPS()
+        #postscript("depth_plots/protein_imp2dep.eps")
+        plot(protein.greedy$Impurity.deviance~sensit.greedy$depth, type="o", pch=17, col="red3", ylim=c(4200, 8050), xlab="Depth", ylab="Impurity", main="Protein")
+        lines(protein.delayed$Impurity.deviance~sensit.greedy$depth, type="o", pch=19, col="blue3")
+        #legend(16, 8050, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
+        #dev.off()
+        
+        # Connect-4
+        #setEPS()
+        #postscript("depth_plots/c4_imp2dep.eps")
+        plot(c4.greedy$Impurity.deviance~sensit.greedy$depth, type="o", pch=17, col="red3", ylim=c(8600, 15690), xlab="Depth", ylab="Impurity", main="Connect-4")
+        lines(c4.delayed$Impurity.deviance~sensit.greedy$depth, type="o", pch=19, col="blue3")
+        #legend(16, 15690, legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"))
+        #dev.off()
+        
+        plot(mnist.greedy$Impurity.deviance~sensit.greedy$depth, type="o", pch=17, col="red3", ylim=c(4200, 16000), xlab="Depth", ylab="Impurity", main="MNIST")
+        lines(mnist.delayed$Impurity.deviance~sensit.greedy$depth, type="o", pch=19, col="blue3")
+        
+        #plot.new()
+        legend("topright", legend=c("Delayed", "Greedy"), pch=c(19,17), col=c("blue3", "red3"), cex=1.2)
+        
         dev.off()
     }
 }
