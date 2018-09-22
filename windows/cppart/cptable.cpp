@@ -9,20 +9,20 @@
 
 #include <iostream>
 
-void makeCpList(node *n, double &parentCp, vector<double> &cpList, int & uniqueCp)
+void makeCpList(node *n, double &parentCp, vector<double> &cpList, int & uniqueCp, params *p)
 {
 	if (n->cp > parentCp) {
 		n->cp = parentCp;
 	}
 
 	double myCp = n->cp;
-	if (myCp < 0) {
-		myCp = 0;
+	if (myCp < p->alpha) {
+		myCp = p->alpha;
 	}
 
 	if (n->leftNode != NULL) {
-		makeCpList(n->leftNode, myCp, cpList, uniqueCp);
-		makeCpList(n->rightNode, myCp, cpList, uniqueCp);
+		makeCpList(n->leftNode, myCp, cpList, uniqueCp, p);
+		makeCpList(n->rightNode, myCp, cpList, uniqueCp, p);
 	}
 
 	if (myCp < parentCp) {
@@ -52,4 +52,22 @@ cpTable *makeCpTable(node *n, double parentCp, int nSplit, cpTable *cpTail)
 	}
 
 	return table;
+}
+
+void printCpTable(cpTable *table, string filename) {
+    cout << "Creating CP table file '" << filename << "'..." << endl;
+    ofstream fout;
+    fout.open(filename);
+    fout << "CP\tnsplit\trel error\txerror\txstd" << endl;
+    cpTable *temp = table;
+    while(temp != NULL) {
+        fout << temp->cp << "\t" << temp->nsplit << "\t" << temp->risk << "\t"
+           << temp->xrisk << "\t" << temp->xstd;
+        if(temp->risk < (temp->xrisk - temp->xstd)) {
+            fout << "***";
+        }
+        fout << endl;
+        temp = temp->forward;
+    }
+    fout << endl << "*** = rel_error < xerror - xstd" << endl;
 }

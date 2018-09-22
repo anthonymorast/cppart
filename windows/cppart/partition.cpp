@@ -12,13 +12,24 @@
 /*
  *	Function Implementations
  */
-int partition(params *p, node* n, int nodeNum, double &sumrisk) {
-    cout << "\tNode ID (is this thing still running?): " << nodeNum << endl;
+int partition(params *p, node* n, long nodeNum, double &sumrisk) {
+
+    //float t[14] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2};
+    //int nn = 14;
+    //cout << giniCalc(nn, t) << endl;
+    //exit(0);
+    if(p->verbose > 0) {
+        cout << "\tNode ID (is this thing still running?): " << nodeNum << endl;
+    }
     float **data = n->data;
     float *y = getResponseData(p->response, p->headers, data, n->numObs);
 
     double tempcp, mean;
-    anovaSS(y, n->numObs, mean, tempcp);
+    if(p->method == ANOVA) {
+        anovaSS(y, n->numObs, mean, tempcp);
+    } else if(p->method == GINI) {
+        giniDev(y, n->numObs, mean, tempcp);
+    }
     n->dev = tempcp;
     free1DData(y);
 
@@ -28,6 +39,8 @@ int partition(params *p, node* n, int nodeNum, double &sumrisk) {
     if (nodeNum > 1 && tempcp > n->cp) {
         tempcp = n->cp;
     }
+    if(n->numObs == 842) 
+        cout << tempcp << endl;
 
     // can we stop?
     if (nodeNum > p->maxNodes || n->numObs < p->minObs || tempcp <= p->alpha) {

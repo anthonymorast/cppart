@@ -1,6 +1,6 @@
 #pragma once
 #include "structures.h"
-#include "anova.h"
+#include "methods.h"
 #include "bestsplit.h"
 #include "data_handler.h"
 
@@ -10,4 +10,4 @@ using namespace std;
 /*
 *	Function Definitions
 */
-int partition(params *p, node* root, int nodeNum, double &sumrisk);
+int partition(params *p, node* root, long nodeNum, double &sumrisk);

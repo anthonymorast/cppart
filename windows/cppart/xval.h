@@ -6,7 +6,7 @@
 #include <time.h>
 
 #include "structures.h"
-#include "anova.h"
+#include "methods.h"
 #include "data_handler.h"
 #include "partition.h"
 

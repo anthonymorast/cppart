@@ -17,7 +17,7 @@ float anovaPredict(float y, float yHat)
 void anovaSS(float y[], int numValues, double &mean, double &ss)
 {
 	double temp = 0.0;
-	
+
 	// calculate mean (unweighted)
 	for (int i = 0; i < numValues; i++) {
 		temp += y[i];
@@ -38,7 +38,7 @@ void anovaSS(float y[], int numValues, double &mean, double &ss)
 *	which = where, direction, splitpoint, and improve are passed by reference
 *	so that multiple values can be returned. 
 */
-void anovaSplit(float *x, float * y, params *p, int varIdx, int &which,
+void anovaSplit(float *x, float * y, params *p, int &which,
 	int &direction, float &splitPoint, float &improve, int numValues)
 {
 	double temp;
@@ -49,7 +49,7 @@ void anovaSplit(float *x, float * y, params *p, int varIdx, int &which,
 	direction = LEFT;
 
 	double mean, myrisk;
-	anovaSS(y, numValues, mean, myrisk);
+	anovaSS(y, numValues, mean, myrisk); // myrisk == sum_squares 
 
 	right_wt = numValues;
 	right_n = numValues;
@@ -86,9 +86,6 @@ void anovaSplit(float *x, float * y, params *p, int varIdx, int &which,
 			}
 		}
 	}
-	
     improve = myrisk == 0 ? 0 : best / myrisk;
-	if (true) { //best > 0 || true) {
-		splitPoint = (numValues > which + 1) ? ((x[which] + x[which + 1]) / 2) : x[which];
-	}
+	splitPoint = (numValues > which + 1) ? ((x[which] + x[which + 1]) / 2) : x[which];
 }
