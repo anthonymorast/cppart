@@ -3,29 +3,29 @@ all: utils.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o pa
 gini.o: gini.cpp
 	x86_64-w64-mingw32-g++ --std=c++11 -O2 -c gini.cpp
 utils.o: utils.cpp
-	x86_64-w64-mingw32-g++ --std=c++11 -c utils.cpp
+	x86_64-w64-mingw32-g++ --std=c++11 -O2 -c utils.cpp
 data_handler.o: data_handler.cpp
-	x86_64-w64-mingw32-g++ --std=c++11 -c data_handler.cpp
+	x86_64-w64-mingw32-g++ --std=c++11 -O2 -c data_handler.cpp
 anova.o: anova.cpp
-	x86_64-w64-mingw32-g++ --std=c++11 -c anova.cpp
+	x86_64-w64-mingw32-g++ --std=c++11 -O2 -c anova.cpp
 bestsplit.o: bestsplit.cpp
-	x86_64-w64-mingw32-g++ --std=c++11 -c bestsplit.cpp
+	x86_64-w64-mingw32-g++ --std=c++11 -O2 -c bestsplit.cpp
 xval.o: xval.cpp
-	x86_64-w64-mingw32-g++ --std=c++11 -c xval.cpp
+	x86_64-w64-mingw32-g++ --std=c++11 -O2 -c xval.cpp
 cptable.o: cptable.cpp
-	x86_64-w64-mingw32-g++ --std=c++11 -c cptable.cpp
+	x86_64-w64-mingw32-g++ --std=c++11 -O2 -c cptable.cpp
 print_tree.o: print_tree.cpp
-	x86_64-w64-mingw32-g++ --std=c++11 -c print_tree.cpp
+	x86_64-w64-mingw32-g++ --std=c++11 -O2 -c print_tree.cpp
 partition.o: partition.cpp
-	x86_64-w64-mingw32-g++ --std=c++11 -c partition.cpp
+	x86_64-w64-mingw32-g++ --std=c++11 -O2 -c partition.cpp
 cppart.o: cppart.cpp 
-	x86_64-w64-mingw32-g++ --std=c++11 -c cppart.cpp
+	x86_64-w64-mingw32-g++ --std=c++11 -O2 -c cppart.cpp
 cppart: gini.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o cppart.o
 	x86_64-w64-mingw32-g++ --std=c++11 gini.o data_handler.o anova.o bestsplit.o xval.o cptable.o utils.o print_tree.o partition.o cppart.o -o cppart.exe
 runmany.o: runmany.cpp	
 	x86_64-w64-mingw32-g++ --std=c++11 -c runmany.cpp
 runmany:	
-	x86_64-w64-mingw32-g++ -pthread --std=c++11 gini.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o utils.o runmany.o -o runmany.exe
+	x86_64-w64-mingw32-g++ -pthread --std=c++11 -O2 gini.o data_handler.o anova.o bestsplit.o xval.o cptable.o print_tree.o partition.o utils.o runmany.o -o runmany.exe
 
 clean:
 	rm *.o cppart.exe runmany.exe
