@@ -10,7 +10,7 @@
 #include <pthread.h>	// run many cross-validations at once.
 
 // Structures 
-struct thread_params {
+struct thread_params1 {
     params *p;
     node *root;
 };
@@ -26,7 +26,7 @@ void printUsage() {
 }
 
 void* threadedCpTable(void *p) {
-    struct thread_params *tp = (struct thread_params*)p;
+    struct thread_params1 *tp = (struct thread_params1*)p;
     cpTable *cpTableHead = buildCpTable(tp->root, tp->p);
 }
 
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     int numNodes = 0;
     node root = buildTree(&p, numObs, numNodes);
 
-    struct thread_params *tp = new thread_params;
+    struct thread_params1 *tp = new thread_params1;
     tp->p = &p;
     tp->root = &root;
 

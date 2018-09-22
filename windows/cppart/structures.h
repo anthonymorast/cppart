@@ -6,6 +6,8 @@ using namespace std;
 /*
  *	Struct and class definitions that are not used in any particular functionality.
  */
+enum methods { GINI = 0, ANOVA = 1 };
+
 struct params {
     unsigned int maxNodes;
     unsigned int minObs;
@@ -20,8 +22,8 @@ struct params {
     unsigned int numXval;
     float iscale;
     int* where;
-	float complexity = 0.01;
-	float alpha = 0.00;
+    float complexity = 0.01;
+    float alpha = 0.00;
     float** trainData;	// 1 row in the dataframe
     float** testData;
     float** data;
@@ -31,6 +33,10 @@ struct params {
     int dataLineCount;
     string filename;
     string *varNames;
+    int verbose = 0;
+
+    int numclasses = 0;
+    methods method = ANOVA;
 };
 
 struct node {
@@ -55,11 +61,11 @@ struct node {
 };
 
 struct cpTable {
-    float cp;
-    float risk;
-    float xrisk;
-    float xstd;
-    int nsplit;
+    float cp = 0;
+    float risk = 0;
+    float xrisk = 0;
+    float xstd = 0;
+    int nsplit = 0;
 
     struct cpTable *forward = NULL;
     struct cpTable *back = NULL;

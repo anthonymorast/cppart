@@ -7,6 +7,7 @@
 #include <algorithm> 
 #include <time.h> 
 #include <stdlib.h>
+#include <algorithm>
 
 #include "structures.h"
 #include "data_handler.h"
@@ -23,3 +24,4 @@ void fixTree(node *root, float cpScale, int nodeId, int &nodeCount, vector<int> 
 cpTable *buildCpTable(node *root, params *p);
 void printUsage();
 float getPrediction(node* tree, float row[], int responseCol);
+void getTreeDeviance(node *tree, float &dev);
