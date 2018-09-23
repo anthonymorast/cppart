@@ -1,2 +1,5 @@
-CC Fraud: https://www.kaggle.com/mlg-ulb/creditcardfraud
+1. CC Fraud: https://www.kaggle.com/mlg-ulb/creditcardfraud
 
+2. Skin Cancer MNIST (hmnist): https://www.kaggle.com/kmader/skin-cancer-mnist-ham10000#hmnist_28_28_RGB.csv
+
+3. 
