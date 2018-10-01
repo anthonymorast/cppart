@@ -17,16 +17,16 @@ if __name__ == '__main__':
 
     name = sys.argv[1]
     delays = [0,1]
-    depths = [6, 8, 10, 12, 14, 16, 18]
+    depths = [1, 2, 3, 4, 5, 6] #[6, 8, 10, 12, 14, 16, 18]
     headers = ['dataset','delayed','depth','impurity','relerror','accuracy']
     separator = ','
 
     f = open(name+'Multi.csv', 'w', newline='')
-    writer = csv.writer(f, delimiter=separator, quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    writer = csv.writer(f, delimiter=separator, quotechar='', quoting=csv.QUOTE_NONE)
     for d in delays:
         writer.writerow(headers)
         for depth in depths:
             for i in range(5):
-                row = [name, d, depth]
+                row = [name, d, depth, '']
                 writer.writerow(row)
     f.close()
