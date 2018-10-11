@@ -1,0 +1,163 @@
+Results:
+
+CONNECT-4 (last 20% for test)
+
+connect-4 greedy:
+	Time:	 	810.86
+	MAE: 		.578554
+	Rel Error:	1.44984
+	cp:		0.0000 ***
+
+** with cp=0.01, built essentially the same tree (data was all 1's and 0's)
+connect-4 greedy:
+	Time:	 	32.2874
+	MAE: 		.777509
+	Rel Error:	1.64878
+	C-Error:	59.6107% correct classification
+	cp:		0.0100
+
+connect-4 delayed:
+	Time:		3424.23
+	MAE:		0.751109
+	Rel Error: 	1.62241
+	C-Error:	60.8023% correct
+	cp:		0.0100
+
+
+PROTEIN:
+
+protein greedy:
+	Time:	 	83.0838
+	MAE: 		0.74251
+	Rel Error:	1.62335
+	cp:		0.0100
+
+protein delayed:
+	Time:		30,682.6
+	MAE:		0.75584
+	Rel Error: 	1.63667
+	cp:		0.0100
+
+protein greedy:
+	Time:	 	96.4926
+	MAE: 		0.72569
+	Rel Error:	1.60652
+	cp:		0.0050
+
+protein delayed:
+	Time:		33,992.8
+	MAE:		0.731442
+	Rel Error: 	1.61228
+	cp:		0.0050
+
+
+SensIT (Seismic):
+** Again, built essentially the same tree... (~one node difference)
+sensit greedy:
+	Time:	 	15.0031
+	MAE: 		0.456496
+	Rel Error:	2.71992
+	cp:		0.0100
+
+sensit delayed:
+	Time:		681.892
+	MAE:		0.447735
+	Rel Error: 	2.171124
+	cp:		0.0100
+
+sensit greedy:
+	Time:	 	18.924
+	MAE: 		0.433558
+	Rel Error:	2.69708
+	cp:		0.0050
+
+sensit delayed:
+	Time:		777.705
+	MAE:		0.43416
+	Rel Error: 	2.69588
+	cp:		0.0050
+
+sensit greedy:
+	Time:	 	28.8358
+	MAE: 		0.397231
+	Rel Error:	2.66054
+	cp:		0.0005
+
+sensit delayed:
+	Time:	 	1168.77
+	MAE: 		0.402365
+	Rel Error:	2.66571
+	cp:		0.0005
+
+sensit greedy:
+	Time:	 	37.1893
+	MAE: 		0.417657
+	Rel Error:	2.681
+	cp:		0.0000
+
+sensit delayed:
+	Time:	 	1558.64
+	MAE: 		0.42262
+	Rel Error:	2.68559
+	cp:		0.0000
+
+
+MNIST:
+ 
+Applied PCA first, used transformed dataset
+- read datasets into R
+- append test to train dataset 
+	- mnist <- rbind(mnist.test, mnist.train)
+- remove columns with 0 standard deviation
+	- mnist <- Filter(function(x) sd(x) != 0, mnist)
+- build correlation matrix without response col 
+	- mnist.cor <- cor(mnist[,2:ncol(mnist)])
+- find eigenvalues and variance explained by components and do pca
+    - p = # rows
+	- prop.var <- mnist.eig$values / p
+	- sum(prop.var[1:350])
+		[1] 0.9567
+	- mnist.pca <- princomp(mnist, cor=TRUE)
+- get new (rotated) dataset
+	- mnist.rotated <- as.data.frame(mnist.pca$scores)
+- remove all but first 350 components 
+	- mnist.rotated <- mnist.rotated[,1:350]
+- append response column from original dataset
+	- mnist.rotated <- cbind(mnist.rotated, mnist[,1])
+- Rename y column
+	- colnames(mnist.rotated)[351] = 'class'
+- split into train/test
+	- mnist.rotated.test <- mnist.rotated[60001:70000, ]
+	- mnist.rotated.train <- mnist.rotated[1:60000, ]
+- write dataframes to new csv
+	- write.csv(mnist.rotated.test, 'mnist.rotated.test.csv', row.names=FALSE, quote = FALSE)
+	- write.csv(mnist.rotated.train, 'mnist.rotated.csv', row.names=FALSE, quote = FALSE)
+
+UPDATE:
+    - created center.R to center the data before applying PCA
+    - applied PCA only to the training date then rotated the test data
+
+mnist greedy:
+	Time:	 	228.72
+	MAE: 		1.67328
+	Rel Error:	6.15274
+	cp:		0.0100
+
+mnist delayed:
+	Time:		69000
+	MAE:		1.50151
+	Rel Error: 	5.98096
+	cp:		0.0100
+
+mnist greedy:
+	Time:	 	517.558
+	MAE: 		0.625066
+	Rel Error:	5.10444
+	cp:		0.0000
+
+mnist delayed:
+	Time:		181,079
+	MAE:		0.62823
+	Rel Error: 	5.10762
+	cp:		0.0000
+

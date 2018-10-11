@@ -1,0 +1,283 @@
+PROTEIN: 
+
+./cppart data/protein.csv class 0 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv
+
+Results: 
+Time elapsed 185.596
+Test Data: 
+	Correct Classifications: 3424
+	Incorrect Classifications: 3197
+	Classification Error (correct/total): 0.517142
+	Relative Error: 1.58934
+
+./cppart data/protein.csv class 0 cp=0.00125 runxvals=0 method=gini testdata=data/protein.t.csv
+
+Results:
+Time elapsed 156.991
+Test Data:
+        Correct Classifications: 3826
+        Incorrect Classifications: 2795
+        Classification Error (correct/total): 0.577858
+        Relative Error: 1.52092
+
+
+./cppart data/protein.csv class 0 cp=0.0009 runxvals=0 method=gini testdata=data/protein.t.csv
+
+Results:
+Time elapsed 155.803
+Test Data:
+        Correct Classifications: 3852
+        Incorrect Classifications: 2769
+        Classification Error (correct/total): 0.581785
+        Relative Error: 1.50838
+
+./cppart data/protein.csv class 1 cp=0 runxvals=0 method=gini testdata=data/protein.t.csv
+
+Results: 
+Time elapsed 59491.5
+Test Data: 
+	Correct Classifications: 3500
+	Incorrect Classifications: 3121
+	Classification Error (correct/total): 0.528621
+	Relative Error: 1.5842
+
+./cppart data/protein.csv class 1 cp=0.000122 runxvals=0 method=gini testdata=data/protein.t.csv
+
+Results:
+Time elapsed 59679.3
+Test Data:
+        Correct Classifications: 3598
+        Incorrect Classifications: 3023
+        Classification Error (correct/total): 0.543422
+        Relative Error: 1.56427
+
+./cppart data/protein.csv class 1 cp=0.00125 runxvals=0 method=gini testdata=data/protein.t.csv
+
+Results:
+Time elapsed 53263.3
+Test Data:
+        Correct Classifications: 3793
+        Incorrect Classifications: 2828
+        Classification Error (correct/total): 0.572874
+        Relative Error: 1.52349
+
+
+
+
+
+SENSIT:
+
+./cppart data/seismic.csv class 0 cp=0 runxvals=0 method=gini testdata=data/seismic.t.csv
+
+Results: 
+Time elapsed 88.5718
+Test Data: 
+	Correct Classifications: 13188
+	Incorrect Classifications: 6517
+	Classification Error (correct/total): 0.669272
+	Relative Error: 2.65785
+
+./cppart data/seismic.csv class 0 cp=0.0009 runxvals=0 method=gini testdata=data/seismic.t.csv
+
+Results:
+Time elapsed 59.3022
+Test Data:
+        Correct Classifications: 13601
+        Incorrect Classifications: 6104
+        Classification Error (correct/total): 0.690231
+        Relative Error: 2.62268
+
+./cppart data/seismic.csv class 0 cp=0.00022 runxvals=0 method=gini testdata=data/seismic.t.csv
+
+Results:
+Time elapsed 81.127
+Test Data:
+        Correct Classifications: 13926
+        Incorrect Classifications: 5779
+        Classification Error (correct/total): 0.706724
+        Relative Error: 2.60665
+
+
+
+./cppart data/seismic.csv class 1 cp=0 runxvals=0 method=gini testdata=data/seismic.t.csv
+
+Results: 
+Time elapsed 3691.33
+Test Data: 
+	Correct Classifications: 13219
+	Incorrect Classifications: 6486
+	Classification Error (correct/total): 0.670845
+	Relative Error: 2.65542
+
+./cppart data/seismic.csv class 1 cp=0.0004 runxvals=0 method=gini testdata=data/seismic.t.csv
+
+Results:
+Time elapsed 2914.97
+Test Data:
+        Correct Classifications: 13921
+        Incorrect Classifications: 5784
+        Classification Error (correct/total): 0.70647
+        Relative Error: 2.60563
+
+./cppart data/seismic.csv class 1 cp=0.00022 runxvals=0 method=gini testdata=data/seismic.t.csv
+
+Results:
+Time elapsed 3587.23
+Test Data:
+        Correct Classifications: 13987
+        Incorrect Classifications: 5718
+        Classification Error (correct/total): 0.70982
+        Relative Error: 2.60112
+
+
+
+
+CONNECT 4:
+
+./cppart data/connect-4.csv class 0 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini
+
+Results: 
+Time elapsed 116.374
+Test Data: 
+	Correct Classifications: 8694
+	Incorrect Classifications: 4817
+	Classification Error (correct/total): 0.643476
+	Relative Error: 1.44009
+
+
+./cppart data/connect-4.csv class 0 runxvals=0 cp=0.00017 splitdata=1 randomsplit=0 method=gini
+
+Results:
+Time elapsed 102.527
+Test Data:
+        Correct Classifications: 8711
+        Incorrect Classifications: 4800
+        Classification Error (correct/total): 0.644734
+        Relative Error: 1.45282
+
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0 splitdata=1 randomsplit=0 method=gini
+
+Results: 
+Time elapsed 9000.62
+Test Data: 
+	Correct Classifications: 8725
+	Incorrect Classifications: 4786
+	Classification Error (correct/total): 0.64577
+	Relative Error: 1.41603
+
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0.00017 splitdata=1 randomsplit=0 method=gini
+
+Results:
+Time elapsed 8470.68
+Test Data:
+        Correct Classifications: 8639
+        Incorrect Classifications: 4872
+        Classification Error (correct/total): 0.639405
+        Relative Error: 1.46192
+
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0.000057 splitdata=1 randomsplit=0 method=gini
+
+Results:
+Time elapsed 8814.83
+Test Data:
+        Correct Classifications: 8762
+        Incorrect Classifications: 4749
+        Classification Error (correct/total): 0.648509
+        Relative Error: 1.42388
+
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0.00017 splitdata=1 randomsplit=0 method=gini
+
+Results:
+Time elapsed 9270.73
+Test Data:
+        Correct Classifications: 8639
+        Incorrect Classifications: 4872
+        Classification Error (correct/total): 0.639405
+        Relative Error: 1.46192
+
+./cppart data/connect-4.csv class 1 runxvals=0 cp=0.0004 splitdata=1 randomsplit=0 method=gini
+
+Results:
+Time elapsed 8230.42
+Test Data:
+        Correct Classifications: 8665
+        Incorrect Classifications: 4846
+        Classification Error (correct/total): 0.641329
+        Relative Error: 1.45926
+
+
+MNIST:
+
+./cppart data/mnist.rotated.csv response 0 cp=0 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=2
+
+Results:
+Time elapsed 1105.27
+Test Data:
+        Correct Classifications: 4683
+        Incorrect Classifications: 5317
+        Classification Error (correct/total): 0.4683
+        Relative Error: 6.6859
+
+./cppart data/mnist.rotated.csv response 0 cp=0.0008 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=0
+
+Results:
+Time elapsed 393.594
+Test Data:
+        Correct Classifications: 3251
+        Incorrect Classifications: 6749
+        Classification Error (correct/total): 0.3251
+        Relative Error: 6.7904
+
+./cppart data/mnist.rotated.csv response 0 cp=0.00004 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=0
+
+Results:
+Time elapsed 696.605
+Test Data:
+        Correct Classifications: 4858
+        Incorrect Classifications: 5142
+        Classification Error (correct/total): 0.4858
+        Relative Error: 6.3822
+
+./cppart data/mnist.rotated.csv response 0 cp=0.00008 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=2
+
+Results:
+Time elapsed 734.425
+Test Data:
+        Correct Classifications: 4413
+        Incorrect Classifications: 5587
+        Classification Error (correct/total): 0.4413
+        Relative Error: 6.4584
+
+./cppart data/mnist.rotated.csv response 1 cp=0 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=2
+
+Results:
+Time elapsed 315802
+Test Data:
+        Correct Classifications: 4690
+        Incorrect Classifications: 5310
+        Classification Error (correct/total): 0.469
+        Relative Error: 6.6725
+
+
+./cppart data/mnist.rotated.csv response 1 cp=0.00008 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=2
+
+Results:
+Time elapsed 190000
+Test Data:
+        Correct Classifications: 4285
+        Incorrect Classifications: 5715
+        Classification Error (correct/total): 0.4285
+        Relative Error: 6.5981
+
+./cppart data/mnist.rotated.csv response 1 cp=0.0008 runxvals=0 method=gini testdata=data/mnist.rotated.t.csv verbose=2
+
+Results:
+Time elapsed 137736
+Test Data:
+        Correct Classifications: 3535
+        Incorrect Classifications: 6465
+        Classification Error (correct/total): 0.3535
+        Relative Error: 7.069
+
+
+
