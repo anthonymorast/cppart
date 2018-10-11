@@ -1,0 +1,24 @@
+node) split, number observations, deviance, yval
+* denotes a terminal node
+
+1) root 245 70 1
+	2) nodes< 2.5 161  27 1 
+		4) age< 40.5 24  1 1 *
+		5) age>=40.5 137  26 1 
+			10) year> 65.5 34  3 1 *
+			11) year<=65.5 103  23 1 
+				22) age< 59.5 69  12 1 *
+				23) age>=59.5 34  11 1 
+					46) nodes< 0.5 27  7 1 *
+					47) nodes>=0.5 7  3 2 *
+	3) nodes>=2.5 84  41 2 
+		6) age< 42.5 15  3 1 *
+		7) age>=42.5 69  29 2 
+			14) age> 53.5 39  19 1 
+				28) nodes> 17.5 9  3 1 *
+				29) nodes<=17.5 30  14 2 
+					58) nodes< 10 23  10 1 
+						116) year< 64.5 12  4 1 *
+						117) year>=64.5 11  5 2 *
+					59) nodes>=10 7  1 2 *
+			15) age<=53.5 30  9 2 *
