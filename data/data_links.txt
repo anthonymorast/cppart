@@ -1,4 +1,7 @@
 1. CC Fraud: https://www.kaggle.com/mlg-ulb/creditcardfraud
+    - ~260,000 rows (492 are class=1, rest are class=0)
+    - goal: detect fraud
+    - trimmed this down to 1499 rows (492 class 1, rest class 0)
 
 2. Skin Cancer MNIST (hmnist): https://www.kaggle.com/kmader/skin-cancer-mnist-ham10000#hmnist_28_28_RGB.csv
 
