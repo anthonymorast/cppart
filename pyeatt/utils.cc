@@ -182,9 +182,11 @@ void parseParameters(char * argv[], int argc, params *p)
 
   cout<<"test_data_filename="<<test_data_filename<<endl;
   
-  if(test_data_filename == "")
+  if(test_data_filename == "" && split_data)
     {
       // If they did not give us a test data file, then split the input data 80/20
+      // AM: need to include split_data check, if not true then don't split data
+      // and don't check the accuracy/MAE. Justs builds a full tree.
 
       if(!randomSplit)
 	{
@@ -220,7 +222,7 @@ void parseParameters(char * argv[], int argc, params *p)
 	    testData[i-trainSize] = data[index[i]];
 	}
     }
-  else
+  else if (test_data_filename != "")
     {   // IF they gave us a test data file, then read it in...
       if(split_data)
 	{
@@ -257,6 +259,10 @@ void parseParameters(char * argv[], int argc, params *p)
       testSize = tlineCount - 1;
       trainSize = numObs;
     }
+  else 
+    {
+      trainData = deepCopyData(data, lineCount-1, colCount);
+    }
 
   // get number of classes
   int numclasses = 0;
@@ -283,7 +289,7 @@ void parseParameters(char * argv[], int argc, params *p)
       }
     }
     numclasses = classes.size();
-  }
+  } 
 
   p->response = response;
   p->maxDepth = 30;	// only used to set maxNodes

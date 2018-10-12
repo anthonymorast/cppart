@@ -71,7 +71,7 @@ void statisticalMetric::findSplit(DataTable *data,int col,
 void anovaMetric::findSplit(DataTable *data,int col,
 			    int &bestpos, int &direction,
 			    double &splitValue,
-			    double &improve, int minNode, int lookahead)
+			    double &improve, int minNode)
 {
   double tmp;
   double left_sum, right_sum;
@@ -123,8 +123,10 @@ void anovaMetric::findSplit(DataTable *data,int col,
 	  // left_n and right_n must both be greater than 1, which is
 	  // guaranteed as long as minNode is greater than one.
 	  tmp = (left_sum * left_sum) / left_n +
-	    (right_sum * right_sum) / right_n;
-
+	        (right_sum * right_sum) / right_n;
+          if(data->numRows() == 41) {
+            cout << "var: " << data->getName(col) << " tmp: " << tmp << " best: " << bestval << endl;
+          }
 	  if (tmp > bestval)
 	    {
 	      bestval = tmp;
@@ -137,11 +139,14 @@ void anovaMetric::findSplit(DataTable *data,int col,
 	}
     }
 
-  leftdata=data->subSet();
-  rightdata=data->subSet();
+    //leftdata=data->subSet();
+    //rightdata=data->subSet();
   
     // if lokkahead is greater than zero loop over all columns and recurse
-  if(lookahead > 0) // add stopping criteria
+    // AM: I think this is in the wrong place. Although recursion would probably work
+    // it might be easier to move this up one step to the column-wise split decision
+    // and loop rather than recurse.
+  /*if(lookahead > 0) // add stopping criteria
     for(int i = 1; i < data->numCols(); i++)
       {
 	leftdata->sortBy(i);
@@ -150,9 +155,9 @@ void anovaMetric::findSplit(DataTable *data,int col,
 	tmpSS += findSSplit(rightdata,i,bp1,di2,sV2,im2,mN2,lookahead-1);
 	  
 	totalSS = tmpSS;
-      }
-  delete leftdata;
-  delete rightdata;
+      }*/
+  //delete leftdata;
+  //delete rightdata;
   
   improve = originalSumSquares == 0.0 ? 0 : bestval / originalSumSquares;
   
@@ -160,13 +165,16 @@ void anovaMetric::findSplit(DataTable *data,int col,
     (((*data)[bestpos][col] + (*data)[bestpos + 1][col]) / 2) :
     (*data)[bestpos][col];
 
+  if (data->numRows() == 41) {
   cout<<"splitreport: "<< col << " " <<
     bestpos<< " " <<
     direction<< " " <<
     splitValue<< " " <<
-    improve<< " " << data->getName(col) <<endl;
+    improve<< " " << data->getName(col) << " ss: " << 
+    originalSumSquares << "  best: " << bestval << "  grandmean: " << grandmean  << endl;
+  }
 
-  return totalSS;
+  //return totalSS;
 }
 
 

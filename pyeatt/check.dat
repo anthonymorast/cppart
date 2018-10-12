@@ -1,0 +1,25 @@
+31/2147483647 41/20 9.60976/0 -- 
+var: volatile.acidity tmp: 0.107375 best: 0
+var: volatile.acidity tmp: 0.0883275 best: 0.107375
+splitreport: 1 19 1 0.86 0.0111736 volatile.acidity ss: 9.60976  best: 0.107375  grandmean: 5.09756
+var: citric.acid tmp: 0.107375 best: 0
+var: citric.acid tmp: 0.0883275 best: 0.107375
+splitreport: 2 19 1 0.195 0.0111736 citric.acid ss: 9.60976  best: 0.107375  grandmean: 5.09756
+splitreport: 3 0 -1 1.4 0 residual.sugar ss: 9.60976  best: 0  grandmean: 5.09756
+var: chlorides tmp: 0.371661 best: 0
+splitreport: 4 20 1 0.085 0.0386754 chlorides ss: 9.60976  best: 0.371661  grandmean: 5.09756
+var: free.sulfur.dioxide tmp: 0.409756 best: 0
+splitreport: 5 20 -1 12.5 0.0426396 free.sulfur.dioxide ss: 9.60976  best: 0.409756  grandmean: 5.09756
+var: total.sulfur.dioxide tmp: 0.0883275 best: 0
+var: total.sulfur.dioxide tmp: 0.409756 best: 0.0883275
+splitreport: 6 20 -1 63.5 0.0426396 total.sulfur.dioxide ss: 9.60976  best: 0.409756  grandmean: 5.09756
+var: density tmp: 0.907375 best: 0
+splitreport: 7 20 -1 0.99669 0.0944223 density ss: 9.60976  best: 0.907375  grandmean: 5.09756
+splitreport: 8 0 -1 3.07 0 pH ss: 9.60976  best: 0  grandmean: 5.09756
+var: sulphates tmp: 0.907375 best: 0
+splitreport: 9 20 -1 0.505 0.0944223 sulphates ss: 9.60976  best: 0.907375  grandmean: 5.09756
+var: alcohol tmp: 0.409756 best: 0
+splitreport: 10 19 1 9.58333 0.0426396 alcohol ss: 9.60976  best: 0.409756  grandmean: 5.09756
+var: fixed.acidity tmp: 0.107375 best: 0
+splitreport: 11 20 -1 8.05 0.0111736 fixed.acidity ss: 9.60976  best: 0.107375  grandmean: 5.09756
+
