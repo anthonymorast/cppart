@@ -116,7 +116,8 @@ int main(int argc, char* argv[]) {
     // //    printCpTable(cpTableHead, cpTableFilename);
 
     // cout << endl << endl << "Results: " << endl;
-    // cout << "Time elapsed " << ((double)(end - start)) / CLOCKS_PER_SEC << endl;
+    // uncommented because warnings suck
+    cout << "Time elapsed " << ((double)(end - start)) / CLOCKS_PER_SEC << endl;
     // cout << "Test Data: " << endl;
     // double mae = 0;
     // double relError = 0;

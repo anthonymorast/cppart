@@ -63,7 +63,7 @@ void Node::split(int level)
   
     cout << nodeId << "/" << maxNodes<<" "<<
       data->numRows() << "/" << minObs <<" "<<
-      cp << "/" << alpha << " -- ";
+      cp << "/" << alpha << " -- " << endl;;
     
 
   if (nodeId > maxNodes || data->numRows() < minObs || cp <= alpha)
@@ -100,8 +100,8 @@ void Node::split(int level)
       //compImprove = improve;
 
       // I would have swapped rtab and ltab, but... whatever.
-      rtab = data->subSet(0,where);
-      ltab = data->subSet(where+1,data->numRows()-1);
+      ltab = data->subSet(0,where);
+      rtab = data->subSet(where+1,data->numRows()-1);
       
       metric->getSplitCriteria(ltab,&leftMean,&leftSS);
       metric->getSplitCriteria(rtab,&rightMean,&rightSS);
@@ -135,7 +135,7 @@ void Node::split(int level)
 	}
     }
 
-  cout << "split node at level "<<level<<" on variable "<<varName<<endl;
+  //cout << "split node at level "<<level<<" on variable "<<varName<<endl;
 
   if(left != NULL)
     left->setId();
