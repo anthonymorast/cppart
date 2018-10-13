@@ -76,7 +76,8 @@ int main(int argc, char* argv[]) {
     metric->getSplitCriteria(Data,&mean,&cp);
 
     Node::setMetric(metric);
-    Node::setMinNodeData(p.minObs);
+    Node::setMinNodeData(p.minNode);
+    Node::setMinObsData(p.minObs);
     Node::setAlpha(p.complexity * cp);
 
     Node *tree = new Node(NULL,Data,mean,cp,0);

@@ -114,7 +114,7 @@ void anovaMetric::findSplit(DataTable *data,int col,
       tmp = (*data)[i][0] - grandmean;
       left_sum += tmp;
       right_sum -= tmp;
-      
+     
       if ( // can never happen so don't check i<(data->numRows() - 1) &&
 	   (*data)[i+1][col] != (*data)[i][col] &&
 	   left_n >= minNode)

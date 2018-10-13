@@ -12,7 +12,10 @@ using namespace std;
 
 // declare and initialize static data members
 statisticalMetric *Node::metric=NULL; // Statistical metric being used
-int Node::minObs;        // minimum amount of data required in a leaf node.
+int Node::minObs;        // minimum amount of data required in a leaf node. AM: rpart makes the distinction between minNode and minObs
+                         // I think minObs=min obs required to consider a split and minNodes=min number of obs in a leaf node.
+                         // min Obs is used as stopping criteria (column-wise) while min node is used as row-wise stopping criteria
+int Node::minNode;
 int Node::nextId=1;
 int Node::maxNodes=MAXINT;
 double Node::alpha=1750;
@@ -90,7 +93,7 @@ void Node::split(int level)
       double leftSS, rightSS, totalSS;
 
       // Make findSplit recursive with lookahead
-      metric->findSplit(data, curCol, where, dir, splitPoint, improve, minObs);
+      metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
 
       //totalSS = metric->getSplitCriteria(data);
       //      if(p->verbose > 1)
