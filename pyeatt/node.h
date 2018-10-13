@@ -10,7 +10,8 @@ using namespace std;
 
 class Node{
   static statisticalMetric *metric; // Statistical metric being used
-  static int minObs;        // minimum amount of data required in a leaf node.
+  static int minObs;        // minimum amount of data required [to consider splitting]
+  static int minNode;       // minimum amount of data required in a leaf node.
   static int nextId;
   static int maxNodes;
   static int verbose;
@@ -33,7 +34,8 @@ public:
   void split(int level);
   
   static void setMetric(statisticalMetric *m){metric = m;}
-  static void setMinNodeData(int min){minObs = min;}
+  static void setMinNodeData(int min){minNode = min;}
+  static void setMinObsData(int min){minObs = min;}
   static void setMaxNodes(int max){maxNodes = max;}
   static void setVerbose(int vlevel){verbose = vlevel;}
   static void setAlpha(double a){alpha = a;}

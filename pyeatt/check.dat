@@ -1,25 +1,824 @@
-31/2147483647 41/20 9.60976/0 -- 
-var: volatile.acidity tmp: 0.107375 best: 0
-var: volatile.acidity tmp: 0.0883275 best: 0.107375
-splitreport: 1 19 1 0.86 0.0111736 volatile.acidity ss: 9.60976  best: 0.107375  grandmean: 5.09756
-var: citric.acid tmp: 0.107375 best: 0
-var: citric.acid tmp: 0.0883275 best: 0.107375
-splitreport: 2 19 1 0.195 0.0111736 citric.acid ss: 9.60976  best: 0.107375  grandmean: 5.09756
-splitreport: 3 0 -1 1.4 0 residual.sugar ss: 9.60976  best: 0  grandmean: 5.09756
-var: chlorides tmp: 0.371661 best: 0
-splitreport: 4 20 1 0.085 0.0386754 chlorides ss: 9.60976  best: 0.371661  grandmean: 5.09756
-var: free.sulfur.dioxide tmp: 0.409756 best: 0
-splitreport: 5 20 -1 12.5 0.0426396 free.sulfur.dioxide ss: 9.60976  best: 0.409756  grandmean: 5.09756
-var: total.sulfur.dioxide tmp: 0.0883275 best: 0
-var: total.sulfur.dioxide tmp: 0.409756 best: 0.0883275
-splitreport: 6 20 -1 63.5 0.0426396 total.sulfur.dioxide ss: 9.60976  best: 0.409756  grandmean: 5.09756
-var: density tmp: 0.907375 best: 0
-splitreport: 7 20 -1 0.99669 0.0944223 density ss: 9.60976  best: 0.907375  grandmean: 5.09756
-splitreport: 8 0 -1 3.07 0 pH ss: 9.60976  best: 0  grandmean: 5.09756
-var: sulphates tmp: 0.907375 best: 0
-splitreport: 9 20 -1 0.505 0.0944223 sulphates ss: 9.60976  best: 0.907375  grandmean: 5.09756
-var: alcohol tmp: 0.409756 best: 0
-splitreport: 10 19 1 9.58333 0.0426396 alcohol ss: 9.60976  best: 0.409756  grandmean: 5.09756
-var: fixed.acidity tmp: 0.107375 best: 0
-splitreport: 11 20 -1 8.05 0.0111736 fixed.acidity ss: 9.60976  best: 0.107375  grandmean: 5.09756
 
+test_data_filename=
+Building tree...
+1/2147483647 1599/20 1042.17/0 -- 
+2/2147483647 983/20 424.159/0 -- 
+4/2147483647 391/20 128.097/0 -- 
+6/2147483647 328/20 94.7195/0 -- 
+8/2147483647 209/20 44.0861/0 -- 
+10/2147483647 172/20 33.9244/0 -- 
+12/2147483647 84/20 18.7024/0 -- 
+13/2147483647 88/20 13.8182/0 -- 
+11/2147483647 37/20 8.75676/0 -- 
+9/2147483647 119/20 44.2185/0 -- 
+20/2147483647 68/20 26.9412/0 -- 
+21/2147483647 51/20 14.0392/0 -- 
+7/2147483647 63/20 28.2222/0 -- 
+26/2147483647 22/20 13.5/0 -- 
+27/2147483647 41/20 9.60976/0 -- 
+var: volatile.acidity tmp: 0.00211721 best: 0
+var: volatile.acidity tmp: 0.461271 best: 0.00211721
+var: volatile.acidity tmp: 0.394239 best: 0.461271
+var: volatile.acidity tmp: 0.337778 best: 0.461271
+var: volatile.acidity tmp: 0.28965 best: 0.461271
+var: volatile.acidity tmp: 0.248218 best: 0.461271
+var: volatile.acidity tmp: 0.00589136 best: 0.461271
+var: volatile.acidity tmp: 0.128895 best: 0.461271
+var: volatile.acidity tmp: 0.107375 best: 0.461271
+var: volatile.acidity tmp: 0.0883275 best: 0.461271
+var: volatile.acidity tmp: 0.0714786 best: 0.461271
+var: volatile.acidity tmp: 0.0435796 best: 0.461271
+var: volatile.acidity tmp: 0.0322561 best: 0.461271
+var: volatile.acidity tmp: 0.0225766 best: 0.461271
+var: volatile.acidity tmp: 0.0436185 best: 0.461271
+var: volatile.acidity tmp: 0.0603055 best: 0.461271
+var: volatile.acidity tmp: 0.106726 best: 0.461271
+var: volatile.acidity tmp: 0.138788 best: 0.461271
+var: volatile.acidity tmp: 0.0946046 best: 0.461271
+var: volatile.acidity tmp: 0.0803443 best: 0.461271
+splitreport: 1 10 1 0.7875 0.0480003 volatile.acidity ss: 9.60976  best: 0.461271  grandmean: 5.09756
+var: citric.acid tmp: 0.0173191 best: 0
+var: citric.acid tmp: 0.00343426 best: 0.0173191
+var: citric.acid tmp: 0.00810775 best: 0.0173191
+var: citric.acid tmp: 0.014518 best: 0.0173191
+var: citric.acid tmp: 0.0225766 best: 0.0173191
+var: citric.acid tmp: 0.056616 best: 0.0225766
+var: citric.acid tmp: 0.107375 best: 0.056616
+var: citric.acid tmp: 0.0883275 best: 0.107375
+var: citric.acid tmp: 0.056616 best: 0.107375
+var: citric.acid tmp: 0.0322561 best: 0.107375
+var: citric.acid tmp: 0.0225766 best: 0.107375
+var: citric.acid tmp: 0.014518 best: 0.107375
+var: citric.acid tmp: 0.00810775 best: 0.107375
+var: citric.acid tmp: 0.641006 best: 0.107375
+var: citric.acid tmp: 0.765059 best: 0.641006
+var: citric.acid tmp: 0.924882 best: 0.765059
+splitreport: 2 33 -1 0.305 0.0962441 citric.acid ss: 9.60976  best: 0.924882  grandmean: 5.09756
+var: residual.sugar tmp: 0.0803443 best: 0
+var: residual.sugar tmp: 0.0946046 best: 0.0803443
+var: residual.sugar tmp: 0.555158 best: 0.0946046
+var: residual.sugar tmp: 0.710246 best: 0.555158
+var: residual.sugar tmp: 0.752268 best: 0.710246
+var: residual.sugar tmp: 0.212256 best: 0.752268
+var: residual.sugar tmp: 0.248218 best: 0.752268
+var: residual.sugar tmp: 0.337778 best: 0.752268
+var: residual.sugar tmp: 0.542014 best: 0.752268
+var: residual.sugar tmp: 0.641006 best: 0.752268
+var: residual.sugar tmp: 0.230968 best: 0.752268
+var: residual.sugar tmp: 0.298832 best: 0.752268
+splitreport: 3 17 -1 2.25 0.0782817 residual.sugar ss: 9.60976  best: 0.752268  grandmean: 5.09756
+var: chlorides tmp: 0.924882 best: 0
+var: chlorides tmp: 1.38753 best: 0.924882
+var: chlorides tmp: 1.20976 best: 1.38753
+var: chlorides tmp: 1.43251 best: 1.38753
+var: chlorides tmp: 0.609756 best: 1.43251
+var: chlorides tmp: 0.550933 best: 1.43251
+var: chlorides tmp: 0.451861 best: 1.43251
+var: chlorides tmp: 0.371661 best: 1.43251
+var: chlorides tmp: 0.249756 best: 1.43251
+var: chlorides tmp: 0.202349 best: 1.43251
+var: chlorides tmp: 0.00810775 best: 1.43251
+var: chlorides tmp: 0.00343426 best: 1.43251
+var: chlorides tmp: 7.86782e-05 best: 1.43251
+var: chlorides tmp: 0.492332 best: 1.43251
+var: chlorides tmp: 0.487907 best: 1.43251
+splitreport: 4 13 1 0.0795 0.149068 chlorides ss: 9.60976  best: 1.43251  grandmean: 5.09756
+var: free.sulfur.dioxide tmp: 0.00211721 best: 0
+var: free.sulfur.dioxide tmp: 7.86782e-05 best: 0.00211721
+var: free.sulfur.dioxide tmp: 0.00343426 best: 0.00211721
+var: free.sulfur.dioxide tmp: 0.276423 best: 0.00343426
+var: free.sulfur.dioxide tmp: 0.409756 best: 0.276423
+var: free.sulfur.dioxide tmp: 0.451861 best: 0.409756
+var: free.sulfur.dioxide tmp: 0.498645 best: 0.451861
+var: free.sulfur.dioxide tmp: 0.180835 best: 0.498645
+var: free.sulfur.dioxide tmp: 0.0225766 best: 0.498645
+var: free.sulfur.dioxide tmp: 0.00810775 best: 0.498645
+var: free.sulfur.dioxide tmp: 7.86782e-05 best: 0.498645
+var: free.sulfur.dioxide tmp: 0.0946046 best: 0.498645
+var: free.sulfur.dioxide tmp: 0.0803443 best: 0.498645
+splitreport: 5 22 -1 15 0.0518895 free.sulfur.dioxide ss: 9.60976  best: 0.498645  grandmean: 5.09756
+var: total.sulfur.dioxide tmp: 0.0803443 best: 0
+var: total.sulfur.dioxide tmp: 0.492332 best: 0.0803443
+var: total.sulfur.dioxide tmp: 0.502117 best: 0.492332
+var: total.sulfur.dioxide tmp: 0.533999 best: 0.502117
+var: total.sulfur.dioxide tmp: 0.555158 best: 0.533999
+var: total.sulfur.dioxide tmp: 0.014518 best: 0.555158
+var: total.sulfur.dioxide tmp: 0.0225766 best: 0.555158
+var: total.sulfur.dioxide tmp: 0.0322561 best: 0.555158
+var: total.sulfur.dioxide tmp: 0.0435796 best: 0.555158
+var: total.sulfur.dioxide tmp: 0.0714786 best: 0.555158
+var: total.sulfur.dioxide tmp: 0.0883275 best: 0.555158
+var: total.sulfur.dioxide tmp: 0.409756 best: 0.555158
+var: total.sulfur.dioxide tmp: 0.451861 best: 0.555158
+var: total.sulfur.dioxide tmp: 0.498645 best: 0.555158
+var: total.sulfur.dioxide tmp: 0.550933 best: 0.555158
+var: total.sulfur.dioxide tmp: 0.609756 best: 0.555158
+var: total.sulfur.dioxide tmp: 0.248218 best: 0.609756
+var: total.sulfur.dioxide tmp: 0.28965 best: 0.609756
+var: total.sulfur.dioxide tmp: 0.394239 best: 0.609756
+var: total.sulfur.dioxide tmp: 0.461271 best: 0.609756
+var: total.sulfur.dioxide tmp: 0.542014 best: 0.609756
+var: total.sulfur.dioxide tmp: 0.179201 best: 0.609756
+var: total.sulfur.dioxide tmp: 0.298832 best: 0.609756
+splitreport: 6 24 -1 72 0.0634518 total.sulfur.dioxide ss: 9.60976  best: 0.609756  grandmean: 5.09756
+var: density tmp: 0.0803443 best: 0
+var: density tmp: 0.0946046 best: 0.0803443
+var: density tmp: 0.109756 best: 0.0946046
+var: density tmp: 0.125885 best: 0.109756
+var: density tmp: 0.555158 best: 0.125885
+var: density tmp: 0.637961 best: 0.555158
+var: density tmp: 0.672256 best: 0.637961
+var: density tmp: 1.34505 best: 0.672256
+var: density tmp: 0.752268 best: 1.34505
+var: density tmp: 0.798751 best: 1.34505
+var: density tmp: 0.907375 best: 1.34505
+var: density tmp: 0.971 best: 1.34505
+var: density tmp: 1.04212 best: 1.34505
+var: density tmp: 0.212256 best: 1.34505
+var: density tmp: 0.014518 best: 1.34505
+var: density tmp: 0.00810775 best: 1.34505
+var: density tmp: 0.00343426 best: 1.34505
+var: density tmp: 0.000665188 best: 1.34505
+var: density tmp: 0.00211721 best: 1.34505
+var: density tmp: 0.0173191 best: 1.34505
+splitreport: 7 16 -1 0.99654 0.139967 density ss: 9.60976  best: 1.34505  grandmean: 5.09756
+var: pH tmp: 0.298832 best: 0
+var: pH tmp: 1.0643 best: 0.298832
+var: pH tmp: 0.943089 best: 1.0643
+var: pH tmp: 0.752613 best: 1.0643
+var: pH tmp: 0.676423 best: 1.0643
+var: pH tmp: 0.498645 best: 1.0643
+var: pH tmp: 0.451861 best: 1.0643
+var: pH tmp: 0.056616 best: 1.0643
+var: pH tmp: 0.276423 best: 1.0643
+var: pH tmp: 0.0322561 best: 1.0643
+var: pH tmp: 0.0225766 best: 1.0643
+var: pH tmp: 0.579536 best: 1.0643
+var: pH tmp: 0.555158 best: 1.0643
+var: pH tmp: 0.533999 best: 1.0643
+var: pH tmp: 0.502117 best: 1.0643
+var: pH tmp: 0.492332 best: 1.0643
+splitreport: 8 10 1 3.17 0.110752 pH ss: 9.60976  best: 1.0643  grandmean: 5.09756
+var: sulphates tmp: 0.502117 best: 0
+var: sulphates tmp: 1.26104 best: 0.502117
+var: sulphates tmp: 1.34505 best: 1.26104
+var: sulphates tmp: 0.907375 best: 1.34505
+var: sulphates tmp: 0.971 best: 1.34505
+var: sulphates tmp: 0.248218 best: 1.34505
+var: sulphates tmp: 0.542014 best: 1.34505
+var: sulphates tmp: 0.765059 best: 1.34505
+splitreport: 9 16 -1 0.495 0.139967 sulphates ss: 9.60976  best: 1.34505  grandmean: 5.09756
+var: alcohol tmp: 0.765059 best: 0
+var: alcohol tmp: 0.641006 best: 0.765059
+var: alcohol tmp: 0.28965 best: 0.765059
+var: alcohol tmp: 0.128895 best: 0.765059
+var: alcohol tmp: 0.409756 best: 0.765059
+var: alcohol tmp: 0.752268 best: 0.765059
+var: alcohol tmp: 0.181185 best: 0.765059
+var: alcohol tmp: 0.125885 best: 0.765059
+splitreport: 10 7 1 9.25 0.0796128 alcohol ss: 9.60976  best: 0.765059  grandmean: 5.09756
+var: fixed.acidity tmp: 0.487907 best: 0
+var: fixed.acidity tmp: 0.00211721 best: 0.487907
+var: fixed.acidity tmp: 0.000665188 best: 0.487907
+var: fixed.acidity tmp: 0.0225766 best: 0.487907
+var: fixed.acidity tmp: 0.0435796 best: 0.487907
+var: fixed.acidity tmp: 0.107375 best: 0.487907
+var: fixed.acidity tmp: 0.128895 best: 0.487907
+var: fixed.acidity tmp: 0.0302689 best: 0.487907
+var: fixed.acidity tmp: 0.0603055 best: 0.487907
+var: fixed.acidity tmp: 0.0810205 best: 0.487907
+var: fixed.acidity tmp: 0.106726 best: 0.487907
+var: fixed.acidity tmp: 0.138788 best: 0.487907
+var: fixed.acidity tmp: 0.00211721 best: 0.487907
+var: fixed.acidity tmp: 0.00748337 best: 0.487907
+var: fixed.acidity tmp: 0.0173191 best: 0.487907
+splitreport: 11 6 -1 7.35 0.0507721 fixed.acidity ss: 9.60976  best: 0.487907  grandmean: 5.09756
+5/2147483647 592/20 265.958/0 -- 
+32/2147483647 144/20 70/0 -- 
+34/2147483647 41/20 10.1951/0 -- 
+var: volatile.acidity tmp: 0.0133038 best: 0
+var: volatile.acidity tmp: 0.00414973 best: 0.0133038
+var: volatile.acidity tmp: 0.0531865 best: 0.0133038
+var: volatile.acidity tmp: 0.149667 best: 0.0531865
+var: volatile.acidity tmp: 0.40025 best: 0.149667
+var: volatile.acidity tmp: 0.354436 best: 0.40025
+var: volatile.acidity tmp: 0.00702671 best: 0.40025
+var: volatile.acidity tmp: 0.0115471 best: 0.40025
+var: volatile.acidity tmp: 6.70062e-05 best: 0.40025
+var: volatile.acidity tmp: 0.246735 best: 0.40025
+splitreport: 1 14 -1 0.345 0.039259 volatile.acidity ss: 10.1951  best: 0.40025  grandmean: 5.46341
+var: citric.acid tmp: 1.1383 best: 0
+var: citric.acid tmp: 0.353186 best: 1.1383
+var: citric.acid tmp: 0.149667 best: 1.1383
+var: citric.acid tmp: 0.037076 best: 1.1383
+var: citric.acid tmp: 0.035122 best: 1.1383
+var: citric.acid tmp: 0.292741 best: 1.1383
+var: citric.acid tmp: 0.178214 best: 1.1383
+var: citric.acid tmp: 0.0774749 best: 1.1383
+var: citric.acid tmp: 0.095122 best: 1.1383
+var: citric.acid tmp: 6.70062e-05 best: 1.1383
+var: citric.acid tmp: 0.037076 best: 1.1383
+var: citric.acid tmp: 0.149667 best: 1.1383
+var: citric.acid tmp: 0.010248 best: 1.1383
+splitreport: 2 7 -1 0.245 0.111652 citric.acid ss: 10.1951  best: 1.1383  grandmean: 5.46341
+var: residual.sugar tmp: 0.037076 best: 0
+var: residual.sugar tmp: 0.115635 best: 0.037076
+var: residual.sugar tmp: 0.292741 best: 0.115635
+var: residual.sugar tmp: 0.354436 best: 0.292741
+var: residual.sugar tmp: 0.597622 best: 0.354436
+var: residual.sugar tmp: 0.461605 best: 0.597622
+var: residual.sugar tmp: 0.149667 best: 0.597622
+var: residual.sugar tmp: 0.452698 best: 0.597622
+splitreport: 3 24 1 2.15 0.0586184 residual.sugar ss: 10.1951  best: 0.597622  grandmean: 5.46341
+var: chlorides tmp: 0.00414973 best: 0
+var: chlorides tmp: 6.70062e-05 best: 0.00414973
+var: chlorides tmp: 0.017622 best: 0.00414973
+var: chlorides tmp: 0.0774749 best: 0.017622
+var: chlorides tmp: 0.0115471 best: 0.0774749
+var: chlorides tmp: 0.042948 best: 0.0774749
+var: chlorides tmp: 0.0014945 best: 0.0774749
+var: chlorides tmp: 0.000250156 best: 0.0774749
+var: chlorides tmp: 6.70062e-05 best: 0.0774749
+var: chlorides tmp: 0.037076 best: 0.0774749
+var: chlorides tmp: 0.149667 best: 0.0774749
+var: chlorides tmp: 0.670816 best: 0.149667
+var: chlorides tmp: 1.1383 best: 0.670816
+splitreport: 4 32 1 0.095 0.111652 chlorides ss: 10.1951  best: 1.1383  grandmean: 5.46341
+var: free.sulfur.dioxide tmp: 0.0984833 best: 0
+var: free.sulfur.dioxide tmp: 0.259516 best: 0.0984833
+var: free.sulfur.dioxide tmp: 0.0978997 best: 0.259516
+var: free.sulfur.dioxide tmp: 0.0177026 best: 0.259516
+var: free.sulfur.dioxide tmp: 0.101183 best: 0.259516
+var: free.sulfur.dioxide tmp: 0.095122 best: 0.259516
+var: free.sulfur.dioxide tmp: 0.017622 best: 0.259516
+var: free.sulfur.dioxide tmp: 0.0774749 best: 0.259516
+var: free.sulfur.dioxide tmp: 0.0115471 best: 0.259516
+var: free.sulfur.dioxide tmp: 0.063543 best: 0.259516
+var: free.sulfur.dioxide tmp: 0.292741 best: 0.259516
+var: free.sulfur.dioxide tmp: 0.042948 best: 0.292741
+var: free.sulfur.dioxide tmp: 0.126495 best: 0.292741
+var: free.sulfur.dioxide tmp: 0.115635 best: 0.292741
+var: free.sulfur.dioxide tmp: 0.0284553 best: 0.292741
+var: free.sulfur.dioxide tmp: 0.037076 best: 0.292741
+var: free.sulfur.dioxide tmp: 0.00118256 best: 0.292741
+var: free.sulfur.dioxide tmp: 0.0177026 best: 0.292741
+var: free.sulfur.dioxide tmp: 0.00414973 best: 0.292741
+var: free.sulfur.dioxide tmp: 0.0984833 best: 0.292741
+splitreport: 5 20 -1 20 0.0287138 free.sulfur.dioxide ss: 10.1951  best: 0.292741  grandmean: 5.46341
+var: total.sulfur.dioxide tmp: 0.010248 best: 0
+var: total.sulfur.dioxide tmp: 0.0133038 best: 0.010248
+var: total.sulfur.dioxide tmp: 0.0978997 best: 0.0133038
+var: total.sulfur.dioxide tmp: 0.0177026 best: 0.0978997
+var: total.sulfur.dioxide tmp: 0.00118256 best: 0.0978997
+var: total.sulfur.dioxide tmp: 0.0227082 best: 0.0978997
+var: total.sulfur.dioxide tmp: 0.0258098 best: 0.0978997
+var: total.sulfur.dioxide tmp: 0.000250156 best: 0.0978997
+var: total.sulfur.dioxide tmp: 0.0774749 best: 0.0978997
+var: total.sulfur.dioxide tmp: 0.0115471 best: 0.0978997
+var: total.sulfur.dioxide tmp: 0.063543 best: 0.0978997
+var: total.sulfur.dioxide tmp: 0.292741 best: 0.0978997
+var: total.sulfur.dioxide tmp: 0.272417 best: 0.292741
+var: total.sulfur.dioxide tmp: 0.035122 best: 0.292741
+var: total.sulfur.dioxide tmp: 0.000250156 best: 0.292741
+var: total.sulfur.dioxide tmp: 0.037076 best: 0.292741
+var: total.sulfur.dioxide tmp: 0.149667 best: 0.292741
+var: total.sulfur.dioxide tmp: 0.452698 best: 0.292741
+var: total.sulfur.dioxide tmp: 0.266551 best: 0.452698
+splitreport: 6 32 1 70.5 0.0444034 total.sulfur.dioxide ss: 10.1951  best: 0.452698  grandmean: 5.46341
+var: density tmp: 1.81277 best: 0
+var: density tmp: 0.917703 best: 1.81277
+var: density tmp: 1.19209 best: 1.81277
+var: density tmp: 0.772708 best: 1.81277
+var: density tmp: 0.240095 best: 1.81277
+var: density tmp: 0.017622 best: 1.81277
+var: density tmp: 0.0115471 best: 1.81277
+var: density tmp: 0.00373439 best: 1.81277
+var: density tmp: 0.157027 best: 1.81277
+var: density tmp: 0.542948 best: 1.81277
+var: density tmp: 0.354436 best: 1.81277
+var: density tmp: 0.205122 best: 1.81277
+var: density tmp: 0.40025 best: 1.81277
+var: density tmp: 0.671312 best: 1.81277
+var: density tmp: 1.03029 best: 1.81277
+var: density tmp: 0.772708 best: 1.81277
+var: density tmp: 0.546637 best: 1.81277
+var: density tmp: 0.452698 best: 1.81277
+var: density tmp: 0.266551 best: 1.81277
+splitreport: 7 6 -1 0.996325 0.177807 density ss: 10.1951  best: 1.81277  grandmean: 5.46341
+var: pH tmp: 0.0531865 best: 0
+var: pH tmp: 0.00118256 best: 0.0531865
+var: pH tmp: 0.037076 best: 0.0531865
+var: pH tmp: 0.0258098 best: 0.0531865
+var: pH tmp: 0.205122 best: 0.0531865
+var: pH tmp: 0.354436 best: 0.205122
+var: pH tmp: 0.542948 best: 0.354436
+var: pH tmp: 0.771677 best: 0.542948
+var: pH tmp: 0.502265 best: 0.771677
+var: pH tmp: 0.728455 best: 0.771677
+var: pH tmp: 0.979436 best: 0.771677
+var: pH tmp: 1.72333 best: 0.979436
+var: pH tmp: 1.33798 best: 1.72333
+var: pH tmp: 0.700869 best: 1.72333
+var: pH tmp: 0.246735 best: 1.72333
+var: pH tmp: 0.259516 best: 1.72333
+splitreport: 8 25 -1 3.395 0.169034 pH ss: 10.1951  best: 1.72333  grandmean: 5.46341
+var: sulphates tmp: 0.917703 best: 0
+var: sulphates tmp: 0.017622 best: 0.917703
+var: sulphates tmp: 0.00373439 best: 0.917703
+var: sulphates tmp: 0.035122 best: 0.917703
+var: sulphates tmp: 0.0531865 best: 0.917703
+var: sulphates tmp: 0.266551 best: 0.917703
+splitreport: 9 9 -1 0.585 0.0900139 sulphates ss: 10.1951  best: 0.917703  grandmean: 5.46341
+var: alcohol tmp: 0.452698 best: 0
+var: alcohol tmp: 0.772708 best: 0.452698
+var: alcohol tmp: 0.0115471 best: 0.772708
+var: alcohol tmp: 0.017622 best: 0.772708
+var: alcohol tmp: 0.118199 best: 0.772708
+var: alcohol tmp: 0.037076 best: 0.772708
+var: alcohol tmp: 0.266551 best: 0.772708
+splitreport: 10 11 -1 9.45 0.0757919 alcohol ss: 10.1951  best: 0.772708  grandmean: 5.46341
+var: fixed.acidity tmp: 0.246735 best: 0
+var: fixed.acidity tmp: 0.243973 best: 0.246735
+var: fixed.acidity tmp: 0.10721 best: 0.246735
+var: fixed.acidity tmp: 0.699953 best: 0.246735
+var: fixed.acidity tmp: 1.00134 best: 0.699953
+var: fixed.acidity tmp: 0.502265 best: 1.00134
+var: fixed.acidity tmp: 0.319524 best: 1.00134
+var: fixed.acidity tmp: 0.542948 best: 1.00134
+var: fixed.acidity tmp: 0.354436 best: 1.00134
+var: fixed.acidity tmp: 0.205122 best: 1.00134
+var: fixed.acidity tmp: 0.095122 best: 1.00134
+var: fixed.acidity tmp: 0.240095 best: 1.00134
+var: fixed.acidity tmp: 0.287076 best: 1.00134
+var: fixed.acidity tmp: 0.149667 best: 1.00134
+var: fixed.acidity tmp: 0.0531865 best: 1.00134
+var: fixed.acidity tmp: 0.00414973 best: 1.00134
+var: fixed.acidity tmp: 0.0133038 best: 1.00134
+var: fixed.acidity tmp: 0.0984833 best: 1.00134
+splitreport: 11 18 1 7.85 0.0982178 fixed.acidity ss: 10.1951  best: 1.00134  grandmean: 5.46341
+36/2147483647 26/20 5.53846/0 -- 
+37/2147483647 15/20 2.93333/0 -- 
+not splitting
+35/2147483647 103/20 51.9612/0 -- 
+40/2147483647 45/20 17.2444/0 -- 
+42/2147483647 37/20 11.027/0 -- 
+43/2147483647 8/20 2.875/0 -- 
+not splitting
+41/2147483647 58/20 28.9138/0 -- 
+46/2147483647 41/20 19.2195/0 -- 
+var: volatile.acidity tmp: 3.47709 best: 0
+var: volatile.acidity tmp: 3.66396 best: 3.47709
+var: volatile.acidity tmp: 3.87758 best: 3.66396
+var: volatile.acidity tmp: 2.81042 best: 3.87758
+var: volatile.acidity tmp: 2.21951 best: 3.87758
+var: volatile.acidity tmp: 1.22951 best: 3.87758
+var: volatile.acidity tmp: 0.790591 best: 3.87758
+var: volatile.acidity tmp: 0.607072 best: 3.87758
+var: volatile.acidity tmp: 0.0295122 best: 3.87758
+var: volatile.acidity tmp: 0.00522648 best: 3.87758
+var: volatile.acidity tmp: 0.233248 best: 3.87758
+var: volatile.acidity tmp: 0.141926 best: 3.87758
+var: volatile.acidity tmp: 0.0831486 best: 3.87758
+splitreport: 1 9 -1 0.255 0.201752 volatile.acidity ss: 19.2195  best: 3.87758  grandmean: 6.34146
+var: citric.acid tmp: 0.799058 best: 0
+var: citric.acid tmp: 2.19521 best: 0.799058
+var: citric.acid tmp: 1.70016 best: 2.19521
+var: citric.acid tmp: 0.625573 best: 2.19521
+var: citric.acid tmp: 0.426409 best: 2.19521
+var: citric.acid tmp: 0.274457 best: 2.19521
+var: citric.acid tmp: 0.161311 best: 2.19521
+var: citric.acid tmp: 0.0295122 best: 2.19521
+var: citric.acid tmp: 0.0671312 best: 2.19521
+var: citric.acid tmp: 0.0257323 best: 2.19521
+var: citric.acid tmp: 0.00522648 best: 2.19521
+var: citric.acid tmp: 0.52854 best: 2.19521
+var: citric.acid tmp: 1.17329 best: 2.19521
+splitreport: 2 8 1 0.335 0.114218 citric.acid ss: 19.2195  best: 2.19521  grandmean: 6.34146
+var: residual.sugar tmp: 0.332958 best: 0
+var: residual.sugar tmp: 0.0111789 best: 0.332958
+var: residual.sugar tmp: 0.00156348 best: 0.332958
+var: residual.sugar tmp: 0.13014 best: 0.332958
+var: residual.sugar tmp: 0.981417 best: 0.332958
+var: residual.sugar tmp: 1.02588 best: 0.981417
+var: residual.sugar tmp: 0.370794 best: 1.02588
+var: residual.sugar tmp: 0.161311 best: 1.02588
+var: residual.sugar tmp: 0.095949 best: 1.02588
+var: residual.sugar tmp: 0.0111789 best: 1.02588
+var: residual.sugar tmp: 0.06405 best: 1.02588
+splitreport: 3 23 -1 2.15 0.0533773 residual.sugar ss: 19.2195  best: 1.02588  grandmean: 6.34146
+var: chlorides tmp: 0.446403 best: 0
+var: chlorides tmp: 0.12229 best: 0.446403
+var: chlorides tmp: 0.0453186 best: 0.446403
+var: chlorides tmp: 0.00739098 best: 0.446403
+var: chlorides tmp: 0.095949 best: 0.446403
+var: chlorides tmp: 0.0354463 best: 0.446403
+var: chlorides tmp: 0.161311 best: 0.446403
+var: chlorides tmp: 0.242012 best: 0.446403
+var: chlorides tmp: 1.02588 best: 0.446403
+var: chlorides tmp: 0.806469 best: 1.02588
+var: chlorides tmp: 0.981417 best: 1.02588
+var: chlorides tmp: 0.607072 best: 1.02588
+var: chlorides tmp: 0.327355 best: 1.02588
+var: chlorides tmp: 0.219512 best: 1.02588
+var: chlorides tmp: 0.473358 best: 1.02588
+var: chlorides tmp: 0.83856 best: 1.02588
+var: chlorides tmp: 1.97813 best: 1.02588
+var: chlorides tmp: 1.54209 best: 1.97813
+var: chlorides tmp: 0.611873 best: 1.97813
+var: chlorides tmp: 1.15891 best: 1.97813
+splitreport: 4 28 1 0.0875 0.102923 chlorides ss: 19.2195  best: 1.97813  grandmean: 6.34146
+var: free.sulfur.dioxide tmp: 0.0262349 best: 0
+var: free.sulfur.dioxide tmp: 0.00112139 best: 0.0262349
+var: free.sulfur.dioxide tmp: 0.00382592 best: 0.0262349
+var: free.sulfur.dioxide tmp: 0.0257323 best: 0.0262349
+var: free.sulfur.dioxide tmp: 0.00284553 best: 0.0262349
+var: free.sulfur.dioxide tmp: 0.0257323 best: 0.0262349
+var: free.sulfur.dioxide tmp: 0.0354463 best: 0.0262349
+var: free.sulfur.dioxide tmp: 0.00739098 best: 0.0354463
+var: free.sulfur.dioxide tmp: 0.000762195 best: 0.0354463
+var: free.sulfur.dioxide tmp: 0.0111789 best: 0.0354463
+splitreport: 5 27 -1 10.5 0.00184429 free.sulfur.dioxide ss: 19.2195  best: 0.0354463  grandmean: 6.34146
+var: total.sulfur.dioxide tmp: 0.799058 best: 0
+var: total.sulfur.dioxide tmp: 0.332415 best: 0.799058
+var: total.sulfur.dioxide tmp: 0.00739098 best: 0.799058
+var: total.sulfur.dioxide tmp: 0.095949 best: 0.799058
+var: total.sulfur.dioxide tmp: 0.00156348 best: 0.799058
+var: total.sulfur.dioxide tmp: 0.0295122 best: 0.799058
+var: total.sulfur.dioxide tmp: 0.326655 best: 0.799058
+var: total.sulfur.dioxide tmp: 0.133798 best: 0.799058
+var: total.sulfur.dioxide tmp: 0.0721692 best: 0.799058
+var: total.sulfur.dioxide tmp: 0.143532 best: 0.799058
+var: total.sulfur.dioxide tmp: 0.242012 best: 0.799058
+var: total.sulfur.dioxide tmp: 0.426409 best: 0.799058
+var: total.sulfur.dioxide tmp: 0.12229 best: 0.799058
+splitreport: 6 7 1 13.5 0.0415753 total.sulfur.dioxide ss: 19.2195  best: 0.799058  grandmean: 6.34146
+var: density tmp: 0.0262349 best: 0
+var: density tmp: 0.0831486 best: 0.0262349
+var: density tmp: 0.163957 best: 0.0831486
+var: density tmp: 0.022738 best: 0.163957
+var: density tmp: 0.00739098 best: 0.163957
+var: density tmp: 0.095949 best: 0.163957
+var: density tmp: 0.0354463 best: 0.163957
+var: density tmp: 0.370794 best: 0.163957
+var: density tmp: 0.0295122 best: 0.370794
+var: density tmp: 0.143532 best: 0.370794
+var: density tmp: 0.0257323 best: 0.370794
+var: density tmp: 0.00382592 best: 0.370794
+var: density tmp: 0.0295122 best: 0.370794
+var: density tmp: 0.0810507 best: 0.370794
+var: density tmp: 0.161311 best: 0.370794
+var: density tmp: 0.02171 best: 0.370794
+var: density tmp: 0.00739098 best: 0.370794
+var: density tmp: 0.163957 best: 0.370794
+var: density tmp: 0.0831486 best: 0.370794
+var: density tmp: 0.0262349 best: 0.370794
+splitreport: 7 14 1 0.99775 0.0192926 density ss: 19.2195  best: 0.370794  grandmean: 6.34146
+var: pH tmp: 0.799058 best: 0
+var: pH tmp: 0.52854 best: 0.799058
+var: pH tmp: 0.332415 best: 0.799058
+var: pH tmp: 0.192239 best: 0.799058
+var: pH tmp: 0.426409 best: 0.799058
+var: pH tmp: 0.370794 best: 0.799058
+var: pH tmp: 0.484218 best: 0.799058
+var: pH tmp: 1.47072 best: 0.799058
+var: pH tmp: 1.20994 best: 1.47072
+var: pH tmp: 1.69808 best: 1.47072
+var: pH tmp: 0.781417 best: 1.69808
+var: pH tmp: 0.607072 best: 1.69808
+var: pH tmp: 0.219512 best: 1.69808
+var: pH tmp: 0.0354463 best: 1.69808
+var: pH tmp: 0.00112139 best: 1.69808
+var: pH tmp: 0.00739098 best: 1.69808
+var: pH tmp: 0.249815 best: 1.69808
+splitreport: 8 19 1 3.255 0.0883521 pH ss: 19.2195  best: 1.69808  grandmean: 6.34146
+var: sulphates tmp: 0.0831486 best: 0
+var: sulphates tmp: 0.611873 best: 0.0831486
+var: sulphates tmp: 0.264673 best: 0.611873
+var: sulphates tmp: 0.233248 best: 0.611873
+var: sulphates tmp: 0.790591 best: 0.611873
+var: sulphates tmp: 1.1932 best: 0.790591
+var: sulphates tmp: 0.459988 best: 1.1932
+var: sulphates tmp: 0.619034 best: 1.1932
+var: sulphates tmp: 0.806469 best: 1.1932
+var: sulphates tmp: 0.659512 best: 1.1932
+var: sulphates tmp: 0.095949 best: 1.1932
+var: sulphates tmp: 0.332415 best: 1.1932
+var: sulphates tmp: 0.12229 best: 1.1932
+var: sulphates tmp: 0.249815 best: 1.1932
+var: sulphates tmp: 0.446403 best: 1.1932
+splitreport: 9 18 -1 0.765 0.0620826 sulphates ss: 19.2195  best: 1.1932  grandmean: 6.34146
+var: alcohol tmp: 0.0262349 best: 0
+var: alcohol tmp: 0.0453186 best: 0.0262349
+var: alcohol tmp: 0.484218 best: 0.0453186
+var: alcohol tmp: 0.13014 best: 0.484218
+var: alcohol tmp: 0.066073 best: 0.484218
+var: alcohol tmp: 0.022738 best: 0.484218
+var: alcohol tmp: 0.249815 best: 0.484218
+splitreport: 10 16 1 10.05 0.0251941 alcohol ss: 19.2195  best: 0.484218  grandmean: 6.34146
+var: fixed.acidity tmp: 0.06405 best: 0
+var: fixed.acidity tmp: 0.0111789 best: 0.06405
+var: fixed.acidity tmp: 0.332415 best: 0.06405
+var: fixed.acidity tmp: 0.095949 best: 0.332415
+var: fixed.acidity tmp: 0.0354463 best: 0.332415
+var: fixed.acidity tmp: 0.00522648 best: 0.332415
+var: fixed.acidity tmp: 0.143532 best: 0.332415
+var: fixed.acidity tmp: 0.0721692 best: 0.332415
+var: fixed.acidity tmp: 0.0257323 best: 0.332415
+var: fixed.acidity tmp: 0.133798 best: 0.332415
+var: fixed.acidity tmp: 0.0671312 best: 0.332415
+var: fixed.acidity tmp: 0.21712 best: 0.332415
+var: fixed.acidity tmp: 0.13014 best: 0.332415
+var: fixed.acidity tmp: 0.0220122 best: 0.332415
+var: fixed.acidity tmp: 0.00522648 best: 0.332415
+var: fixed.acidity tmp: 0.52854 best: 0.332415
+var: fixed.acidity tmp: 0.799058 best: 0.52854
+var: fixed.acidity tmp: 0.446403 best: 0.799058
+splitreport: 11 32 -1 11.7 0.0415753 fixed.acidity ss: 19.2195  best: 0.799058  grandmean: 6.34146
+47/2147483647 17/20 6.47059/0 -- 
+not splitting
+33/2147483647 448/20 175.873/0 -- 
+50/2147483647 326/20 141.472/0 -- 
+52/2147483647 293/20 120.717/0 -- 
+54/2147483647 165/20 52.1455/0 -- 
+56/2147483647 72/20 21.6528/0 -- 
+58/2147483647 38/20 8.86842/0 -- 
+59/2147483647 34/20 9.76471/0 -- 
+57/2147483647 93/20 27.5699/0 -- 
+64/2147483647 42/20 11.619/0 -- 
+66/2147483647 26/20 6.96154/0 -- 
+67/2147483647 16/20 3.4375/0 -- 
+not splitting
+65/2147483647 51/20 12.7059/0 -- 
+70/2147483647 42/20 9.90476/0 -- 
+71/2147483647 9/20 0.888889/0 -- 
+not splitting
+55/2147483647 128/20 62.7188/0 -- 
+74/2147483647 111/20 50.1081/0 -- 
+76/2147483647 102/20 35.5784/0 -- 
+77/2147483647 9/20 7.55556/0 -- 
+not splitting
+75/2147483647 17/20 7.05882/0 -- 
+not splitting
+53/2147483647 33/20 12.9697/0 -- 
+80/2147483647 26/20 6.03846/0 -- 
+81/2147483647 7/20 3.71429/0 -- 
+not splitting
+51/2147483647 122/20 25.3852/0 -- 
+84/2147483647 51/20 8/0 -- 
+85/2147483647 71/20 14.7887/0 -- 
+88/2147483647 39/20 9.58974/0 -- 
+90/2147483647 27/20 6.66667/0 -- 
+91/2147483647 12/20 1.66667/0 -- 
+not splitting
+89/2147483647 32/20 3.5/0 -- 
+94/2147483647 23/20 0.956522/0 -- 
+95/2147483647 9/20 2/0 -- 
+not splitting
+3/2147483647 616/20 432.271/0 -- 
+96/2147483647 272/20 191.868/0 -- 
+98/2147483647 262/20 154.87/0 -- 
+100/2147483647 116/20 65.4483/0 -- 
+102/2147483647 51/20 31.6863/0 -- 
+104/2147483647 25/20 12.96/0 -- 
+105/2147483647 26/20 14.4615/0 -- 
+103/2147483647 65/20 24.2154/0 -- 
+110/2147483647 35/20 12.7429/0 -- 
+112/2147483647 28/20 8.42857/0 -- 
+113/2147483647 7/20 2/0 -- 
+not splitting
+111/2147483647 30/20 8.7/0 -- 
+101/2147483647 146/20 73.6712/0 -- 
+118/2147483647 48/20 25.4792/0 -- 
+120/2147483647 21/20 11.1429/0 -- 
+121/2147483647 27/20 10.963/0 -- 
+119/2147483647 98/20 41.5612/0 -- 
+99/2147483647 10/20 6/0 -- 
+not splitting
+97/2147483647 344/20 184.555/0 -- 
+128/2147483647 206/20 101.966/0 -- 
+130/2147483647 95/20 55.5368/0 -- 
+132/2147483647 36/20 13.6389/0 -- 
+134/2147483647 29/20 10.2069/0 -- 
+135/2147483647 7/20 1.42857/0 -- 
+not splitting
+133/2147483647 59/20 29.7288/0 -- 
+138/2147483647 42/20 15.619/0 -- 
+139/2147483647 17/20 9.88235/0 -- 
+not splitting
+131/2147483647 111/20 37.4234/0 -- 
+142/2147483647 88/20 20.9886/0 -- 
+144/2147483647 81/20 16.6914/0 -- 
+146/2147483647 36/20 4.75/0 -- 
+148/2147483647 26/20 0.961538/0 -- 
+149/2147483647 10/20 2.4/0 -- 
+not splitting
+147/2147483647 45/20 10.5778/0 -- 
+150/2147483647 38/20 5.89474/0 -- 
+151/2147483647 7/20 0.857143/0 -- 
+not splitting
+145/2147483647 7/20 1.71429/0 -- 
+not splitting
+143/2147483647 23/20 13.4783/0 -- 
+129/2147483647 138/20 59.3043/0 -- 
+156/2147483647 131/20 51.7863/0 -- 
+158/2147483647 21/20 4.28571/0 -- 
+159/2147483647 110/20 43.3182/0 -- 
+162/2147483647 69/20 22.2029/0 -- 
+164/2147483647 48/20 11.9167/0 -- 
+166/2147483647 21/20 4.95238/0 -- 
+167/2147483647 27/20 6/0 -- 
+165/2147483647 21/20 5.80952/0 -- 
+163/2147483647 41/20 16.9756/0 -- 
+var: volatile.acidity tmp: 0.118467 best: 0
+var: volatile.acidity tmp: 0.0867209 best: 0.118467
+var: volatile.acidity tmp: 0.199852 best: 0.118467
+var: volatile.acidity tmp: 0.0100925 best: 0.199852
+var: volatile.acidity tmp: 0.011324 best: 0.199852
+var: volatile.acidity tmp: 0.19811 best: 0.199852
+var: volatile.acidity tmp: 0.019088 best: 0.199852
+var: volatile.acidity tmp: 0.0232288 best: 0.199852
+var: volatile.acidity tmp: 0.019088 best: 0.199852
+var: volatile.acidity tmp: 0.0344333 best: 0.199852
+var: volatile.acidity tmp: 0.26561 best: 0.199852
+var: volatile.acidity tmp: 0.298361 best: 0.26561
+var: volatile.acidity tmp: 0.0589431 best: 0.298361
+var: volatile.acidity tmp: 0.0665188 best: 0.298361
+var: volatile.acidity tmp: 0.451304 best: 0.298361
+var: volatile.acidity tmp: 0.10061 best: 0.451304
+splitreport: 1 31 -1 0.53 0.0265854 volatile.acidity ss: 16.9756  best: 0.451304  grandmean: 7.02439
+var: citric.acid tmp: 1.73191 best: 0
+var: citric.acid tmp: 0.748337 best: 1.73191
+var: citric.acid tmp: 0.211721 best: 1.73191
+var: citric.acid tmp: 0.199852 best: 1.73191
+var: citric.acid tmp: 0.0100925 best: 1.73191
+var: citric.acid tmp: 0.0126468 best: 1.73191
+var: citric.acid tmp: 0.0140713 best: 1.73191
+var: citric.acid tmp: 0.0381098 best: 1.73191
+var: citric.acid tmp: 0.019088 best: 1.73191
+var: citric.acid tmp: 0.21006 best: 1.73191
+var: citric.acid tmp: 0.0256098 best: 1.73191
+var: citric.acid tmp: 0.0282413 best: 1.73191
+var: citric.acid tmp: 0.0381098 best: 1.73191
+var: citric.acid tmp: 0.0525328 best: 1.73191
+var: citric.acid tmp: 0.0589431 best: 1.73191
+var: citric.acid tmp: 0.0665188 best: 1.73191
+var: citric.acid tmp: 0.57645 best: 1.73191
+splitreport: 2 6 -1 0.02 0.102024 citric.acid ss: 16.9756  best: 1.73191  grandmean: 7.02439
+var: residual.sugar tmp: 0.00894309 best: 0
+var: residual.sugar tmp: 0.196874 best: 0.00894309
+var: residual.sugar tmp: 0.0126468 best: 0.196874
+var: residual.sugar tmp: 0.205078 best: 0.196874
+var: residual.sugar tmp: 0.223229 best: 0.205078
+var: residual.sugar tmp: 0.0311653 best: 0.223229
+var: residual.sugar tmp: 0.0525328 best: 0.223229
+var: residual.sugar tmp: 0.0756098 best: 0.223229
+var: residual.sugar tmp: 0.505913 best: 0.223229
+splitreport: 3 32 -1 2.7 0.0298023 residual.sugar ss: 16.9756  best: 0.505913  grandmean: 7.02439
+var: chlorides tmp: 0.57645 best: 0
+var: chlorides tmp: 0.0665188 best: 0.57645
+var: chlorides tmp: 0.19539 best: 0.57645
+var: chlorides tmp: 0.585904 best: 0.57645
+var: chlorides tmp: 0.589136 best: 0.585904
+var: chlorides tmp: 0.595227 best: 0.589136
+var: chlorides tmp: 0.216086 best: 0.595227
+var: chlorides tmp: 0.231591 best: 0.595227
+var: chlorides tmp: 0.24131 best: 0.595227
+var: chlorides tmp: 0.729456 best: 0.595227
+var: chlorides tmp: 1.61929 best: 0.729456
+var: chlorides tmp: 0.927125 best: 1.61929
+var: chlorides tmp: 1.00464 best: 1.61929
+var: chlorides tmp: 0.451304 best: 1.61929
+var: chlorides tmp: 0.505913 best: 1.61929
+var: chlorides tmp: 0.118467 best: 1.61929
+splitreport: 4 28 -1 0.0705 0.0953891 chlorides ss: 16.9756  best: 1.61929  grandmean: 7.02439
+var: free.sulfur.dioxide tmp: 0.118467 best: 0
+var: free.sulfur.dioxide tmp: 0.00786782 best: 0.118467
+var: free.sulfur.dioxide tmp: 0.0100925 best: 0.118467
+var: free.sulfur.dioxide tmp: 0.0525328 best: 0.118467
+var: free.sulfur.dioxide tmp: 0.0470383 best: 0.118467
+var: free.sulfur.dioxide tmp: 0.0422764 best: 0.118467
+var: free.sulfur.dioxide tmp: 0.24131 best: 0.118467
+var: free.sulfur.dioxide tmp: 0.216086 best: 0.24131
+var: free.sulfur.dioxide tmp: 0.21006 best: 0.24131
+var: free.sulfur.dioxide tmp: 0.589136 best: 0.24131
+var: free.sulfur.dioxide tmp: 0.594657 best: 0.589136
+var: free.sulfur.dioxide tmp: 0.619288 best: 0.594657
+var: free.sulfur.dioxide tmp: 0.665932 best: 0.619288
+var: free.sulfur.dioxide tmp: 1.47561 best: 0.665932
+var: free.sulfur.dioxide tmp: 1.58546 best: 1.47561
+var: free.sulfur.dioxide tmp: 1.73191 best: 1.58546
+splitreport: 5 33 1 25.5 0.102024 free.sulfur.dioxide ss: 16.9756  best: 1.73191  grandmean: 7.02439
+var: total.sulfur.dioxide tmp: 0.10061 best: 0
+var: total.sulfur.dioxide tmp: 0.451304 best: 0.10061
+var: total.sulfur.dioxide tmp: 0.0756098 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.372579 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.343426 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.0525328 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.0470383 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.0381098 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.0311653 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.0282413 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.223229 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.216086 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.2011 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.196123 best: 0.451304
+var: total.sulfur.dioxide tmp: 0.594657 best: 0.451304
+var: total.sulfur.dioxide tmp: 1.23935 best: 0.594657
+var: total.sulfur.dioxide tmp: 0.619288 best: 1.23935
+var: total.sulfur.dioxide tmp: 0.00786782 best: 1.23935
+var: total.sulfur.dioxide tmp: 0.0867209 best: 1.23935
+var: total.sulfur.dioxide tmp: 0.10061 best: 1.23935
+var: total.sulfur.dioxide tmp: 0.00502152 best: 1.23935
+splitreport: 6 27 1 55 0.0730075 total.sulfur.dioxide ss: 16.9756  best: 1.23935  grandmean: 7.02439
+var: density tmp: 0.236114 best: 0
+var: density tmp: 0.211721 best: 0.236114
+var: density tmp: 0.00786782 best: 0.236114
+var: density tmp: 0.0525328 best: 0.236114
+var: density tmp: 0.0470383 best: 0.236114
+var: density tmp: 0.0422764 best: 0.236114
+var: density tmp: 0.0381098 best: 0.236114
+var: density tmp: 0.0282413 best: 0.236114
+var: density tmp: 0.0232288 best: 0.236114
+var: density tmp: 0.0210643 best: 0.236114
+var: density tmp: 0.0311653 best: 0.236114
+var: density tmp: 0.0172764 best: 0.236114
+var: density tmp: 0.0381098 best: 0.236114
+var: density tmp: 0.0422764 best: 0.236114
+var: density tmp: 0.0525328 best: 0.236114
+var: density tmp: 0.0100925 best: 0.236114
+var: density tmp: 0.0665188 best: 0.236114
+var: density tmp: 0.0756098 best: 0.236114
+var: density tmp: 0.451304 best: 0.236114
+var: density tmp: 0.505913 best: 0.451304
+var: density tmp: 0.57645 best: 0.505913
+splitreport: 7 33 -1 0.9951 0.0339575 density ss: 16.9756  best: 0.57645  grandmean: 7.02439
+var: pH tmp: 1.37897 best: 0
+var: pH tmp: 1.22182 best: 1.37897
+var: pH tmp: 0.372579 best: 1.37897
+var: pH tmp: 0.343426 best: 1.37897
+var: pH tmp: 0.298361 best: 1.37897
+var: pH tmp: 0.0381098 best: 1.37897
+var: pH tmp: 0.0311653 best: 1.37897
+var: pH tmp: 0.0256098 best: 1.37897
+var: pH tmp: 0.0311653 best: 1.37897
+var: pH tmp: 0.0381098 best: 1.37897
+var: pH tmp: 0.0422764 best: 1.37897
+var: pH tmp: 0.011324 best: 1.37897
+var: pH tmp: 0.196874 best: 1.37897
+var: pH tmp: 0.204642 best: 1.37897
+var: pH tmp: 0.748337 best: 1.37897
+splitreport: 8 6 1 3.235 0.0812325 pH ss: 16.9756  best: 1.37897  grandmean: 7.02439
+var: sulphates tmp: 0.451304 best: 0
+var: sulphates tmp: 0.407868 best: 0.451304
+var: sulphates tmp: 1.52781 best: 0.451304
+var: sulphates tmp: 0.729456 best: 1.52781
+var: sulphates tmp: 0.69811 best: 1.52781
+var: sulphates tmp: 0.616086 best: 1.52781
+var: sulphates tmp: 0.21006 best: 1.52781
+var: sulphates tmp: 0.280738 best: 1.52781
+var: sulphates tmp: 0.298361 best: 1.52781
+var: sulphates tmp: 0.00786782 best: 1.52781
+var: sulphates tmp: 0.00685976 best: 1.52781
+var: sulphates tmp: 0.00591279 best: 1.52781
+var: sulphates tmp: 0.236114 best: 1.52781
+splitreport: 9 12 1 0.745 0.0900002 sulphates ss: 16.9756  best: 1.52781  grandmean: 7.02439
+var: alcohol tmp: 0.00685976 best: 0
+var: alcohol tmp: 0.0589431 best: 0.00685976
+var: alcohol tmp: 0.298361 best: 0.0589431
+var: alcohol tmp: 0.231591 best: 0.298361
+var: alcohol tmp: 0.2011 best: 0.298361
+var: alcohol tmp: 0.19811 best: 0.298361
+var: alcohol tmp: 0.58843 best: 0.298361
+var: alcohol tmp: 0.19539 best: 0.58843
+var: alcohol tmp: 0.639246 best: 0.58843
+var: alcohol tmp: 0.665932 best: 0.639246
+var: alcohol tmp: 0.811744 best: 0.665932
+splitreport: 10 33 1 13.8 0.0478183 alcohol ss: 16.9756  best: 0.811744  grandmean: 7.02439
+var: fixed.acidity tmp: 0.748337 best: 0
+var: fixed.acidity tmp: 0.639246 best: 0.748337
+var: fixed.acidity tmp: 0.619288 best: 0.748337
+var: fixed.acidity tmp: 0.19539 best: 0.748337
+var: fixed.acidity tmp: 0.0126468 best: 0.748337
+var: fixed.acidity tmp: 0.0140713 best: 0.748337
+var: fixed.acidity tmp: 0.2011 best: 0.748337
+var: fixed.acidity tmp: 0.589136 best: 0.748337
+var: fixed.acidity tmp: 0.595227 best: 0.748337
+var: fixed.acidity tmp: 0.216086 best: 0.748337
+var: fixed.acidity tmp: 0.0210643 best: 0.748337
+var: fixed.acidity tmp: 0.019088 best: 0.748337
+var: fixed.acidity tmp: 0.0140713 best: 0.748337
+var: fixed.acidity tmp: 0.0100925 best: 0.748337
+var: fixed.acidity tmp: 0.00894309 best: 0.748337
+var: fixed.acidity tmp: 0.00786782 best: 0.748337
+var: fixed.acidity tmp: 0.0867209 best: 0.748337
+splitreport: 11 7 -1 5.25 0.0440831 fixed.acidity ss: 16.9756  best: 0.748337  grandmean: 7.02439
+174/2147483647 34/20 9.52941/0 -- 
+176/2147483647 22/20 4/0 -- 
+177/2147483647 12/20 4.66667/0 -- 
+not splitting
+175/2147483647 7/20 5.71429/0 -- 
+not splitting
+157/2147483647 7/20 2.85714/0 -- 
+not splitting
+Creating tree file 'wine.tree'...
+Time elapsed 0.023391
