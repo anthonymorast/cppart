@@ -31,7 +31,7 @@ public:
 
   void setId(){nodeId = nextId++;}
 
-  void split(int level);
+  int split(int level);
   
   static void setMetric(statisticalMetric *m){metric = m;}
   static void setMinNodeData(int min){minNode = min;}

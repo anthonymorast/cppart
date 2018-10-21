@@ -94,7 +94,6 @@ int parseParameters(char * argv[], int argc, params *p)
             }
         }
     }	
-
     ifstream fin;
     fin.open(filename);
     if (!fin.is_open()) {

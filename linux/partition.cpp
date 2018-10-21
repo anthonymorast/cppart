@@ -14,10 +14,6 @@
  */
 int partition(params *p, node* n, long nodeNum, double &sumrisk) {
 
-    //float t[14] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2};
-    //int nn = 14;
-    //cout << giniCalc(nn, t) << endl;
-    //exit(0);
     if(p->verbose > 0) {
         cout << "\tNode ID (is this thing still running?): " << nodeNum << endl;
     }
@@ -39,8 +35,6 @@ int partition(params *p, node* n, long nodeNum, double &sumrisk) {
     if (nodeNum > 1 && tempcp > n->cp) {
         tempcp = n->cp;
     }
-    if(n->numObs == 842) 
-        cout << tempcp << endl;
 
     // can we stop?
     if (nodeNum > p->maxNodes || n->numObs < p->minObs || tempcp <= p->alpha) {
@@ -49,9 +43,9 @@ int partition(params *p, node* n, long nodeNum, double &sumrisk) {
         n->yval = mean;
         //n->dev = tempcp;
         n->cp = p->alpha;
-	   	sumrisk = n->dev;
+        sumrisk = n->dev;
         return 0;
-	}
+    }
 
     int numleft = 0, numright = 0;
     bestsplit(n, p, n->response, numleft, numright);
@@ -110,18 +104,18 @@ int partition(params *p, node* n, long nodeNum, double &sumrisk) {
     }
 
     n->cp = (n->dev - (leftRisk + rightRisk)) / (leftSplits + rightSplits + 1);
-	//cout << n->nodeId << ", " << leftRisk << ", " << rightRisk << endl;
-	//cout << n->nodeId << ", " << n->cp << ", " << p->alpha << endl; 
-   
-	if(n->cp <= p->alpha) {
-		sumrisk = n->dev;
-		free2DData(n->rightNode->data, n->rightNode->numObs);
-		free2DData(n->leftNode->data, n->leftNode->numObs);
-		n->rightNode = NULL;
-		n->leftNode = NULL;
-		return 0;
-	} else {
-		sumrisk = leftRisk + rightRisk;
-    	return leftSplits + rightSplits + 1;
-	}
+    //cout << n->nodeId << ", " << leftRisk << ", " << rightRisk << endl;
+    cout << n->nodeId << ", " << n->cp << ", " << p->alpha << endl; 
+
+    if(n->cp <= p->alpha) {
+        sumrisk = n->dev;
+        free2DData(n->rightNode->data, n->rightNode->numObs);
+        free2DData(n->leftNode->data, n->leftNode->numObs);
+        n->rightNode = NULL;
+        n->leftNode = NULL;
+        return 0;
+    } else {
+        sumrisk = leftRisk + rightRisk;
+        return leftSplits + rightSplits + 1;
+    }
 }

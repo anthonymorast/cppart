@@ -124,9 +124,6 @@ void anovaMetric::findSplit(DataTable *data,int col,
 	  // guaranteed as long as minNode is greater than one.
 	  tmp = (left_sum * left_sum) / left_n +
 	        (right_sum * right_sum) / right_n;
-          if(data->numRows() == 41) {
-            cout << "var: " << data->getName(col) << " tmp: " << tmp << " best: " << bestval << endl;
-          }
 	  if (tmp > bestval)
 	    {
 	      bestval = tmp;
@@ -165,14 +162,14 @@ void anovaMetric::findSplit(DataTable *data,int col,
     (((*data)[bestpos][col] + (*data)[bestpos + 1][col]) / 2) :
     (*data)[bestpos][col];
 
-  if (data->numRows() == 41) {
+  /*if (data->numRows() == 41) {
   cout<<"splitreport: "<< col << " " <<
     bestpos<< " " <<
     direction<< " " <<
     splitValue<< " " <<
     improve<< " " << data->getName(col) << " ss: " << 
     originalSumSquares << "  best: " << bestval << "  grandmean: " << grandmean  << endl;
-  }
+  }*/
 
   //return totalSS;
 }
