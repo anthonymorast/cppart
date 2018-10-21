@@ -7,4 +7,7 @@
 
 3. Haberman's Survival: https://archive.ics.uci.edu/ml/machine-learning-databases/haberman/haberman.names 
 
+4. Abalone Data Set (https://archive.ics.uci.edu/ml/datasets/Abalone)
+	- Male = 0, Female = 1, Infant = 2
 
+5. 

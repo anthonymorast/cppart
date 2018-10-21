@@ -1,0 +1,84 @@
+node) split, number observations, deviance, yval
+* denotes a terminal node
+
+1) root 3342 2124 0
+	2) Viscera weight> 0.14375 1962  1035 0 
+		4) Whole weight> 0.87425 1454  736 0 
+			8) Viscera weight< 0.31225 1058  514 0 
+				16) Shucked weight> 0.45375 666  300 0 *
+				17) Shucked weight<=0.45375 392  214 0 
+					34) Diameter< 0.4125 13  1 0 *
+					35) Diameter>=0.4125 379  207 1 
+						70) Viscera weight< 0.22025 202  105 0 *
+						71) Viscera weight>=0.22025 177  82 1 *
+			9) Viscera weight>=0.31225 396  178 1 
+				18) Shucked weight> 0.87325 68  21 0 *
+				19) Shucked weight<=0.87325 328  131 1 
+					38) Viscera weight> 0.35025 191  86 1 
+						76) Shell weight< 0.41625 75  32 0 *
+						77) Shell weight>=0.41625 116  42 1 *
+					39) Viscera weight<=0.35025 137  45 1 
+						78) Length< 0.6225 26  11 0 *
+						79) Length>=0.6225 111  30 1 *
+		5) Whole weight<=0.87425 508  299 0 
+			10) Length< 0.5475 315  179 0 
+				20) Viscera weight> 0.16225 172  95 0 
+					40) Height< 0.1375 70  33 0 *
+					41) Height>=0.1375 102  53 1 *
+				21) Viscera weight<=0.16225 143  84 0 
+					42) Height< 0.1625 135  76 0 *
+					43) Height>=0.1625 8  1 1 *
+			11) Length>=0.5475 193  120 0 
+				22) Whole weight> 0.82275 100  52 0 
+					44) Shell weight< 0.27425 80  40 0 
+						88) Shell weight< 0.2685 73  34 0 *
+						89) Shell weight>=0.2685 7  1 1 *
+					45) Shell weight>=0.27425 20  10 2 
+						90) Length< 0.5625 10  4 0 *
+						91) Length>=0.5625 10  4 2 *
+				23) Whole weight<=0.82275 93  51 2 
+					46) Height< 0.1325 28  15 0 
+						92) Shell weight< 0.232 20  8 0 *
+						93) Shell weight>=0.232 8  4 2 *
+					47) Height>=0.1325 65  32 2 
+						94) Height> 0.1625 7  3 0 *
+						95) Height<=0.1625 58  28 2 *
+	3) Viscera weight<=0.14375 1380  497 2 
+		6) Rings> 8.5 480  300 2 
+			12) Rings> 9.5 301  191 1 
+				24) Height< 0.0975 28  7 0 *
+				25) Height>=0.0975 273  165 1 
+					50) Viscera weight> 0.091 196  110 1 
+						100) Length< 0.5125 148  74 1 *
+						101) Length>=0.5125 48  26 2 *
+					51) Viscera weight<=0.091 77  42 2 *
+			13) Rings<=9.5 179  83 2 
+				26) Length< 0.4725 100  58 2 
+					52) Shell weight> 0.1525 13  4 0 *
+					53) Shell weight<=0.1525 87  48 2 
+						106) Diameter< 0.3425 62  35 0 *
+						107) Diameter>=0.3425 25  10 2 *
+				27) Length>=0.4725 79  25 2 
+					54) Viscera weight> 0.126 37  18 2 
+						108) Length< 0.5125 14  6 0 *
+						109) Length>=0.5125 23  8 2 *
+					55) Viscera weight<=0.126 42  7 2 *
+		7) Rings<=8.5 900  197 2 
+			14) Shell weight> 0.12675 236  92 2 
+				28) Length< 0.4925 143  66 2 
+					56) Shucked weight> 0.28725 22  11 0 
+						112) Diameter> 0.3675 13  4 0 *
+						113) Diameter<=0.3675 9  3 1 *
+					57) Shucked weight<=0.28725 121  48 2 *
+				29) Length>=0.4925 93  26 2 
+					58) Shell weight< 0.15525 29  14 2 
+						116) Whole weight> 0.609 7  1 0 *
+						117) Whole weight<=0.609 22  7 2 *
+					59) Shell weight>=0.15525 64  12 2 *
+			15) Shell weight<=0.12675 664  105 2 
+				30) Height> 0.1125 59  20 2 
+					60) Viscera weight> 0.07825 33  14 2 
+						120) Diameter< 0.3275 10  2 0 *
+						121) Diameter>=0.3275 23  6 2 *
+					61) Viscera weight<=0.07825 26  6 2 *
+				31) Height<=0.1125 605  85 2 *

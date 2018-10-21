@@ -17,7 +17,8 @@ if __name__ == '__main__':
 
     name = sys.argv[1]
     delays = [0,1]
-    depths = [1, 2, 3, 4, 5, 6] #[6, 8, 10, 12, 14, 16, 18]
+    depths = [6, 8, 10, 12, 14, 16, 18]
+            #[1, 2, 3, 4, 5, 6] 
     headers = ['dataset','delayed','depth','impurity','relerror','accuracy']
     separator = ','
 

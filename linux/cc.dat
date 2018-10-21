@@ -1,0 +1,188 @@
+temp: 0.487907 best: 0
+temp: 0.00211721 best: 0.487907
+temp: 0.000665188 best: 0.487907
+temp: 0.0225766 best: 0.487907
+temp: 0.0435796 best: 0.487907
+temp: 0.107375 best: 0.487907
+temp: 0.128895 best: 0.487907
+temp: 0.0302689 best: 0.487907
+temp: 0.0603055 best: 0.487907
+temp: 0.0810205 best: 0.487907
+temp: 0.106726 best: 0.487907
+temp: 0.138788 best: 0.487907
+temp: 0.00211721 best: 0.487907
+temp: 0.00748337 best: 0.487907
+temp: 0.0173191 best: 0.487907
+myrisk: 9.60976 best: 0.487907 grandmean: 5.09756
+nodeId: 17 which: 6 var: fixed.acidity improve: 0.0507721
+temp: 0.00211721 best: 0
+temp: 0.461271 best: 0.00211721
+temp: 0.394239 best: 0.461271
+temp: 0.337778 best: 0.461271
+temp: 0.28965 best: 0.461271
+temp: 0.248218 best: 0.461271
+temp: 0.00589136 best: 0.461271
+temp: 0.128895 best: 0.461271
+temp: 0.107375 best: 0.461271
+temp: 0.0883275 best: 0.461271
+temp: 0.0714786 best: 0.461271
+temp: 0.0435796 best: 0.461271
+temp: 0.0322561 best: 0.461271
+temp: 0.0225766 best: 0.461271
+temp: 0.0436185 best: 0.461271
+temp: 0.0603055 best: 0.461271
+temp: 0.106726 best: 0.461271
+temp: 0.138788 best: 0.461271
+temp: 0.0946046 best: 0.461271
+temp: 0.0803443 best: 0.461271
+myrisk: 9.60976 best: 0.461271 grandmean: 5.09756
+nodeId: 17 which: 10 var: volatile.acidity improve: 0.0480003
+temp: 0.0173191 best: 0
+temp: 0.00343426 best: 0.0173191
+temp: 0.00810775 best: 0.0173191
+temp: 0.014518 best: 0.0173191
+temp: 0.0225766 best: 0.0173191
+temp: 0.056616 best: 0.0225766
+temp: 0.107375 best: 0.056616
+temp: 0.0883275 best: 0.107375
+temp: 0.056616 best: 0.107375
+temp: 0.0322561 best: 0.107375
+temp: 0.0225766 best: 0.107375
+temp: 0.014518 best: 0.107375
+temp: 0.00810775 best: 0.107375
+temp: 0.641006 best: 0.107375
+temp: 0.765059 best: 0.641006
+temp: 0.924882 best: 0.765059
+myrisk: 9.60976 best: 0.924882 grandmean: 5.09756
+nodeId: 17 which: 33 var: citric.acid improve: 0.0962441
+temp: 0.0803443 best: 0
+temp: 0.0946046 best: 0.0803443
+temp: 0.555158 best: 0.0946046
+temp: 0.710246 best: 0.555158
+temp: 0.752268 best: 0.710246
+temp: 0.212256 best: 0.752268
+temp: 0.248218 best: 0.752268
+temp: 0.337778 best: 0.752268
+temp: 0.542014 best: 0.752268
+temp: 0.641006 best: 0.752268
+temp: 0.230968 best: 0.752268
+temp: 0.298832 best: 0.752268
+myrisk: 9.60976 best: 0.752268 grandmean: 5.09756
+nodeId: 17 which: 17 var: residual.sugar improve: 0.0782817
+temp: 0.924882 best: 0
+temp: 1.38753 best: 0.924882
+temp: 1.20976 best: 1.38753
+temp: 1.43251 best: 1.38753
+temp: 0.609756 best: 1.43251
+temp: 0.550933 best: 1.43251
+temp: 0.451861 best: 1.43251
+temp: 0.371661 best: 1.43251
+temp: 0.249756 best: 1.43251
+temp: 0.202349 best: 1.43251
+temp: 0.00810775 best: 1.43251
+temp: 0.00343426 best: 1.43251
+temp: 7.86782e-05 best: 1.43251
+temp: 0.492332 best: 1.43251
+temp: 0.487907 best: 1.43251
+myrisk: 9.60976 best: 1.43251 grandmean: 5.09756
+nodeId: 17 which: 13 var: chlorides improve: 0.149068
+temp: 0.00211721 best: 0
+temp: 7.86782e-05 best: 0.00211721
+temp: 0.00343426 best: 0.00211721
+temp: 0.276423 best: 0.00343426
+temp: 0.409756 best: 0.276423
+temp: 0.451861 best: 0.409756
+temp: 0.498645 best: 0.451861
+temp: 0.180835 best: 0.498645
+temp: 0.0225766 best: 0.498645
+temp: 0.00810775 best: 0.498645
+temp: 7.86782e-05 best: 0.498645
+temp: 0.0946046 best: 0.498645
+temp: 0.0803443 best: 0.498645
+myrisk: 9.60976 best: 0.498645 grandmean: 5.09756
+nodeId: 17 which: 22 var: free.sulfur.dioxide improve: 0.0518895
+temp: 0.0803443 best: 0
+temp: 0.492332 best: 0.0803443
+temp: 0.502117 best: 0.492332
+temp: 0.533999 best: 0.502117
+temp: 0.555158 best: 0.533999
+temp: 0.014518 best: 0.555158
+temp: 0.0225766 best: 0.555158
+temp: 0.0322561 best: 0.555158
+temp: 0.0435796 best: 0.555158
+temp: 0.0714786 best: 0.555158
+temp: 0.0883275 best: 0.555158
+temp: 0.409756 best: 0.555158
+temp: 0.451861 best: 0.555158
+temp: 0.498645 best: 0.555158
+temp: 0.550933 best: 0.555158
+temp: 0.609756 best: 0.555158
+temp: 0.248218 best: 0.609756
+temp: 0.28965 best: 0.609756
+temp: 0.394239 best: 0.609756
+temp: 0.461271 best: 0.609756
+temp: 0.542014 best: 0.609756
+temp: 0.179201 best: 0.609756
+temp: 0.298832 best: 0.609756
+myrisk: 9.60976 best: 0.609756 grandmean: 5.09756
+nodeId: 17 which: 24 var: total.sulfur.dioxide improve: 0.0634518
+temp: 0.0803443 best: 0
+temp: 0.0946046 best: 0.0803443
+temp: 0.109756 best: 0.0946046
+temp: 0.125885 best: 0.109756
+temp: 0.555158 best: 0.125885
+temp: 0.637961 best: 0.555158
+temp: 0.672256 best: 0.637961
+temp: 1.34505 best: 0.672256
+temp: 0.752268 best: 1.34505
+temp: 0.798751 best: 1.34505
+temp: 0.907375 best: 1.34505
+temp: 0.971 best: 1.34505
+temp: 1.04212 best: 1.34505
+temp: 0.212256 best: 1.34505
+temp: 0.014518 best: 1.34505
+temp: 0.00810775 best: 1.34505
+temp: 0.00343426 best: 1.34505
+temp: 0.000665188 best: 1.34505
+temp: 0.00211721 best: 1.34505
+temp: 0.0173191 best: 1.34505
+myrisk: 9.60976 best: 1.34505 grandmean: 5.09756
+nodeId: 17 which: 16 var: density improve: 0.139967
+temp: 0.298832 best: 0
+temp: 1.0643 best: 0.298832
+temp: 0.943089 best: 1.0643
+temp: 0.752613 best: 1.0643
+temp: 0.676423 best: 1.0643
+temp: 0.498645 best: 1.0643
+temp: 0.451861 best: 1.0643
+temp: 0.056616 best: 1.0643
+temp: 0.276423 best: 1.0643
+temp: 0.0322561 best: 1.0643
+temp: 0.0225766 best: 1.0643
+temp: 0.579536 best: 1.0643
+temp: 0.555158 best: 1.0643
+temp: 0.533999 best: 1.0643
+temp: 0.502117 best: 1.0643
+temp: 0.492332 best: 1.0643
+myrisk: 9.60976 best: 1.0643 grandmean: 5.09756
+nodeId: 17 which: 10 var: pH improve: 0.110752
+temp: 0.502117 best: 0
+temp: 1.26104 best: 0.502117
+temp: 1.34505 best: 1.26104
+temp: 0.907375 best: 1.34505
+temp: 0.971 best: 1.34505
+temp: 0.248218 best: 1.34505
+temp: 0.542014 best: 1.34505
+temp: 0.765059 best: 1.34505
+myrisk: 9.60976 best: 1.34505 grandmean: 5.09756
+nodeId: 17 which: 16 var: sulphates improve: 0.139967
+temp: 0.765059 best: 0
+temp: 0.641006 best: 0.765059
+temp: 0.28965 best: 0.765059
+temp: 0.128895 best: 0.765059
+temp: 0.409756 best: 0.765059
+temp: 0.752268 best: 0.765059
+temp: 0.181185 best: 0.765059
+temp: 0.125885 best: 0.765059
+myrisk: 9.60976 best: 0.765059 grandmean: 5.09756
+nodeId: 17 which: 7 var: alcohol improve: 0.0796128

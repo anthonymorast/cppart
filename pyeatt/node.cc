@@ -46,7 +46,7 @@ Node::~Node()
 
 
 // formerly known as partition() and bestsplit()
-void Node::split(int level)
+int Node::split(int level)
 {
 
   int cols = data->numCols();
@@ -64,15 +64,18 @@ void Node::split(int level)
   // check to make sure we are not past max nodes, max depth, min
   // alpha, and return if any of these stopping critera are met.
   
-    cout << nodeId << "/" << maxNodes<<" "<<
+    /*cout << nodeId << "/" << maxNodes<<" "<<
       data->numRows() << "/" << minObs <<" "<<
-      cp << "/" << alpha << " -- " << endl;;
+      cp << "/" << alpha << " -- " << endl;*/
     
 
   if (nodeId > maxNodes || data->numRows() < minObs || cp <= alpha)
     {
-      cout<<"not splitting"<<endl;
-      return;
+/*      cout << nodeId << " > " << maxNodes << " = " << (nodeId > maxNodes) << endl;
+      cout << data->numRows() << " < " << minObs << " = " << (data->numRows() < minObs) << endl;
+      cout << cp << " <= " << alpha << " = " << (cp <= alpha) << endl;
+      cout<<"not splitting"<<endl;*/
+      return 0;
     }
   
 
@@ -145,12 +148,14 @@ void Node::split(int level)
   if(right != NULL)
     right->setId();
 
+  cout << cp << "  " << alpha << endl;
   if((left != NULL)&&(left->data->numRows()>minObs))
     left->split(level+1);
 
   if((right != NULL)&&(left->data->numRows()>minObs))
-	right->split(level+1);
+    right->split(level+1);
 
+  return 0;
 }
 
 
