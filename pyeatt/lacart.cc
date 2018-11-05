@@ -81,19 +81,13 @@ int main(int argc, char* argv[]) {
     Node::setAlpha(p.complexity * cp);
 
     Node *tree = new Node(NULL,Data,mean,cp,0);
-    tree->setId();
-    
-    tree->split(0);
+    tree->setDelays(p.delayed);
+    tree->setMaxDepth(p.maxDepth);
+    tree->setId(); 
+    tree->build(0);
 
     // stop the clock before xvals
     end = clock();
-
-
-    // cpTable *cpTableHead = buildCpTable(&root, &p);
-
-    // vector<int> iNode;
-    // int count = 0;
-    // fixTree(&root, (1 / root.dev), 1, count, iNode);
 
     int idx = p.filename.find(".");
 

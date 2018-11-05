@@ -4,6 +4,7 @@
 #include <metric.h>
 #include <datatab.h>
 #include <string>
+#include <utils.h>
 
 #include <iostream>
 using namespace std;
@@ -13,7 +14,8 @@ class Node{
   static int minObs;        // minimum amount of data required [to consider splitting]
   static int minNode;       // minimum amount of data required in a leaf node.
   static int nextId;
-  static int maxNodes;
+  int maxDepth;
+  int delays;
   static int verbose;
   static double alpha;
   DataTable *data;           // Training samples covered by this node.
@@ -31,14 +33,18 @@ public:
 
   void setId(){nodeId = nextId++;}
 
-  int split(int level);
+  void split(int level);
+  void build(int level);
+  void sumLeaves(double &sum);
   
   static void setMetric(statisticalMetric *m){metric = m;}
   static void setMinNodeData(int min){minNode = min;}
   static void setMinObsData(int min){minObs = min;}
-  static void setMaxNodes(int max){maxNodes = max;}
   static void setVerbose(int vlevel){verbose = vlevel;}
   static void setAlpha(double a){alpha = a;}
+
+  void setMaxDepth(int max){maxDepth = max;}
+  void setDelays(int delay){delays = delay;}
   
   void print(ofstream &fout);
 
