@@ -14,7 +14,8 @@ class Node{
   static int minObs;        // minimum amount of data required [to consider splitting]
   static int minNode;       // minimum amount of data required in a leaf node.
   static int nextId;
-  int maxDepth;
+  static int maxNode;
+  static int maxDepth;
   int delays;
   static int verbose;
   static double alpha;
@@ -42,8 +43,7 @@ public:
   static void setMinObsData(int min){minObs = min;}
   static void setVerbose(int vlevel){verbose = vlevel;}
   static void setAlpha(double a){alpha = a;}
-
-  void setMaxDepth(int max){maxDepth = max;}
+  static void setMaxDepth(int max){maxDepth = max;}
   void setDelays(int delay){delays = delay;}
   
   void print(ofstream &fout);

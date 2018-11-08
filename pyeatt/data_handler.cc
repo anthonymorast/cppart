@@ -33,7 +33,7 @@ void getData(string filename,double** x) {
         while (getline(ss, value, ',')) {
 	  try {
             x[row][curCol] = stod(value);
-	  } catch(exception e) {
+	  } catch(exception &e) {
 	    cout << "Warning: value '"<<value<<"' not parsable as double" << endl;
 	  }
 	  curCol++;

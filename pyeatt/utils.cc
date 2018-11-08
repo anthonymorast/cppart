@@ -40,7 +40,7 @@ void parseParameters(char * argv[], int argc, params *p)
   int delayed = 0;
   try {
     delayed = stoi(argv[3]);
-  } catch(exception e) {
+  } catch(exception &e) {
     cout << "Could not parse integer value from delayed parameter \" " << argv[3] << "\"." << endl;
     printUsage(argv,argc);
     exit(0);
@@ -54,6 +54,7 @@ void parseParameters(char * argv[], int argc, params *p)
   // double alpha = 0;
   methods m = ANOVA;
   int verbose = 0;
+  int maxDepth = 30;
   if(argc > 4) {
     for(int i = 4; i < argc; i++) {
       string param = argv[i];
@@ -64,17 +65,18 @@ void parseParameters(char * argv[], int argc, params *p)
       int pos_cp = param.find("cp=");
       int pos_meth = param.find("method=");
       int pos_verbose = param.find("verbose=");
+      int pos_max_depth = param.find("maxdepth=");
 
       if(pos_xval != (int)string::npos) {
 	try {
 	  xvals = stoi(string(1, argv[i][pos_xval+9]));
-	} catch (exception e) {
+	} catch (exception &e) {
 	  cout << "Warning: error parsing integer value for cross-validation flag..." << endl;
 	}
       } else if(pos_split != (int)string::npos) {
 	try {
 	  split_data = stoi(string(1, argv[i][pos_split+10]));
-	} catch (exception e) {
+	} catch (exception &e) {
 	  cout << "Warning: error parsing integer value for split data flag..." << endl;
 	}
       } else if(pos_test != (int)string::npos) {
@@ -82,13 +84,13 @@ void parseParameters(char * argv[], int argc, params *p)
       } else if(pos_rand != (int)string::npos) {
 	try {
 	  randomSplit = stoi(string(1, argv[i][pos_rand+12]));
-	} catch(exception e) {
+	} catch(exception &e) {
 	  cout << "Warning: random split integer cannot be parsed." << endl;
 	}
       } else if(pos_cp != (int)string::npos) {
 	try {
 	  cp = stod(param.substr(pos_cp+3)); 
-	} catch(exception e) {
+	} catch(exception &e) {
 	  cout << "Warning: cp parameter not parsable as double, dedault 0.01 used." << endl;
 	}
       } else if(pos_meth != (int)string::npos) {
@@ -98,14 +100,20 @@ void parseParameters(char * argv[], int argc, params *p)
 	  if (val == "gini") {
 	    m = GINI;
 	  }
-	} catch(exception e) {
+	} catch(exception &e) {
 	  cout << "Warning: method parameter not parsable, defaulting to anova." << endl;
 	}
       } else if (pos_verbose != (int)string::npos) {
 	try {
 	  verbose = stoi(string(1, argv[i][pos_verbose+8]));
-	} catch(exception e) {
+	} catch(exception &e) {
 	  cout << "Warning: verbose parameter no parsable integer, defaulting to 0." << endl;
+	}
+      } else if (pos_max_depth != (int)string::npos){
+	try {
+	  maxDepth = stoi(param.substr(pos_max_depth+9));
+	} catch(exception &e) {
+	  cout << "Warning: unable to parse max depth parameter, defaulting to 30." << endl;
 	}
       } else {
 	cout << "Warning: Unused parameter " << param << "..." << endl;
@@ -292,8 +300,9 @@ void parseParameters(char * argv[], int argc, params *p)
   } 
 
   p->response = response;
-  p->maxDepth = 30;	// only used to set maxNodes
-  p->maxNodes = (int)pow(2, (p->maxDepth + 1)) - 1;
+  p->maxDepth = maxDepth;
+  p->maxNodes = (int)pow(2, (p->maxDepth)) - 1;
+  cout << p->maxNodes << endl;
   p->minObs = 20;
   p->minNode = 7;
   p->numXval = 10;

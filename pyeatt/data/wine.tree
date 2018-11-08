@@ -1,0 +1,6 @@
+node) split, number observations, deviance, yval
+* denotes a terminal node
+
+1) root 1599 1042.17 5.63602
+	2) alcohol> 10.525 983  424.159 5.36623 *
+	3) alcohol> 10.525 616  432.271 6.06656 *
