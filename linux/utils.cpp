@@ -85,7 +85,7 @@ int parseParameters(char * argv[], int argc, params *p)
                 }
             } else if(pos_max_depth != string::npos) {
                 try {
-                    maxDepth = stoi(param.substr(pos_max_depth+9));;
+                    maxDepth = stoi(param.substr(pos_max_depth+9));
                 } catch(exception e) {
                     cout << "Warning: unable to parse max depth parameter, defaulting to 30." << endl;
                 }

@@ -28,6 +28,7 @@ void printUsage() {
 void* threadedCpTable(void *p) {
     struct thread_params1 *tp = (struct thread_params1*)p;
     cpTable *cpTableHead = buildCpTable(tp->root, tp->p);
+    return 0;
 }
 
 int main(int argc, char *argv[]) {
