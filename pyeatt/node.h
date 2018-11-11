@@ -5,6 +5,8 @@
 #include <datatab.h>
 #include <string>
 #include <utils.h>
+#include <queue>
+#include <math.h>
 
 #include <iostream>
 using namespace std;
@@ -16,7 +18,7 @@ class Node{
   static int nextId;
   static int maxNode;
   static int maxDepth;
-  int delays;
+  static int delays;
   static int verbose;
   static double alpha;
   DataTable *data;           // Training samples covered by this node.
@@ -35,8 +37,7 @@ public:
   void setId(){nodeId = nextId++;}
 
   void split(int level);
-  void build(int level);
-  void sumLeaves(double &sum);
+  void dsplit(DataTable*, DataTable*, DataTable*);
   
   static void setMetric(statisticalMetric *m){metric = m;}
   static void setMinNodeData(int min){minNode = min;}
@@ -44,7 +45,7 @@ public:
   static void setVerbose(int vlevel){verbose = vlevel;}
   static void setAlpha(double a){alpha = a;}
   static void setMaxDepth(int max){maxDepth = max;}
-  void setDelays(int delay){delays = delay;}
+  static void setDelays(int delay){delays = delay;}
   
   void print(ofstream &fout);
 

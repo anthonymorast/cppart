@@ -79,10 +79,9 @@ int main(int argc, char* argv[]) {
 	Node::setMinNodeData(p.minNode);
 	Node::setMinObsData(p.minObs);
 	Node::setAlpha(p.complexity * cp);
+	Node::setDelays(p.delayed);
 
 	Node *tree = new Node(NULL,Data,mean,cp,0);
-	cout << p.delayed << endl;
-	tree->setDelays(p.delayed);
 	tree->setMaxDepth(p.maxDepth);
 	tree->setId(); 
 	tree->split(0);

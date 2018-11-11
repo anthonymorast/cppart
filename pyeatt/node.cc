@@ -20,6 +20,7 @@ int Node::nextId=1;
 double Node::alpha=1750;
 int Node::verbose=0;
 int Node::maxDepth;
+int Node::delays=0;
 
 Node::Node(Node *Parent, DataTable *d,double mean,double Cp,int level)
 {
@@ -42,6 +43,43 @@ Node::~Node()
 		delete left;
 	if(right != NULL)
 		delete right;
+}
+
+void Node::dsplit(DataTable *temp, DataTable *l, DataTable *r)
+{
+	int cols = temp->numCols();
+	double bestSS = DBL_MAX;
+	DataTable *ltab,*rtab;
+
+	for (int curCol = 1; curCol < cols; curCol++)
+	{
+		// sort by current column
+		temp->sortBy(curCol);
+
+		int where, dir;
+		double splitPoint, improve;
+		double leftMean,rightMean;
+		double leftSS, rightSS, totalSS;
+
+		metric->findSplit(temp, curCol, where, dir, splitPoint, improve, minNode);
+
+		// I would have swapped rtab and ltab, but... whatever.
+		ltab = temp->subSet(0,where);
+		rtab = temp->subSet(where+1,temp->numRows()-1);
+
+		metric->getSplitCriteria(ltab,&leftMean,&leftSS);
+		metric->getSplitCriteria(rtab,&rightMean,&rightSS);
+
+		totalSS = leftSS + rightSS;
+
+		if ((improve>0) && (totalSS<bestSS) && (leftSS>alpha) && (rightSS>alpha))
+		{
+			bestSS = totalSS;
+			r = rtab;
+			l = ltab;
+		}
+	}
+		
 }
 
 
@@ -69,7 +107,6 @@ void Node::split(int level)
 	// This was the bestsplit() function in previous implementation
 	for (int curCol = 1; curCol < cols; curCol++)
 	{
-
 		// sort by current column
 		data->sortBy(curCol);
 
@@ -78,18 +115,40 @@ void Node::split(int level)
 		double splitPoint, improve;
 		double leftMean,rightMean;
 		double leftSS, rightSS, totalSS;
+		queue<DataTable*> q;
 
-		// Make findSplit recursive with lookahead
 		metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
 
 		// I would have swapped rtab and ltab, but... whatever.
 		ltab = data->subSet(0,where);
 		rtab = data->subSet(where+1,data->numRows()-1);
 
+		q.push(ltab); q.push(rtab);
+		while(q.size() < pow(2, (delays+1)))
+		{
+			DataTable *temp = q.front(), *l, *r;
+			q.pop();
+			dsplit(temp, l, r);
+			q.push(l); q.push(r);	
+			delete temp;		
+		}
+		if(q.size() != pow(2, (delays+1))) 
+		{
+			cout << "Error splitting node, queue does not contain the right amount of partitions.";
+			cout << endl;
+			exit(0);
+		}
+		// sum up SSE for each partition
+		while(!q.empty())
+		{
+			DataTable *temp = q.front();
+			q.pop();
+			metric->getSplitCriteria(temp, &leftMean, &leftSS);
+			totalSS += leftSS;
+		}
+
 		metric->getSplitCriteria(ltab,&leftMean,&leftSS);
 		metric->getSplitCriteria(rtab,&rightMean,&rightSS);
-
-		totalSS = leftSS + rightSS;
 
 		if ((improve>0) && (totalSS<bestSS) && (leftSS>alpha) && (rightSS>alpha))
 		{
@@ -130,82 +189,6 @@ void Node::split(int level)
 		right->split(level+1);
 	}
 
-}
-
-void Node::build(int level)
-{
-	if (delays == 0) 
-	{
-		split(level);
-	} 
-	else 
-	{
-		Node *lftChild,*rgtChild;
-		int cols = data->numCols();
-		double bestSS = DBL_MAX;	
-		for (int curCol = 1; curCol < cols; curCol++)
-		{
-			Node *subTree = new Node(NULL,data,yval,dev,0);
-			subTree->setDelays(0);
-			subTree->setMaxDepth(delays + 1);
-			subTree->setId(); 
-			subTree->build(0);
-
-			double thisSS = 0;
-			subTree->sumLeaves(thisSS);
-
-			if(thisSS < bestSS) 
-			{
-				double leftMean, leftSS, rightMean, rightSS;
-				DataTable *ltab,*rtab;
-
-				ltab = data->subSet(0,subTree->splitIndex);
-				rtab = data->subSet(subTree->splitIndex+1,data->numRows()-1);
-
-				metric->getSplitCriteria(ltab,&leftMean,&leftSS);
-				metric->getSplitCriteria(rtab,&rightMean,&rightSS);
-
-				lftChild = new Node(this,ltab,leftMean,leftSS,depth+1);
-				rgtChild = new Node(this,rtab,rightMean,rightSS,depth+1);
-				bestSS = thisSS;
-				direction = subTree->direction;
-				splitValue = subTree->splitValue;
-				splitIndex = subTree->splitIndex;
-				varName = data->getName(curCol);
-				if(right != NULL)
-					delete right;
-				right = rgtChild;
-				if(left != NULL)
-					delete left;
-				left = lftChild;
-			}
-			// delete subTree
-		}
-
-		if(left != NULL)
-			left->setId();
-		if(right != NULL)
-			right->setId();
-
-		if((left != NULL)&&(left->data->numRows()>minObs)) {
-			left->build(level+1);
-		}
-
-		if((right != NULL)&&(right->data->numRows()>minObs)) {
-			right->build(level+1);
-		}
-	}
-}
-
-void Node::sumLeaves(double &sum)
-{
-	if(left == NULL && right == NULL) 
-	{
-		sum += dev; 
-		return;
-	}
-	left->sumLeaves(sum);
-	right->sumLeaves(sum);
 }
 
 void Node::print(ofstream &fout)
