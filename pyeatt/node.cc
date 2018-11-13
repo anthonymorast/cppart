@@ -45,7 +45,7 @@ Node::~Node()
 		delete right;
 }
 
-void Node::dsplit(DataTable *temp, DataTable *l, DataTable *r)
+void Node::dsplit(DataTable *temp, DataTable *&l, DataTable *&r)
 {
 	int cols = temp->numCols();
 	double bestSS = DBL_MAX;
@@ -53,6 +53,7 @@ void Node::dsplit(DataTable *temp, DataTable *l, DataTable *r)
 
 	for (int curCol = 1; curCol < cols; curCol++)
 	{
+		cout << "top dsplit col loop. temp rows: " << temp->numRows()  << endl;
 		// sort by current column
 		temp->sortBy(curCol);
 
@@ -61,7 +62,8 @@ void Node::dsplit(DataTable *temp, DataTable *l, DataTable *r)
 		double leftMean,rightMean;
 		double leftSS, rightSS, totalSS;
 
-		metric->findSplit(temp, curCol, where, dir, splitPoint, improve, minNode);
+		metric->findSplit(temp, curCol, where, dir, splitPoint, improve, 2);
+		cout << "under find split" << improve << endl;
 
 		// I would have swapped rtab and ltab, but... whatever.
 		ltab = temp->subSet(0,where);
@@ -69,17 +71,19 @@ void Node::dsplit(DataTable *temp, DataTable *l, DataTable *r)
 
 		metric->getSplitCriteria(ltab,&leftMean,&leftSS);
 		metric->getSplitCriteria(rtab,&rightMean,&rightSS);
+		cout << "under metrics: rtab rows, ltab rows: " << rtab->numRows() << ", " << ltab->numRows() << endl;
 
 		totalSS = leftSS + rightSS;
 
-		if ((improve>0) && (totalSS<bestSS) && (leftSS>alpha) && (rightSS>alpha))
+		if ((improve>0) && (totalSS<bestSS))
 		{
+			cout << totalSS << "  " << bestSS << "  " << temp->getName(curCol) << endl; 
 			bestSS = totalSS;
 			r = rtab;
 			l = ltab;
 		}
+		cout << "dead bottom of dsplit col loop" << endl;
 	}
-		
 }
 
 
@@ -114,7 +118,7 @@ void Node::split(int level)
 		int where, dir;
 		double splitPoint, improve;
 		double leftMean,rightMean;
-		double leftSS, rightSS, totalSS;
+		double leftSS, rightSS, totalSS = 0;
 		queue<DataTable*> q;
 
 		metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
@@ -122,17 +126,28 @@ void Node::split(int level)
 		// I would have swapped rtab and ltab, but... whatever.
 		ltab = data->subSet(0,where);
 		rtab = data->subSet(where+1,data->numRows()-1);
+		cout << "ltab rows: " << ltab->numRows() << " rtab rows: " << rtab->numRows() << endl;
 
 		q.push(ltab); q.push(rtab);
-		while(q.size() < pow(2, (delays+1)))
+		long unsigned int stopSize = pow(2, delays+1);
+		while(q.size() < stopSize)
 		{
 			DataTable *temp = q.front(), *l, *r;
+			if(temp->numRows() > minNode) 
+			{
+				dsplit(temp, l, r);
+				cout << l->numRows() << "  " << r->numRows() << endl;
+				q.push(l); q.push(r);
+			}
+			else 
+			{
+				// if there isn't enough data to split on, just use the SSE of the smallest possible partitions 
+				stopSize--;
+				q.push(q.front());
+			}
 			q.pop();
-			dsplit(temp, l, r);
-			q.push(l); q.push(r);	
-			delete temp;		
 		}
-		if(q.size() != pow(2, (delays+1))) 
+		if(q.size() != stopSize) 
 		{
 			cout << "Error splitting node, queue does not contain the right amount of partitions.";
 			cout << endl;
@@ -191,7 +206,7 @@ void Node::split(int level)
 
 }
 
-void Node::print(ofstream &fout)
+void Node::print(ofstream &fout, bool isRight)
 {
 	string directionStr = "";
 	string tabString = "";
@@ -211,14 +226,14 @@ void Node::print(ofstream &fout)
 			tabString += "\t";
 		}
 
-		if (direction < 0) {
+		if (direction <= 0) {
 			directionStr = "<";
 		}
 		else {
 			directionStr = ">";
 		}
 
-		if (right) {
+		if (isRight) {
 			directionStr += "=";
 		}
 		else {
@@ -235,8 +250,8 @@ void Node::print(ofstream &fout)
 	}
 
 	if(left != NULL)
-		left->print(fout);
+		left->print(fout, false);
 	if(right != NULL)
-		right->print(fout);
+		right->print(fout, true);
 
 }

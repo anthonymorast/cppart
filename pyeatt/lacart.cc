@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
 	cout << "Creating tree file '" << treeFileName << "'..." << endl;
 	ofstream fout;
 	fout.open(treeFileName);
-	tree->print(fout);
+	tree->print(fout, false);
 	fout.close();
 
 	// string cpTableFilename = p.filename.substr(0,idx);

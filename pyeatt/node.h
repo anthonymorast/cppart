@@ -37,7 +37,7 @@ public:
   void setId(){nodeId = nextId++;}
 
   void split(int level);
-  void dsplit(DataTable*, DataTable*, DataTable*);
+  void dsplit(DataTable*, DataTable *&l, DataTable *&r);
   
   static void setMetric(statisticalMetric *m){metric = m;}
   static void setMinNodeData(int min){minNode = min;}
@@ -47,7 +47,7 @@ public:
   static void setMaxDepth(int max){maxDepth = max;}
   static void setDelays(int delay){delays = delay;}
   
-  void print(ofstream &fout);
+  void print(ofstream &fout, bool isRight);
 
 };
 
