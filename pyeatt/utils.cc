@@ -40,7 +40,7 @@ void parseParameters(char * argv[], int argc, params *p)
   int delayed = 0;
   try {
     delayed = stoi(argv[3]);
-  } catch(exception e) {
+  } catch(exception &e) {
     cout << "Could not parse integer value from delayed parameter \" " << argv[3] << "\"." << endl;
     printUsage(argv,argc);
     exit(0);
@@ -54,6 +54,7 @@ void parseParameters(char * argv[], int argc, params *p)
   // double alpha = 0;
   methods m = ANOVA;
   int verbose = 0;
+  int maxDepth = 30;
   if(argc > 4) {
     for(int i = 4; i < argc; i++) {
       string param = argv[i];
@@ -64,17 +65,18 @@ void parseParameters(char * argv[], int argc, params *p)
       int pos_cp = param.find("cp=");
       int pos_meth = param.find("method=");
       int pos_verbose = param.find("verbose=");
+      int pos_max_depth = param.find("maxdepth=");
 
       if(pos_xval != (int)string::npos) {
 	try {
 	  xvals = stoi(string(1, argv[i][pos_xval+9]));
-	} catch (exception e) {
+	} catch (exception &e) {
 	  cout << "Warning: error parsing integer value for cross-validation flag..." << endl;
 	}
       } else if(pos_split != (int)string::npos) {
 	try {
 	  split_data = stoi(string(1, argv[i][pos_split+10]));
-	} catch (exception e) {
+	} catch (exception &e) {
 	  cout << "Warning: error parsing integer value for split data flag..." << endl;
 	}
       } else if(pos_test != (int)string::npos) {
@@ -82,13 +84,13 @@ void parseParameters(char * argv[], int argc, params *p)
       } else if(pos_rand != (int)string::npos) {
 	try {
 	  randomSplit = stoi(string(1, argv[i][pos_rand+12]));
-	} catch(exception e) {
+	} catch(exception &e) {
 	  cout << "Warning: random split integer cannot be parsed." << endl;
 	}
       } else if(pos_cp != (int)string::npos) {
 	try {
 	  cp = stod(param.substr(pos_cp+3)); 
-	} catch(exception e) {
+	} catch(exception &e) {
 	  cout << "Warning: cp parameter not parsable as double, dedault 0.01 used." << endl;
 	}
       } else if(pos_meth != (int)string::npos) {
@@ -98,14 +100,20 @@ void parseParameters(char * argv[], int argc, params *p)
 	  if (val == "gini") {
 	    m = GINI;
 	  }
-	} catch(exception e) {
+	} catch(exception &e) {
 	  cout << "Warning: method parameter not parsable, defaulting to anova." << endl;
 	}
       } else if (pos_verbose != (int)string::npos) {
 	try {
 	  verbose = stoi(string(1, argv[i][pos_verbose+8]));
-	} catch(exception e) {
+	} catch(exception &e) {
 	  cout << "Warning: verbose parameter no parsable integer, defaulting to 0." << endl;
+	}
+      } else if (pos_max_depth != (int)string::npos){
+	try {
+	  maxDepth = stoi(param.substr(pos_max_depth+9));
+	} catch(exception &e) {
+	  cout << "Warning: unable to parse max depth parameter, defaulting to 30." << endl;
 	}
       } else {
 	cout << "Warning: Unused parameter " << param << "..." << endl;
@@ -292,13 +300,12 @@ void parseParameters(char * argv[], int argc, params *p)
   } 
 
   p->response = response;
-  p->maxDepth = 30;	// only used to set maxNodes
-  p->maxNodes = (int)pow(2, (p->maxDepth + 1)) - 1;
+  p->maxDepth = maxDepth;
+  p->maxNodes = (int)pow(2, (p->maxDepth)) - 1;
   p->minObs = 20;
   p->minNode = 7;
   p->numXval = 10;
-  p->iscale = 0;		// this may not be used
-  p->delayed = delayed == 1;
+  p->delayed = delayed;
   p->trainData = trainData;
   p->testData = testData;
   p->testSize = testSize;
@@ -325,130 +332,4 @@ void parseParameters(char * argv[], int argc, params *p)
     numObs /= 5;
   } 
 }
-
-// node buildTree(params * p, int numObs, int &numNodes)
-// {
-//     // node tree;
-//     // tree.numObs = numObs;
-//     // tree.data = deepCopyData(p->trainData, numObs, getColumnCount(p->headers));
-
-//     // double risk;
-//     // partition(p, &tree, 1, risk);
-//     // //freeTreeData(&tree);
-//     // return tree;
-// }
-
-// void fixTree(node * n, double cpScale, int nodeId, int &nodeCount, vector<int> &iNode)
-// {
-//     n->cp *= cpScale;
-//     n->nodeId = nodeId;
-//     nodeCount += 1;
-//     iNode.push_back(nodeId);
-
-//     if (n->leftNode != NULL) {
-//         fixTree(n->leftNode, cpScale, 2 * nodeId, nodeCount, iNode);
-//     }
-//     if (n->rightNode != NULL) {
-//         fixTree(n->rightNode, cpScale, (2 * nodeId) + 1, nodeCount, iNode);
-//     }
-// }
-
-// cpTable *buildCpTable(node *root, params *p)
-// {
-//     cpTable *cpTableHead = new cpTable(), *currCpTable, *tempCpTable, *prevCpTable;
-//     cpTable *cpTail = new cpTable();
-
-//     cout << "Building CP Table..." << endl;
-//     vector<double> cpList;
-//     cpList.push_back(root->cp);
-//     double parentCp = root->cp;
-//     int uniqueCp = 2;
-
-//     makeCpList(root, parentCp, cpList, uniqueCp, p);
-//     sort(cpList.begin(), cpList.end());
-//     reverse(cpList.begin(), cpList.end());
-//     p->uniqueCp = cpList.size();
-
-//     // make linked list
-//     cpTableHead->back = new cpTable();
-//     currCpTable = cpTableHead;
-//     prevCpTable = cpTableHead->back;
-//     vector<double>::iterator it;
-//     for (it = cpList.begin(); it != cpList.end(); it++) {
-//         double cp = *it;
-//         currCpTable->cp = (double) cp;
-//         if (cp != cpList.at(cpList.size() - 1)) {
-//             currCpTable->forward = new cpTable;
-//         }
-//         if (&prevCpTable != NULL) {
-//             currCpTable->back = prevCpTable;
-//         }
-//         prevCpTable = currCpTable;
-//         currCpTable = currCpTable->forward;
-//     }
-//     cpTail = prevCpTable;
-
-//     makeCpTable(root, parentCp, 0, cpTail);
-//     tempCpTable = cpTableHead;
-
-//     // cross validations
-//     if (p->numXval && p->runXVals) {
-//         cout << "Running cross-validations..." << endl;
-//         vector<int> groups;
-//         for(int i = 0; i < root->numObs; i++) {
-//             groups.push_back(i % p->numXval);
-//         }
-//         shuffle(groups.begin(), groups.end(), default_random_engine(time(NULL)));
-//         int *xGrps = &groups[0];
-//         xval(cpTableHead, xGrps, *p);
-//     }
-
-//     tempCpTable = cpTableHead;
-//     double scale = 1 / root->dev;
-//     while (tempCpTable != NULL) {
-//         tempCpTable->cp *= scale;
-//         tempCpTable->risk *= scale;
-//         tempCpTable->xstd *= scale;
-//         tempCpTable->xrisk *= scale;
-
-//         tempCpTable = tempCpTable->forward;
-//     }
-//     cpTableHead->risk = 1.0;
-
-//     return cpTableHead;
-// }
-
-
-// double getPrediction(node *tree, double row[], int responseCol)
-// {
-//     /* some leaves (all leaves?) don't have spltVar, splitPoint, etc. set*/
-//     if(tree->leftNode == NULL && tree->rightNode == NULL) {
-//         return tree->yval;
-//     }
-
-//     int splitVar = tree->varIndex;
-//     double splitPoint = tree->splitPoint;
-//     int direction = tree->direction;
-//     double predValue = 0;
-
-//     if(row[splitVar] > splitPoint) {
-//         direction *= -1;
-//     }
-//     if(direction < 0) {
-//         if(tree->leftNode == NULL) {
-//             return tree->yval;
-//         } else {
-//             predValue = getPrediction(tree->leftNode, row, responseCol);
-//         }
-//     } else {
-//         if(tree->rightNode == NULL) {
-//             cout << tree->yval << endl;
-//             return tree->yval;
-//         } else {
-//             predValue = getPrediction(tree->rightNode, row, responseCol);
-//         }
-//     }
-
-//     return predValue;
-// }
 

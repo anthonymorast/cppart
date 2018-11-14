@@ -10,11 +10,7 @@
 #include <algorithm>
 
 #include "structures.h"
-/* #include "data_handler.h" */
-/* #include "partition.h" */
-/* #include "cptable.h" */
-/* #include "xval.h" */
-/* #include "print_tree.h" */
+#include "node.h"
 
 using namespace std;
 
@@ -23,8 +19,3 @@ void parseParameters(char* argv[], int argc, params *p);
 
 
 void printUsage(char** argv, int argc);
-
-/* node buildTree(params *p, int, int &numNodes);  */
-/* void fixTree(node *root, double cpScale, int nodeId, int &nodeCount, vector<int> &iNode);  */
-/* cpTable *buildCpTable(node *root, params *p); */
-/* double getPrediction(node* tree, double row[], int responseCol); */

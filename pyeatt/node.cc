@@ -13,325 +13,238 @@ using namespace std;
 // declare and initialize static data members
 statisticalMetric *Node::metric=NULL; // Statistical metric being used
 int Node::minObs;        // minimum amount of data required in a leaf node. AM: rpart makes the distinction between minNode and minObs
-                         // I think minObs=min obs required to consider a split and minNodes=min number of obs in a leaf node.
-                         // min Obs is used as stopping criteria (column-wise) while min node is used as row-wise stopping criteria
+// I think minObs=min obs required to consider a split and minNodes=min number of obs in a leaf node.
+// min Obs is used as stopping criteria (column-wise) while min node is used as row-wise stopping criteria
 int Node::minNode;
 int Node::nextId=1;
-int Node::maxNodes=MAXINT;
 double Node::alpha=1750;
 int Node::verbose=0;
+int Node::maxDepth;
+int Node::delays=0;
 
 Node::Node(Node *Parent, DataTable *d,double mean,double Cp,int level)
 {
-  data=d;
-  depth = level;
-  splitIndex=-1;
-  direction=0;
-  splitValue=0.0; 
-  left=right=NULL;
-  nodeId = -1;
-  parent = Parent;
-  yval = mean;
-  dev = cp = Cp;
+	data=d;
+	depth = level;
+	splitIndex=-1;
+	direction=0;
+	splitValue=0.0; 
+	left=right=NULL;
+	nodeId = -1;
+	parent = Parent;
+	yval = mean;
+	dev = cp = Cp;
 }
 
 Node::~Node()
 {
-  delete data;
-  if(left != NULL)
-    delete left;
-  if(right != NULL)
-    delete right;
+	delete data;
+	if(left != NULL)
+		delete left;
+	if(right != NULL)
+		delete right;
+}
+
+void Node::dsplit(DataTable *temp, DataTable *&l, DataTable *&r)
+{
+	int cols = temp->numCols();
+	double bestSS = DBL_MAX;
+	DataTable *ltab,*rtab;
+
+	for (int curCol = 1; curCol < cols; curCol++)
+	{
+		// sort by current column
+		temp->sortBy(curCol);
+
+		int where, dir;
+		double splitPoint, improve;
+		double leftMean,rightMean;
+		double leftSS, rightSS, totalSS;
+
+		metric->findSplit(temp, curCol, where, dir, splitPoint, improve, 2);
+
+		// I would have swapped rtab and ltab, but... whatever.
+		ltab = temp->subSet(0,where);
+		rtab = temp->subSet(where+1,temp->numRows()-1);
+
+		metric->getSplitCriteria(ltab,&leftMean,&leftSS);
+		metric->getSplitCriteria(rtab,&rightMean,&rightSS);
+
+		totalSS = leftSS + rightSS;
+
+		if ((improve>0) && (totalSS<bestSS))
+		{
+			bestSS = totalSS;
+			r = rtab;
+			l = ltab;
+		}
+	}
 }
 
 
 // formerly known as partition() and bestsplit()
-int Node::split(int level)
+void Node::split(int level)
 {
 
-  int cols = data->numCols();
-  //int rows = data->numRows();
-  //double yBar, deviance;
-  
-  double bestSS = DBL_MAX;
-  // double baseSS = bestSS;
-  //double bestImprove = 0;
+	int cols = data->numCols();
+	double bestSS = DBL_MAX;
+	DataTable *ltab,*rtab;
+	Node *lftChild,*rgtChild;
 
-  DataTable *ltab,*rtab;
-  
-  Node *lftChild,*rgtChild;
-
-  // check to make sure we are not past max nodes, max depth, min
-  // alpha, and return if any of these stopping critera are met.
-  
-    /*cout << nodeId << "/" << maxNodes<<" "<<
-      data->numRows() << "/" << minObs <<" "<<
-      cp << "/" << alpha << " -- " << endl;*/
-    
-
-  if (nodeId > maxNodes || data->numRows() < minObs || cp <= alpha)
-    {
-/*      cout << nodeId << " > " << maxNodes << " = " << (nodeId > maxNodes) << endl;
-      cout << data->numRows() << " < " << minObs << " = " << (data->numRows() < minObs) << endl;
-      cout << cp << " <= " << alpha << " = " << (cp <= alpha) << endl;
-      cout<<"not splitting"<<endl;*/
-      return 0;
-    }
-  
-
-  // Find the best variable (and location) for splitting the current
-  // node. Go through each colum, and track the best.
-  // This was the bestsplit() function in previous implementation
-  
-  for (int curCol = 1; curCol < cols; curCol++)
-    {
-
-      // sort by current column
-      data->sortBy(curCol);
- 
-      // call function to find split point
-      int where, dir;
-      double splitPoint, improve;
-      double leftMean,rightMean;
-      double leftSS, rightSS, totalSS;
-
-      // Make findSplit recursive with lookahead
-      metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
-
-      //totalSS = metric->getSplitCriteria(data);
-      //      if(p->verbose > 1)
-      //cout << "totalSS is "<<totalSS<<endl;
-      
-      // save original improvement measure
-      //compImprove = improve;
-
-      // I would have swapped rtab and ltab, but... whatever.
-      ltab = data->subSet(0,where);
-      rtab = data->subSet(where+1,data->numRows()-1);
-      
-      metric->getSplitCriteria(ltab,&leftMean,&leftSS);
-      metric->getSplitCriteria(rtab,&rightMean,&rightSS);
-
-      totalSS = leftSS + rightSS;
-
-      //      cout << "The SS values are :" << leftSS << " " <<rightSS<<" "<<totalSS<<endl;
-      
-      //if (improve > 0 && trunc(1000000.*totalSS) < trunc(1000000.*bestSS))
-      if ((improve>0) && (totalSS<bestSS) && (leftSS>alpha) && (rightSS>alpha))
+	// check to make sure we are not past max nodes, max depth, min
+	// alpha, and return if any of these stopping critera are met.
+	if (level >= maxDepth || data->numRows() < minObs || cp <= alpha)
 	{
-	  lftChild = new Node(this,ltab,leftMean,leftSS,depth+1);
-	  rgtChild = new Node(this,rtab,rightMean,rightSS,depth+1);
-	  bestSS = totalSS;
-	  direction = dir;
-	  // bestImprove = compImprove;
-	  splitValue = splitPoint;
-	  splitIndex = where;
-	  varName = data->getName(curCol);
-	  if(right != NULL)
-	    delete right;
-	  right = rgtChild;
-	  if(left != NULL)
-	    delete left;
-	  left = lftChild;
+		// nothing
+		// "Create_Leaf_Node()
+		return;
 	}
-      else
+
+
+	// Find the best variable (and location) for splitting the current
+	// node. Go through each colum, and track the best.
+	// This was the bestsplit() function in previous implementation
+	for (int curCol = 1; curCol < cols; curCol++)
 	{
-	  delete ltab;
-	  delete rtab;
+		// sort by current column
+		data->sortBy(curCol);
+
+		// call function to find split point
+		int where, dir;
+		double splitPoint, improve;
+		double leftMean,rightMean;
+		double leftSS, rightSS, totalSS = 0;
+		queue<DataTable*> q;
+
+		metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
+
+		// I would have swapped rtab and ltab, but... whatever.
+		ltab = data->subSet(0,where);
+		rtab = data->subSet(where+1,data->numRows()-1);
+
+		q.push(ltab); q.push(rtab);
+		long unsigned int stopSize = pow(2, delays+1);
+		while(q.size() < stopSize)
+		{
+			DataTable *temp = q.front(), *l = NULL, *r = NULL;
+			dsplit(temp, l, r);
+			if(l == NULL && r == NULL)
+			{
+				// if there isn't enough data to split on, just use the SSE of the smallest possible partitions 
+				stopSize--;
+				q.push(q.front());
+			}
+			else 
+			{
+				q.push(l); q.push(r);
+			}
+			q.pop();
+		}
+		if(q.size() != stopSize) 
+		{
+			cout << "Error splitting node, queue does not contain the right amount of partitions.";
+			cout << endl;
+			exit(0);
+		}
+		while(!q.empty())
+		{
+			// sum up SSE for each partition
+			DataTable *temp = q.front();
+			q.pop();
+			metric->getSplitCriteria(temp, &leftMean, &leftSS);
+			totalSS += leftSS;
+		}
+
+		metric->getSplitCriteria(ltab,&leftMean,&leftSS);
+		metric->getSplitCriteria(rtab,&rightMean,&rightSS);
+
+		if ((improve>0) && (totalSS<bestSS) && (leftSS>alpha) && (rightSS>alpha))
+		{
+			lftChild = new Node(this,ltab,leftMean,leftSS,depth+1);
+			rgtChild = new Node(this,rtab,rightMean,rightSS,depth+1);
+			bestSS = totalSS;
+			direction = dir;
+			splitValue = splitPoint;
+			splitIndex = where;
+			varName = data->getName(curCol);
+			if(right != NULL)
+				delete right;
+			right = rgtChild;
+			if(left != NULL)
+				delete left;
+			left = lftChild;
+		}
+		else
+		{
+			delete ltab;
+			delete rtab;
+		}
 	}
-    }
 
-  //cout << "split node at level "<<level<<" on variable "<<varName<<endl;
+	//cout << "split node at level "<<level<<" on variable "<<varName<<endl;
 
-  if(left != NULL)
-    left->setId();
-  if(right != NULL)
-    right->setId();
+	//cout << cp << "  " << alpha << endl;
+	if(left!=NULL)
+		left->setId();
+	if(right!=NULL)
+		right->setId();
 
-  cout << cp << "  " << alpha << endl;
-  if((left != NULL)&&(left->data->numRows()>minObs))
-    left->split(level+1);
+	if((left != NULL)&&(left->data->numRows()>minObs)) {
+		left->split(level+1);
+	}
 
-  if((right != NULL)&&(left->data->numRows()>minObs))
-    right->split(level+1);
+	if((right != NULL)&&(right->data->numRows()>minObs)) {
+		right->split(level+1);
+	}
 
-  return 0;
 }
 
-
-void Node::print(ofstream &fout)
+void Node::print(ofstream &fout, bool isRight)
 {
-  string directionStr = "";
-  string tabString = "";
-  string terminalStr = "";
+	string directionStr = "";
+	string tabString = "";
+	string terminalStr = "";
 
-  if(parent == NULL)
-    {
-      fout << "node) split, number observations, deviance, yval\n"
-	"* denotes a terminal node\n\n";
-      fout << "1) root " << data->numRows() << " " <<
-	dev << " " << yval << endl;
-    }
-  else
-    {
-  
-      for (int i = 0; i < depth; i++) {
-	tabString += "\t";
-      }
+	if(parent == NULL)
+	{
+		fout << "node) split, number observations, deviance, yval\n"
+			"* denotes a terminal node\n\n";
+		fout << "1) root " << data->numRows() << " " <<
+			dev << " " << yval << endl;
+	}
+	else
+	{
 
-      if (direction < 0) {
-        directionStr = "<";
-      }
-      else {
-	directionStr = ">";
-      }
-  
-      if (right) {
-        directionStr += "=";
-      }
-      else {
-        directionStr += " ";
-      }
+		for (int i = 0; i < depth; i++) {
+			tabString += "\t";
+		}
 
-      if (left == NULL && right == NULL) {
-	terminalStr += "*";
-      }
-      fout << tabString << nodeId << ") " <<
-	parent->varName << directionStr << parent->splitValue << " " <<
-	data->numRows() << "  " << dev << " " <<
-	yval << " " << terminalStr << endl;
-    }
+		if (direction <= 0) {
+			directionStr = "<";
+		}
+		else {
+			directionStr = ">";
+		}
 
-  if(left != NULL)
-    left->print(fout);
-  if(right != NULL)
-    right->print(fout);
-  
+		if (isRight) {
+			directionStr += "=";
+		}
+		else {
+			directionStr += " ";
+		}
+
+		if (left == NULL && right == NULL) {
+			terminalStr += "*";
+		}
+		fout << tabString << nodeId << ") " <<
+			parent->varName << directionStr << parent->splitValue << " " <<
+			data->numRows() << "  " << dev << " " <<
+			yval << " " << terminalStr << endl;
+	}
+
+	if(left != NULL)
+		left->print(fout, false);
+	if(right != NULL)
+		right->print(fout, true);
+
 }
-
-
-// double getSplitCriteria(methods m, int totalObs, int n, double y[])
-// {
-//   double value = 0;
-
-//   if(m == ANOVA) {
-//     double mean = 0;
-//     anovaSS(y, n, mean, value);
-//   } else if(m == GINI) {
-//     value = giniCalc(n, y);
-//   }
-//   return value;
-// }
-
-// void mergeSort(double *x, double *y, int low, int high, int curCol, int cols) {
-//   int mid;
-//   if (low < high) {
-//     mid = (low + high) / 2;
-//     mergeSort(x, y, low, mid, curCol, cols);
-//     mergeSort(x, y, mid + 1, high, curCol, cols);
-
-//     merge(x, y, low, high, mid, curCol, cols, respCol);
-//   }
-// }
-
-// void merge(double *x, double *y, int low, int high, int mid, int curCol, int cols) {
-//   int i = low, j = mid + 1, k = 0;
-//   const int size = high - low + 1;
-
-//   double *tempx = new double[high - low + 1];
-//   double *tempy = new double[high - low + 1];
-
-//   while (i <= mid && j <= high) {
-//     if (x[i] < x[j]) {
-//       tempx[k] = x[i];
-//       tempy[k] = y[i];
-//       k++;
-//       i++;
-//     }
-//     else if (x[i] >= x[j]) {
-//       tempx[k] = x[j];
-//       tempy[k] = y[j];
-//       k++;
-//       j++;
-//     }
-//   }
-//   while (i <= mid) {
-//     tempx[k] = x[i];
-//     tempy[k] = y[i];
-//     k++;
-//     i++;
-//   }
-
-//   while (j <= high) {
-//     tempx[k] = x[j];
-//     tempy[k] = y[j];
-//     k++;
-//     j++;
-//   }
-//   for (k = 0, i = low; i <= high; ++i, ++k) {
-//     x[i] = tempx[k];
-//     y[i] = tempy[k];
-//   }
-
-//   free1DData(tempx);
-//   free1DData(tempy);
-// }
-
-// void getSplitCounts(double ** data, int splitVar, double splitPoint, int direction, int rows, int & leftCount, int & rightCount)
-// {
-//   if (direction < 0) {
-//     for (int i = 0; i < rows; i++) {
-//       if (data[i][splitVar] < splitPoint) {
-// 	leftCount++;
-//       }
-//       else {
-// 	rightCount++;
-//       }
-//     }
-//   }
-//   else {
-//     for (int i = 0; i < rows; i++) {
-//       if (data[i][splitVar] <= splitPoint) {
-// 	rightCount++;
-//       }
-//       else {
-// 	leftCount++;
-//       }
-//     }
-//   }
-// }
-
-// void splitData(int direction, double splitPoint, int splitVar, int cols, int rows, double ** left, double ** right, double ** data)
-// {
-//   int leftCnt = 0, rightCnt = 0;
-//   for (int i = 0; i < rows; i++) {
-//     if (direction < 0) {
-//       if (data[i][splitVar] < splitPoint) {
-// 	for (int j = 0; j < cols; j++) {
-// 	  left[leftCnt][j] = data[i][j];
-// 	}
-// 	leftCnt++;
-//       }
-//       else {
-// 	for (int j = 0; j < cols; j++) {
-// 	  right[rightCnt][j] = data[i][j];
-// 	}
-// 	rightCnt++;
-//       }
-//     }
-//     else {
-//       if (data[i][splitVar] <= splitPoint) {
-// 	for (int j = 0; j < cols; j++) {
-// 	  right[rightCnt][j] = data[i][j];
-// 	}
-// 	rightCnt++;
-//       }
-//       else {
-// 	for (int j = 0; j < cols; j++) {
-// 	  left[leftCnt][j] = data[i][j];
-// 	}
-// 	leftCnt++;
-//       }
-//     }
-//   }
-// }

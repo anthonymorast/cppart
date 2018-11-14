@@ -129,9 +129,9 @@ void anovaMetric::findSplit(DataTable *data,int col,
 	      bestval = tmp;
 	      bestpos = i;
 	      if (left_sum < right_sum)
-		direction = LEFT;
+			direction = LEFT;
 	      else
-		direction = RIGHT;
+			direction = RIGHT;
 	    }
 	}
     }
