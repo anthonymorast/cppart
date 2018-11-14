@@ -92,6 +92,8 @@ int main(int argc, char* argv[]) {
 	int idx = p.filename.find(".");
 
 	string treeFileName = p.filename.substr(0, idx);
+	if(p.delayed > 0)
+		treeFileName += ".delayed";
 	treeFileName += ".tree";
 	cout << "Creating tree file '" << treeFileName << "'..." << endl;
 	ofstream fout;

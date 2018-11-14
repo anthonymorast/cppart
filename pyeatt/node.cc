@@ -53,7 +53,6 @@ void Node::dsplit(DataTable *temp, DataTable *&l, DataTable *&r)
 
 	for (int curCol = 1; curCol < cols; curCol++)
 	{
-		cout << "top dsplit col loop. temp rows: " << temp->numRows()  << endl;
 		// sort by current column
 		temp->sortBy(curCol);
 
@@ -63,7 +62,6 @@ void Node::dsplit(DataTable *temp, DataTable *&l, DataTable *&r)
 		double leftSS, rightSS, totalSS;
 
 		metric->findSplit(temp, curCol, where, dir, splitPoint, improve, 2);
-		cout << "under find split" << improve << endl;
 
 		// I would have swapped rtab and ltab, but... whatever.
 		ltab = temp->subSet(0,where);
@@ -71,18 +69,15 @@ void Node::dsplit(DataTable *temp, DataTable *&l, DataTable *&r)
 
 		metric->getSplitCriteria(ltab,&leftMean,&leftSS);
 		metric->getSplitCriteria(rtab,&rightMean,&rightSS);
-		cout << "under metrics: rtab rows, ltab rows: " << rtab->numRows() << ", " << ltab->numRows() << endl;
 
 		totalSS = leftSS + rightSS;
 
 		if ((improve>0) && (totalSS<bestSS))
 		{
-			cout << totalSS << "  " << bestSS << "  " << temp->getName(curCol) << endl; 
 			bestSS = totalSS;
 			r = rtab;
 			l = ltab;
 		}
-		cout << "dead bottom of dsplit col loop" << endl;
 	}
 }
 
@@ -126,24 +121,22 @@ void Node::split(int level)
 		// I would have swapped rtab and ltab, but... whatever.
 		ltab = data->subSet(0,where);
 		rtab = data->subSet(where+1,data->numRows()-1);
-		cout << "ltab rows: " << ltab->numRows() << " rtab rows: " << rtab->numRows() << endl;
 
 		q.push(ltab); q.push(rtab);
 		long unsigned int stopSize = pow(2, delays+1);
 		while(q.size() < stopSize)
 		{
-			DataTable *temp = q.front(), *l, *r;
-			if(temp->numRows() > minNode) 
-			{
-				dsplit(temp, l, r);
-				cout << l->numRows() << "  " << r->numRows() << endl;
-				q.push(l); q.push(r);
-			}
-			else 
+			DataTable *temp = q.front(), *l = NULL, *r = NULL;
+			dsplit(temp, l, r);
+			if(l == NULL && r == NULL)
 			{
 				// if there isn't enough data to split on, just use the SSE of the smallest possible partitions 
 				stopSize--;
 				q.push(q.front());
+			}
+			else 
+			{
+				q.push(l); q.push(r);
 			}
 			q.pop();
 		}
@@ -153,9 +146,9 @@ void Node::split(int level)
 			cout << endl;
 			exit(0);
 		}
-		// sum up SSE for each partition
 		while(!q.empty())
 		{
+			// sum up SSE for each partition
 			DataTable *temp = q.front();
 			q.pop();
 			metric->getSplitCriteria(temp, &leftMean, &leftSS);

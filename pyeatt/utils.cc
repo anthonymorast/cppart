@@ -302,7 +302,6 @@ void parseParameters(char * argv[], int argc, params *p)
   p->response = response;
   p->maxDepth = maxDepth;
   p->maxNodes = (int)pow(2, (p->maxDepth)) - 1;
-  cout << p->maxNodes << endl;
   p->minObs = 20;
   p->minNode = 7;
   p->numXval = 10;
