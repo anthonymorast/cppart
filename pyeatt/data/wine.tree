@@ -2,97 +2,255 @@ node) split, number observations, deviance, yval
 * denotes a terminal node
 
 1) root 1599 1042.17 5.63602
-	2) sulphates< 0.645 923  465.807 5.39112 
-		4) alcohol> 11.45 793  334.02 5.28625 
-			6) volatile.acidity> 0.6525 564  213.963 5.3883 
-				8) citric.acid< 0.025 60  26.1833 5.71667 
-					10) free.sulfur.dioxide< 7.5 12  6.25 5.25 *
-					11) free.sulfur.dioxide>=7.5 48  16.6667 5.83333 
-						12) total.sulfur.dioxide< 23 8  1.875 6.625 *
-						13) total.sulfur.dioxide<=23 40  8.775 5.675 *
-				9) citric.acid<=0.025 504  180.54 5.34921 
-					14) alcohol> 9.75 264  69.2727 5.18182 
-						16) volatile.acidity< 0.5475 163  41.6564 5.2638 *
-						17) volatile.acidity<=0.5475 101  24.7525 5.0495 *
-					15) alcohol<=9.75 240  95.7333 5.53333 
-						18) sulphates< 0.585 141  52.7376 5.43972 *
-						19) sulphates<=0.585 99  40 5.66667 *
-			7) volatile.acidity<=0.6525 229  99.7205 5.03493 
-				20) sulphates< 0.535 105  39.0476 4.90476 
-					22) citric.acid> 0.065 43  21.4419 4.67442 
-						24) residual.sugar< 3.3 35  14.6857 4.74286 *
-						25) residual.sugar<=3.3 8  5.875 4.375 *
-					23) citric.acid>=0.065 62  13.7419 5.06452 
-						26) volatile.acidity< 0.9125 51  11.2941 5.11765 *
-						27) volatile.acidity<=0.9125 11  1.63636 4.81818 *
-				21) sulphates>=0.535 124  57.3871 5.14516 
-					28) volatile.acidity< 0.905 106  36.566 5.22642 
-						30) alcohol< 10.15 69  19.0725 5.11594 *
-						31) alcohol<=10.15 37  15.0811 5.43243 *
-					29) volatile.acidity<=0.905 18  16 4.66667 *
-		5) alcohol<=11.45 130  69.8769 6.03077 
-			32) chlorides< 0.0585 36  26 5.66667 
-				34) free.sulfur.dioxide< 14 16  9.75 5.125 *
-				35) free.sulfur.dioxide<=14 20  7.8 6.1 *
-			33) chlorides>=0.0585 94  37.2766 6.17021 
-				36) total.sulfur.dioxide< 12.5 25  8.16 6.44 
-					38) chlorides< 0.0845 13  4.30769 6.23077 *
-					39) chlorides<=0.0845 12  2.66667 6.66667 *
-				37) total.sulfur.dioxide<=12.5 69  26.6377 6.07246 
-					40) fixed.acidity< 6.55 21  7.80952 5.7619 
-						42) sulphates< 0.585 10  2.1 5.7 *
-						43) sulphates<=0.585 11  5.63636 5.81818 *
-					41) fixed.acidity<=6.55 48  15.9167 6.20833 
-						44) residual.sugar< 3.775 40  12.375 6.125 *
-						45) residual.sugar<=3.775 8  1.875 6.625 *
-	3) sulphates<=0.645 676  445.408 5.97041 
-		46) alcohol> 10.525 332  168.105 5.59337 
-			48) volatile.acidity< 0.355 65  30.2462 6.10769 
-				50) alcohol> 9.75 28  8.71429 5.78571 
-					52) volatile.acidity< 0.265 9  1.55556 6.22222 *
-					53) volatile.acidity<=0.265 19  4.63158 5.57895 *
-				51) alcohol<=9.75 37  16.4324 6.35135 
-					54) volatile.acidity< 0.245 11  1.63636 5.81818 *
-					55) volatile.acidity>=0.245 26  10.3462 6.57692 
-						56) free.sulfur.dioxide< 10.5 9  2.88889 7.11111 *
-						57) free.sulfur.dioxide<=10.5 17  3.52941 6.29412 *
-			49) volatile.acidity>=0.355 267  116.479 5.46816 
-				58) volatile.acidity> 0.545 135  65.7333 5.62222 
-					60) chlorides> 0.0965 90  36.4 5.8 
-						62) total.sulfur.dioxide< 70.5 73  22.8767 5.9589 *
-						63) total.sulfur.dioxide<=70.5 17  3.76471 5.11765 *
-					61) chlorides>=0.0965 45  20.8 5.26667 
-						64) free.sulfur.dioxide< 21 31  9.67742 5.45161 *
-						65) free.sulfur.dioxide<=21 14  7.71429 4.85714 *
-				59) volatile.acidity>=0.545 132  44.2652 5.31061 
-					66) total.sulfur.dioxide> 46.5 68  28.9853 5.51471 
-						68) free.sulfur.dioxide< 7.5 16  10.9375 5.9375 *
-						69) free.sulfur.dioxide<=7.5 52  14.3077 5.38462 *
-					67) total.sulfur.dioxide>=46.5 64  9.4375 5.09375 
-						70) volatile.acidity< 0.595 15  2.93333 5.26667 *
-						71) volatile.acidity<=0.595 49  5.91837 5.04082 *
-		47) alcohol>=10.525 344  184.555 6.3343 
-			72) volatile.acidity< 0.425 190  101.311 6.46842 
-				74) sulphates> 0.685 30  19.3667 6.23333 
-					76) free.sulfur.dioxide< 6.5 9  2.88889 7.11111 *
-					77) free.sulfur.dioxide<=6.5 21  6.57143 5.85714 
-						78) free.sulfur.dioxide< 11.5 8  1.875 5.625 *
-						79) free.sulfur.dioxide<=11.5 13  4 6 *
-				75) sulphates>=0.685 160  79.975 6.5125 
-					80) total.sulfur.dioxide> 53.5 125  49.2 6.68 
-						82) density< 0.99535 56  18.125 6.875 *
-						83) density<=0.99535 69  27.2174 6.52174 *
-					81) total.sulfur.dioxide>=53.5 35  14.7429 5.91429 
-						84) residual.sugar< 1.95 12  2.66667 6.33333 *
-						85) residual.sugar<=1.95 23  8.86957 5.69565 *
-			73) volatile.acidity<=0.425 154  75.6104 6.16883 
-				86) alcohol> 11.45 90  30.1 5.9 
-					88) chlorides> 0.093 73  16.9863 5.9863 
-						90) volatile.acidity< 0.6375 57  11.7193 6.07018 *
-						91) volatile.acidity<=0.6375 16  3.4375 5.6875 *
-					89) chlorides<=0.093 17  10.2353 5.52941 *
-				87) alcohol>=11.45 64  29.8594 6.54688 
-					92) density< 0.99289 8  1.875 7.375 *
-					93) density>=0.99289 56  21.7143 6.42857 
-						94) chlorides< 0.094 42  14.5 6.5 *
-						95) chlorides<=0.094 14  6.35714 6.21429 *
+	2) alcohol< 10.525 983  424.159 5.36623 
+		4) sulphates> 0.575 391  128.097 5.1509 
+			6) volatile.acidity< 0.7475 328  94.7195 5.20122 
+				8) alcohol> 9.75 209  44.0861 5.09569 
+					10) fixed.acidity> 9.25 172  33.9244 5.13372 
+						12) chlorides> 0.0795 84  18.7024 5.22619 
+							14) volatile.acidity< 0.42 9  2 5.66667 *
+							15) volatile.acidity<=0.42 75  14.7467 5.17333 
+								16) fixed.acidity> 7.65 46  4.80435 5.06522 
+									18) fixed.acidity< 6.95 12  2.25 5.25 *
+									19) fixed.acidity<=6.95 34  2 5 
+										20) residual.sugar< 2.55 27  0.962963 4.96296 *
+										21) residual.sugar<=2.55 7  0.857143 5.14286 *
+								17) fixed.acidity<=7.65 29  8.55172 5.34483 
+									22) alcohol< 9.45 15  1.73333 5.13333 *
+									23) alcohol<=9.45 14  5.42857 5.57143 *
+						13) chlorides<=0.0795 88  13.8182 5.04545 
+							24) sulphates< 0.465 8  1.5 4.75 *
+							25) sulphates>=0.465 80  11.55 5.075 
+								26) citric.acid< 0.135 26  6.61538 5.23077 
+									28) total.sulfur.dioxide< 47 18  3.77778 5.11111 *
+									29) total.sulfur.dioxide<=47 8  2 5.5 *
+								27) citric.acid>=0.135 54  4 5 
+									30) volatile.acidity> 0.605 38  1.89474 5.05263 
+										32) sulphates< 0.485 7  0.857143 5.14286 *
+										33) sulphates<=0.485 31  0.967742 5.03226 *
+									31) volatile.acidity<=0.605 16  1.75 4.875 *
+					11) fixed.acidity>=9.25 37  8.75676 4.91892 
+						34) total.sulfur.dioxide< 35.5 19  1.78947 5.10526 *
+						35) total.sulfur.dioxide<=35.5 18  5.61111 4.72222 *
+				9) alcohol>=9.75 119  44.2185 5.38655 
+					36) volatile.acidity> 0.5875 68  26.9412 5.52941 
+						38) citric.acid< 0.025 9  4 6 *
+						39) citric.acid<=0.025 59  20.6441 5.45763 
+							40) fixed.acidity< 7.55 21  7.80952 5.2381 
+								42) total.sulfur.dioxide< 62.5 14  4 5 *
+								43) total.sulfur.dioxide<=62.5 7  1.42857 5.71429 *
+							41) fixed.acidity>=7.55 38  11.2632 5.57895 
+								44) residual.sugar> 2.225 23  4.43478 5.73913 
+									46) free.sulfur.dioxide< 18.5 16  1.75 5.875 *
+									47) free.sulfur.dioxide<=18.5 7  1.71429 5.42857 *
+								45) residual.sugar<=2.225 15  5.33333 5.33333 *
+					37) volatile.acidity>=0.5875 51  14.0392 5.19608 
+						48) chlorides< 0.067 7  3.71429 5.57143 *
+						49) chlorides<=0.067 44  9.18182 5.13636 
+							50) residual.sugar> 2.05 24  2.95833 4.95833 
+								52) alcohol< 10.05 14  0.928571 5.07143 *
+								53) alcohol<=10.05 10  1.6 4.8 *
+							51) residual.sugar<=2.05 20  4.55 5.35 *
+			7) volatile.acidity<=0.7475 63  28.2222 4.88889 
+				54) citric.acid< 0.055 22  13.5 4.5 
+					56) residual.sugar< 1.95 7  2 4 *
+					57) residual.sugar<=1.95 15  8.93333 4.73333 *
+				55) citric.acid>=0.055 41  9.60976 5.09756 
+					58) chlorides< 0.0795 14  3.21429 5.35714 *
+					59) chlorides<=0.0795 27  4.96296 4.96296 
+						60) free.sulfur.dioxide< 11.5 10  2.1 4.7 *
+						61) free.sulfur.dioxide<=11.5 17  1.76471 5.11765 *
+		5) sulphates>=0.575 592  265.958 5.50845 
+			62) volatile.acidity< 0.405 144  70 5.83333 
+				64) sulphates< 0.655 41  10.1951 5.46341 
+					66) pH> 3.395 26  5.53846 5.30769 
+						68) free.sulfur.dioxide< 7.5 7  1.71429 5.57143 *
+						69) free.sulfur.dioxide<=7.5 19  3.15789 5.21053 *
+					67) pH<=3.395 15  2.93333 5.73333 *
+				65) sulphates<=0.655 103  51.9612 5.98058 
+					70) alcohol> 9.75 45  17.2444 5.71111 
+						72) free.sulfur.dioxide< 20 37  11.027 5.83784 
+							74) total.sulfur.dioxide< 18.5 13  3.23077 5.46154 *
+							75) total.sulfur.dioxide>=18.5 24  4.95833 6.04167 
+								76) residual.sugar< 2.55 17  2.47059 6.17647 *
+								77) residual.sugar<=2.55 7  1.42857 5.71429 *
+						73) free.sulfur.dioxide<=20 8  2.875 5.125 *
+					71) alcohol>=9.75 58  28.9138 6.18966 
+						78) total.sulfur.dioxide< 50 41  19.2195 6.34146 
+							80) volatile.acidity< 0.255 10  1.6 5.8 *
+							81) volatile.acidity>=0.255 31  13.7419 6.51613 
+								82) citric.acid< 0.36 7  2 7 *
+								83) citric.acid>=0.36 24  9.625 6.375 
+									84) volatile.acidity< 0.35 16  5.75 6.625 *
+									85) volatile.acidity<=0.35 8  0.875 5.875 *
+						79) total.sulfur.dioxide<=50 17  6.47059 5.82353 *
+			63) volatile.acidity>=0.405 448  175.873 5.40402 
+				86) total.sulfur.dioxide> 65.5 326  141.472 5.4908 
+					88) pH< 3.535 293  120.717 5.54266 
+						90) alcohol> 9.85 165  52.1455 5.41818 
+							92) volatile.acidity> 0.555 72  21.6528 5.56944 
+								94) total.sulfur.dioxide< 36 38  8.86842 5.76316 
+									96) free.sulfur.dioxide< 5.5 8  1.875 5.375 *
+									97) free.sulfur.dioxide<=5.5 30  5.46667 5.86667 
+										98) chlorides< 0.066 7  1.71429 5.42857 *
+										99) chlorides>=0.066 23  2 6 
+											100) citric.acid< 0.25 16  0.9375 6.0625 *
+											101) citric.acid<=0.25 7  0.857143 5.85714 *
+								95) total.sulfur.dioxide<=36 34  9.76471 5.35294 
+									102) density< 0.99805 20  2.55 5.15 *
+									103) density<=0.99805 14  5.21429 5.64286 *
+							93) volatile.acidity<=0.555 93  27.5699 5.30108 
+								104) pH< 3.305 42  11.619 5.09524 
+									106) residual.sugar< 2.25 26  6.96154 4.96154 
+										108) total.sulfur.dioxide< 26 7  3.71429 4.57143 *
+										109) total.sulfur.dioxide<=26 19  1.78947 5.10526 *
+									107) residual.sugar<=2.25 16  3.4375 5.3125 *
+								105) pH<=3.305 51  12.7059 5.47059 
+									110) residual.sugar< 2.45 42  9.90476 5.38095 
+										112) fixed.acidity< 6.95 15  1.73333 5.13333 *
+										113) fixed.acidity>=6.95 27  6.74074 5.51852 
+											114) volatile.acidity< 0.655 17  3.52941 5.70588 *
+											115) volatile.acidity<=0.655 10  1.6 5.2 *
+									111) residual.sugar<=2.45 9  0.888889 5.88889 *
+						91) alcohol<=9.85 128  62.7188 5.70312 
+							116) citric.acid> 0.52 111  50.1081 5.62162 
+								118) citric.acid> 0.41 102  35.5784 5.69608 
+									120) chlorides< 0.0655 15  3.73333 6.13333 *
+									121) chlorides>=0.0655 87  28.4828 5.62069 
+										122) pH> 3.405 66  19.5303 5.71212 
+											124) citric.acid< 0.205 30  6.7 5.9 
+												126) sulphates> 0.645 23  3.91304 5.78261 
+													128) density< 0.99665 16  0.9375 5.9375 *
+													129) density<=0.99665 7  1.71429 5.42857 *
+												127) sulphates<=0.645 7  1.42857 6.28571 *
+											125) citric.acid<=0.205 36  10.8889 5.55556 
+												130) free.sulfur.dioxide< 10.5 15  2.4 5.2 *
+												131) free.sulfur.dioxide<=10.5 21  5.2381 5.80952 
+													132) chlorides< 0.082 7  1.71429 5.42857 *
+													133) chlorides<=0.082 14  2 6 *
+										123) pH>=3.405 21  6.66667 5.33333 
+											134) citric.acid< 0.13 12  5 5.5 *
+											135) citric.acid<=0.13 9  0.888889 5.11111 *
+								119) citric.acid<=0.41 9  7.55556 4.77778 *
+							117) citric.acid<=0.52 17  7.05882 6.23529 *
+					89) pH>=3.535 33  12.9697 5.0303 
+						136) volatile.acidity< 0.695 26  6.03846 5.19231 
+							138) sulphates< 0.765 19  2.94737 5.05263 *
+							139) sulphates<=0.765 7  1.71429 5.57143 *
+						137) volatile.acidity<=0.695 7  3.71429 4.42857 *
+				87) total.sulfur.dioxide<=65.5 122  25.3852 5.17213 
+					140) alcohol< 9.45 51  8 5 
+						142) total.sulfur.dioxide< 76 9  2 4.66667 *
+						143) total.sulfur.dioxide>=76 42  4.78571 5.07143 
+							144) total.sulfur.dioxide< 96.5 19  3.15789 5.21053 *
+							145) total.sulfur.dioxide<=96.5 23  0.956522 4.95652 *
+					141) alcohol>=9.45 71  14.7887 5.29577 
+						146) citric.acid> 0.315 39  9.58974 5.4359 
+							148) total.sulfur.dioxide> 106.5 27  6.66667 5.55556 
+								150) free.sulfur.dioxide< 18 11  1.63636 5.81818 *
+								151) free.sulfur.dioxide<=18 16  3.75 5.375 *
+							149) total.sulfur.dioxide<=106.5 12  1.66667 5.16667 *
+						147) citric.acid<=0.315 32  3.5 5.125 
+							152) chlorides< 0.089 23  0.956522 5.04348 *
+							153) chlorides<=0.089 9  2 5.33333 *
+	3) alcohol<=10.525 616  432.271 6.06656 
+		154) sulphates> 0.645 272  191.868 5.72794 
+			156) volatile.acidity> 1.015 262  154.87 5.79389 
+				158) volatile.acidity< 0.495 116  65.4483 6.06897 
+					160) alcohol> 11.55 51  31.6863 5.7451 
+						162) pH> 3.295 25  12.96 6.04 
+							164) citric.acid< 0.395 10  2.4 6.6 *
+							165) citric.acid<=0.395 15  5.33333 5.66667 *
+						163) pH<=3.295 26  14.4615 5.46154 
+							166) sulphates< 0.585 13  6.92308 5.07692 *
+							167) sulphates<=0.585 13  3.69231 5.84615 *
+					161) alcohol>=11.55 65  24.2154 6.32308 
+						168) pH> 3.275 35  12.7429 6.51429 
+							170) fixed.acidity< 10.05 28  8.42857 6.64286 
+								172) citric.acid< 0.44 12  2.66667 6.33333 *
+								173) citric.acid<=0.44 16  3.75 6.875 *
+							171) fixed.acidity<=10.05 7  2 6 *
+						169) pH<=3.275 30  8.7 6.1 
+							174) alcohol< 12.05 10  3.6 5.8 *
+							175) alcohol<=12.05 20  3.75 6.25 *
+				159) volatile.acidity<=0.495 146  73.6712 5.57534 
+					176) free.sulfur.dioxide> 8.5 48  25.4792 5.27083 
+						178) density> 0.995145 21  11.1429 5.57143 
+							180) citric.acid< 0.035 10  4 6 *
+							181) citric.acid<=0.035 11  3.63636 5.18182 *
+						179) density>=0.995145 27  10.963 5.03704 
+							182) alcohol< 10.85 10  2.5 5.5 *
+							183) alcohol<=10.85 17  5.05882 4.76471 *
+					177) free.sulfur.dioxide>=8.5 98  41.5612 5.72449 
+						184) total.sulfur.dioxide< 19 13  2.76923 6.30769 *
+						185) total.sulfur.dioxide>=19 85  33.6941 5.63529 
+							186) residual.sugar> 3.3 78  21.7949 5.71795 
+								188) citric.acid> 0.075 46  8.45652 5.8913 
+									190) chlorides< 0.0605 7  1.42857 6.28571 *
+									191) chlorides>=0.0605 39  5.74359 5.82051 
+										192) total.sulfur.dioxide> 45.5 29  1.86207 5.93103 
+											194) alcohol< 11.65 22  0.954545 5.95455 *
+											195) alcohol<=11.65 7  0.857143 5.85714 *
+										193) total.sulfur.dioxide<=45.5 10  2.5 5.5 *
+								189) citric.acid<=0.075 32  9.96875 5.46875 
+									196) alcohol< 11.35 16  3 5.25 *
+									197) alcohol<=11.35 16  5.4375 5.6875 *
+							187) residual.sugar<=3.3 7  5.42857 4.71429 *
+			157) volatile.acidity<=1.015 10  6 4 *
+		155) sulphates<=0.645 344  184.555 6.3343 
+			198) alcohol> 11.55 206  101.966 6.12136 
+				200) volatile.acidity> 0.395 95  55.5368 6.34737 
+					202) pH< 3.255 36  13.6389 6.80556 
+						204) pH< 3.225 29  10.2069 6.68966 
+							206) fixed.acidity< 10.45 13  2.76923 6.30769 *
+							207) fixed.acidity<=10.45 16  4 7 *
+						205) pH<=3.225 7  1.42857 7.28571 *
+					203) pH>=3.255 59  29.7288 6.0678 
+						208) total.sulfur.dioxide< 56.5 42  15.619 6.2381 
+							210) sulphates< 0.735 14  3.71429 5.85714 *
+							211) sulphates>=0.735 28  8.85714 6.42857 
+								212) citric.acid< 0.47 16  3.4375 6.6875 *
+								213) citric.acid<=0.47 12  2.91667 6.08333 *
+						209) total.sulfur.dioxide<=56.5 17  9.88235 5.64706 *
+				201) volatile.acidity>=0.395 111  37.4234 5.92793 
+					214) chlorides> 0.0945 88  20.9886 6.01136 
+						216) total.sulfur.dioxide< 65 81  16.6914 6.06173 
+							218) pH> 3.32 36  4.75 5.91667 
+								220) sulphates< 0.795 26  0.961538 6.03846 *
+								221) sulphates<=0.795 10  2.4 5.6 *
+							219) pH<=3.32 45  10.5778 6.17778 
+								222) density> 0.99728 38  5.89474 6.05263 
+									224) volatile.acidity< 0.485 9  2 6.33333 *
+									225) volatile.acidity>=0.485 29  2.96552 5.96552 
+										226) volatile.acidity< 0.625 20  0.95 6.05 *
+										227) volatile.acidity<=0.625 9  1.55556 5.77778 *
+								223) density<=0.99728 7  0.857143 6.85714 *
+						217) total.sulfur.dioxide<=65 7  1.71429 5.42857 *
+					215) chlorides<=0.0945 23  13.4783 5.6087 
+						228) alcohol< 11.15 11  3.63636 5.18182 *
+						229) alcohol<=11.15 12  6 6 *
+			199) alcohol>=11.55 138  59.3043 6.65217 
+				230) fixed.acidity< 12.2 131  51.7863 6.69466 
+					232) sulphates> 0.685 21  4.28571 6.28571 
+						234) alcohol< 11.85 8  1.875 6.625 *
+						235) alcohol<=11.85 13  0.923077 6.07692 *
+					233) sulphates<=0.685 110  43.3182 6.77273 
+						236) alcohol> 12.45 69  22.2029 6.62319 
+							238) pH> 3.365 48  11.9167 6.79167 
+								240) alcohol> 11.85 21  4.95238 6.95238 
+									242) volatile.acidity< 0.475 14  2.92857 7.07143 *
+									243) volatile.acidity<=0.475 7  1.42857 6.71429 *
+								241) alcohol<=11.85 27  6 6.66667 
+									244) residual.sugar< 2.15 7  1.42857 6.28571 *
+									245) residual.sugar<=2.15 20  3.2 6.8 *
+							239) pH>=3.365 21  5.80952 6.2381 
+								246) total.sulfur.dioxide< 34.5 7  1.42857 6.71429 *
+								247) total.sulfur.dioxide<=34.5 14  2 6 *
+						237) alcohol>=12.45 41  16.9756 7.02439 
+							248) free.sulfur.dioxide< 25.5 34  9.52941 7.11765 
+								250) chlorides< 0.0705 22  4 7 
+									252) pH< 3.55 15  1.73333 6.86667 *
+									253) pH<=3.55 7  1.42857 7.28571 *
+								251) chlorides<=0.0705 12  4.66667 7.33333 *
+							249) free.sulfur.dioxide<=25.5 7  5.71429 6.57143 *
+				231) fixed.acidity<=12.2 7  2.85714 5.85714 *
