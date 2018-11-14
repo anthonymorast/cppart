@@ -15,7 +15,7 @@ struct params {
     string headers;
     unsigned int minNode;	// minimum number of obs for terminal node
     unsigned int maxDepth;
-    bool delayed;
+    int delayed;
     bool runXVals;
     bool splitdata;
     string testDataFilename;

@@ -4,7 +4,7 @@ OBJS=datatab.o  metric.o  node.o lacart.o utils.o data_handler.o
 
 LFLAGS=-g
 
-CFLAGS=-std=c++11 -g -Wall
+CFLAGS=-std=c++11 -g -Wall -O2
 
 INCLUDES=-I.
 
