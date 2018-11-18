@@ -100,10 +100,8 @@ void Node::split(int level)
 		return;
 	}
 
-
-	// Find the best variable (and location) for splitting the current
-	// node. Go through each colum, and track the best.
-	// This was the bestsplit() function in previous implementation
+	
+	// great place for multi-threading
 	for (int curCol = 1; curCol < cols; curCol++)
 	{
 		// sort by current column
@@ -157,6 +155,18 @@ void Node::split(int level)
 
 		metric->getSplitCriteria(ltab,&leftMean,&leftSS);
 		metric->getSplitCriteria(rtab,&rightMean,&rightSS);
+
+		// do everything up to this point the same for parallel
+		// remove everything down from here
+		// in the parallel function return a struct containing all the information from here on
+		// compare the bestSS and totalSS and only keep a copy of the struct relating to the bestSS
+		// once we do all the columns use the information from the struct to split the node.
+		// 
+		// if (struct->thisSS < bestSS && struct->improve > 0) 
+		// 	  bestStruct = struct
+		// 	  bestSS = thisSS
+		//
+		// exit loop. When all columns are done create the left/right nodes and datatables
 
 		if ((improve>0) && (totalSS<bestSS) && (leftSS>alpha) && (rightSS>alpha))
 		{
