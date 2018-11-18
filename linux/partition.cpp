@@ -105,7 +105,7 @@ int partition(params *p, node* n, long nodeNum, double &sumrisk) {
 
     n->cp = (n->dev - (leftRisk + rightRisk)) / (leftSplits + rightSplits + 1);
     //cout << n->nodeId << ", " << leftRisk << ", " << rightRisk << endl;
-    cout << n->nodeId << ", " << n->cp << ", " << p->alpha << endl; 
+    //cout << n->nodeId << ", " << n->cp << ", " << p->alpha << endl; 
 
     if(n->cp <= p->alpha) {
         sumrisk = n->dev;

@@ -76,9 +76,6 @@ void anovaSplit(float *x, float * y, params *p, int &which,
         if (x[i + 1] != x[i] && left_n >= p->minNode) {
             temp = left_sum * left_sum / left_wt +
                 right_sum * right_sum / right_wt;
-            if(numValues == 41) {
-                cout << "temp: " << temp << " best: " << best << endl;
-            }
             if (temp > best) {
                 best = temp;
                 which = i;
@@ -90,7 +87,5 @@ void anovaSplit(float *x, float * y, params *p, int &which,
         }
     }
     improve = myrisk == 0 ? 0 : best / myrisk;
-    if(numValues == 41) 
-        cout << "myrisk: " << myrisk << " best: " << best << " grandmean: " << grandmean << endl;
     splitPoint = (numValues > which + 1) ? ((x[which] + x[which + 1]) / 2) : x[which];
 }
