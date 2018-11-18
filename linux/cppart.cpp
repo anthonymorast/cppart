@@ -64,6 +64,7 @@ int main(int argc, char* argv[]) {
     int correct = 0, incorrect = 0;
     for (int i = 0; i < p.testSize; i++) {
         float *sample = p.testData[i];
+		cout << sample[0] << " " << sample[1] << " " << sample[5] << endl;
         int respCol = getResponseColumnNumber(p.response, p.headers);
         float pred = getPrediction(&root, sample, respCol);
         float e = abs(pred - sample[respCol]);

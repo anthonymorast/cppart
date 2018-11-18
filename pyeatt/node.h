@@ -35,9 +35,9 @@ public:
   ~Node();
 
   void setId(){nodeId = nextId++;}
-
   void split(int level);
   void dsplit(DataTable*, DataTable *&l, DataTable *&r);
+  float predict(double *sample);
   
   static void setMetric(statisticalMetric *m){metric = m;}
   static void setMinNodeData(int min){minNode = min;}

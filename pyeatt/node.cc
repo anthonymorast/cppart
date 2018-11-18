@@ -209,6 +209,31 @@ void Node::split(int level)
 
 }
 
+float Node::predict(double *sample)
+{
+	float pred = 0;
+	if (left == NULL && right == NULL)
+		return yval;
+
+	if(sample[splitIndex] < splitValue)
+		direction *= -1;
+	if(direction < 0)
+	{
+		if(left == NULL)
+			return yval;
+		else 
+			pred = left->predict(sample);
+	} 
+	else 
+	{
+		if(right == NULL)
+			return yval;
+		else 
+			pred = right->predict(sample);
+	}
+	return pred;
+}
+
 void Node::print(ofstream &fout, bool isRight)
 {
 	string directionStr = "";
