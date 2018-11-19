@@ -76,7 +76,7 @@ void DataTable::quickSortBy(int col,int left,int right)
     quickSortBy(col,left,last);
 }
 
-DataTable*  DataTable::subSet(int first,int last)
+DataTable* DataTable::subSet(int first,int last)
 {
   //cout<< "getting subset from "<<first<<" to "<<last<<endl;
   int nrows = last-first+1;

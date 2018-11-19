@@ -12,7 +12,6 @@ using namespace std;
 #define MISSING 0
 
 
-
 // The statisticalMetric class provides statistical functions to be
 // used on DataTable objects.
 
@@ -135,43 +134,12 @@ void anovaMetric::findSplit(DataTable *data,int col,
 	    }
 	}
     }
-
-    //leftdata=data->subSet();
-    //rightdata=data->subSet();
-  
-    // if lokkahead is greater than zero loop over all columns and recurse
-    // AM: I think this is in the wrong place. Although recursion would probably work
-    // it might be easier to move this up one step to the column-wise split decision
-    // and loop rather than recurse.
-  /*if(lookahead > 0) // add stopping criteria
-    for(int i = 1; i < data->numCols(); i++)
-      {
-	leftdata->sortBy(i);
-	rightdata->sortBy(i);
-	tmpSS = findSplit(leftdata,i,bp1,di2,sV1,im1,mN1,lookahead-1);
-	tmpSS += findSSplit(rightdata,i,bp1,di2,sV2,im2,mN2,lookahead-1);
-	  
-	totalSS = tmpSS;
-      }*/
-  //delete leftdata;
-  //delete rightdata;
-  
+  direction = LEFT;
   improve = originalSumSquares == 0.0 ? 0 : bestval / originalSumSquares;
   
   splitValue = (data->numRows() > bestpos + 1) ?
     (((*data)[bestpos][col] + (*data)[bestpos + 1][col]) / 2) :
     (*data)[bestpos][col];
-
-  /*if (data->numRows() == 41) {
-  cout<<"splitreport: "<< col << " " <<
-    bestpos<< " " <<
-    direction<< " " <<
-    splitValue<< " " <<
-    improve<< " " << data->getName(col) << " ss: " << 
-    originalSumSquares << "  best: " << bestval << "  grandmean: " << grandmean  << endl;
-  }*/
-
-  //return totalSS;
 }
 
 
