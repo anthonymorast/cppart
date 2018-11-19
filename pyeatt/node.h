@@ -29,6 +29,7 @@ class Node{
   int depth;
   int nodeId;
   string varName;
+  int varIndex;
   Node *left, *right, *parent;        // Both NULL for leaf node.
 public:
   Node(Node *Parent, DataTable *d,double mean,double Cp,int level);

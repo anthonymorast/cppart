@@ -116,9 +116,13 @@ void Node::split(int level)
 
 		metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
 
-		// I would have swapped rtab and ltab, but... whatever.
-		ltab = data->subSet(0,where);
-		rtab = data->subSet(where+1,data->numRows()-1);
+		if (dir < 0) {
+			ltab = data->subSet(0,where);
+			rtab = data->subSet(where+1,data->numRows()-1);
+		} else {
+			ltab = data->subSet(where+1, data->numRows()-1);
+			rtab = data->subSet(0, where);
+		}
 
 		q.push(ltab); q.push(rtab);
 		long unsigned int stopSize = pow(2, delays+1);
@@ -176,6 +180,7 @@ void Node::split(int level)
 			direction = dir;
 			splitValue = splitPoint;
 			splitIndex = where;
+			varIndex = curCol;
 			varName = data->getName(curCol);
 			if(right != NULL)
 				delete right;
@@ -215,7 +220,11 @@ float Node::predict(double *sample)
 	if (left == NULL && right == NULL)
 		return yval;
 
-	if(direction < 0)
+	int dir = direction;
+	if(sample[varIndex] > splitValue)
+		dir *= -1;
+
+	if(dir < 0)
 	{
 		if(left == NULL)
 			return yval;

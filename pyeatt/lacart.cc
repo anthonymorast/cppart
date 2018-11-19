@@ -113,12 +113,13 @@ int main(int argc, char* argv[]) {
 	    double *sample = p.testData[i];
 	    double pred = tree->predict(sample);
 	    double e = abs(pred - sample[0]);
-	    if(pred == sample[respCol]) {
+		cout << pred << " vs. " << sample[0] << endl;
+	    if(pred == sample[0]) {
 	        correct++;
 	    } else {
 	        incorrect++;
 	    }
-	    relError += e/1+abs(sample[respCol]); // class 0 = nan, need to add 1 to denominator
+	    relError += e/1+abs(sample[0]); // class 0 = nan, need to add 1 to denominator
 	    mae += e;
 	}
 	if(p.method == ANOVA) {
