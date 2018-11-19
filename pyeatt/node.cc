@@ -215,8 +215,6 @@ float Node::predict(double *sample)
 	if (left == NULL && right == NULL)
 		return yval;
 
-	if(sample[splitIndex] < splitValue)
-		direction *= -1;
 	if(direction < 0)
 	{
 		if(left == NULL)
@@ -254,7 +252,11 @@ void Node::print(ofstream &fout, bool isRight)
 			tabString += "\t";
 		}
 
-		if (direction <= 0) {
+		int dir = parent->direction;
+		if (isRight) 
+			dir *= -1;
+
+		if (dir <= 0) {
 			directionStr = "<";
 		}
 		else {
@@ -274,7 +276,7 @@ void Node::print(ofstream &fout, bool isRight)
 		fout << tabString << nodeId << ") " <<
 			parent->varName << directionStr << parent->splitValue << " " <<
 			data->numRows() << "  " << dev << " " <<
-			yval << " " << terminalStr << endl;
+			yval << " " << terminalStr << "  " << dir << endl;
 	}
 
 	if(left != NULL)
