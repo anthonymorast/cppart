@@ -134,7 +134,6 @@ void anovaMetric::findSplit(DataTable *data,int col,
 	    }
 	}
     }
-  direction = LEFT;
   improve = originalSumSquares == 0.0 ? 0 : bestval / originalSumSquares;
   
   splitValue = (data->numRows() > bestpos + 1) ?
