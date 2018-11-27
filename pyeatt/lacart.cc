@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	params p;
-	cout << endl;
+	//cout << endl;
 
 	parseParameters(argv, argc, &p);
 
@@ -61,9 +61,13 @@ int main(int argc, char* argv[]) {
 	start = clock();
 
 	//int numNodes = 0;
-	cout << "Building tree..." << endl;
+	//cout << "Building tree..." << endl;
 
-	anovaMetric *metric = new anovaMetric;
+	statisticalMetric *metric;
+	if(p.method == GINI) 
+		metric = new giniMetric;
+	else
+		metric = new anovaMetric;
 	double mean,cp;
 
 	metric->getSplitCriteria(Data,&mean,&cp);
@@ -88,7 +92,7 @@ int main(int argc, char* argv[]) {
 	if(p.delayed > 0)
 		treeFileName += ".delayed";
 	treeFileName += ".tree";
-	cout << "Creating tree file '" << treeFileName << "'..." << endl;
+	//cout << "Creating tree file '" << treeFileName << "'..." << endl;
 	ofstream fout;
 	fout.open(treeFileName);
 	tree->print(fout, false);
@@ -102,9 +106,9 @@ int main(int argc, char* argv[]) {
 	// cpTableFilename += ".cptable";
 	// printCpTable(cpTableHead, cpTableFilename);
 
-	cout << endl << endl << "Results: " << endl;
-	cout << "Time elapsed " << ((double)(end - start)) / CLOCKS_PER_SEC << endl;
-	cout << "Test Data: " << endl;
+	//cout << endl << endl << "Results: " << endl;
+	//cout << "Time elapsed " << ((double)(end - start)) / CLOCKS_PER_SEC << endl;
+	//cout << "Test Data: " << endl;
 	double mae = 0;
 	double relError = 0;
 	int correct = 0, incorrect = 0;
@@ -113,7 +117,7 @@ int main(int argc, char* argv[]) {
 	    double *sample = p.testData[i];
 	    double pred = tree->predict(sample);
 	    double e = abs(pred - sample[0]);
-		cout << pred << " vs. " << sample[0] << endl;
+		// cout << pred << " vs. " << sample[0] << endl;
 	    if(pred == sample[0]) {
 	        correct++;
 	    } else {
@@ -122,14 +126,17 @@ int main(int argc, char* argv[]) {
 	    relError += e/1+abs(sample[0]); // class 0 = nan, need to add 1 to denominator
 	    mae += e;
 	}
-	if(p.method == ANOVA) {
+	/*if(p.method == ANOVA) {
 	    cout << "\tMAE: " << mae/p.testSize << endl;
 	} else {
 	    cout << "\tCorrect Classifications: " << correct << endl;
 	    cout << "\tIncorrect Classifications: " << incorrect << endl;
 	    cout << "\tClassification Error (correct/total): " << (double)correct/p.testSize << endl;
 	}
-	cout << "\tRelative Error: " << relError/p.testSize << endl << endl;
+	cout << "\tRelative Error: " << relError/p.testSize << endl << endl;*/
+
+	// NEED TO ADD DEVIANCE FUNCTIONS WHICH IS IMPURITY
+	cout << p.delayed << "," << p.maxDepth << "," << (relError/p.testSize) << "," << (mae/p.testSize) << endl;
 
 	return 0;
 }

@@ -193,10 +193,6 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
             thisSS = leftSS + rightSS;
         }
 
-        if(numObs == 41) {
-            cout << "nodeId: " << n->nodeId << " which: " << where << " var: " << p->varNames[varIdx] << " improve: " << improve << endl;
-        }
-
         // compare only 6 digits of doubles since roundoff error causes discrepencies between pypart/rpart and cppart
         if (improve > 0 && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) { //improve > bestImprove) {
             //((p->method == ANOVA && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) ||

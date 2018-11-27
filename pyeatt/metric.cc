@@ -169,7 +169,6 @@ void giniMetric::findSplit(DataTable *data,int col,
 			    double &splitValue,
 			    double &improve, int minNode)
 {
-    // // in rpart prior[i] = aprior[i] = 0 for all i
     // int i, j, k;
     // double lwt = 0, rwt = 0;
     // int rtot = 0, ltot = 0;

@@ -184,7 +184,7 @@ void parseParameters(char * argv[], int argc, params *p)
 	// free1DData(y);
 
 	// NOW WE MAY NEED TO SPLIT INTO TRAING AND TESTING SETS
-	double **testData, **trainData;
+	double **testData = NULL, **trainData;
 	int numObs = lineCount - 1;
 	int testSize = 0, trainSize = numObs;
 
