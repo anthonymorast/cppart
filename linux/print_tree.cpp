@@ -69,5 +69,5 @@ void printNode(node * n, int nodeId, int myDepth, node * parent, bool right, ofs
 	}
 
 	fout << tabString << nodeId << ") " << parent->varName << directionStr << parent->splitPoint << " " <<
-		n->numObs << "  " << n->dev << " " << n->yval << " " << terminalStr << endl;
+		n->numObs << "  " << n->dev << " " << n->yval << " " << terminalStr << "  " << direction << endl;
 }

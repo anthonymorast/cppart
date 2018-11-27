@@ -22,7 +22,7 @@ int parseParameters(char * argv[], int argc, params *p)
         exit(0);
     }
 
-    int xvals = 1;
+    int xvals = 0;
     int split_data = 0;
     string test_data_filename = "";
     int randomSplit = 1;
