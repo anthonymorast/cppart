@@ -171,7 +171,7 @@ void Node::split(int level)
 		// 	  bestSS = thisSS
 		//
 		// exit loop. When all columns are done create the left/right nodes and datatables
-
+		
 		if ((improve>0) && (totalSS<bestSS) && (leftSS>alpha) && (rightSS>alpha))
 		{
 			lftChild = new Node(this,ltab,leftMean,leftSS,depth+1);
