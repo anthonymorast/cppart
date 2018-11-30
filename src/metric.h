@@ -51,7 +51,7 @@ class anovaMetric:public statisticalMetric{
 
 class giniMetric:public statisticalMetric{
 
-  double impure(double p){return p * (1.0 - p);}
+ double impure(double p){return p * (1.0 - p);}
 
  public:
 

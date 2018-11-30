@@ -59,8 +59,6 @@ void statisticalMetric::findSplit(DataTable *data,int col,
   cerr<<"Error! findSplit called for statisticalMetric"<<endl;
   exit(2);
 }
-				  
-
 
 // Find the best place to split the data.  Assume data is already
 // sorted on the specified column.  The goal is to find the split
@@ -74,7 +72,6 @@ void anovaMetric::findSplit(DataTable *data,int col,
 {
   double tmp;
   double left_sum, right_sum;
-  // double left_wt, right_wt;  // why have extra vars
   int left_n, right_n;
   double grandmean, bestval;
   double originalSumSquares;
@@ -133,7 +130,7 @@ void anovaMetric::findSplit(DataTable *data,int col,
 			direction = RIGHT;
 	    }
 	}
-    }
+  }
   improve = originalSumSquares == 0.0 ? 0 : bestval / originalSumSquares;
   
   splitValue = (data->numRows() > bestpos + 1) ?
@@ -169,98 +166,119 @@ void giniMetric::findSplit(DataTable *data,int col,
 			    double &splitValue,
 			    double &improve, int minNode)
 {
-    // int i, j, k;
-    // double lwt = 0, rwt = 0;
-    // int rtot = 0, ltot = 0;
-    // direction = LEFT; 
-    // which = 0; // which = where
-    // double total_ss, best, temp, pp;
-    // double lmean, rmean;
+    int i, j, n = data->numRows();
+    int rtot = 0, ltot = 0;
+    direction = LEFT; 
+    bestpos = 0; // which = where
+    double total_ss, best, temp, pp;
+    double lmean, rmean;
 
-    // // initialize count of class instances left and right of split (all start in right)
-    // map<float, int> rightMap, leftMap;
-    // for(int i = 0; i < n; i++) {
-    //     if(rightMap.count(y[i])) { // if == 1, key is in map
-    //     } else {
-    //         rightMap.insert(pair<float, int>(y[i], 0));
-    //         leftMap.insert(pair<float, int>(y[i], 0));
-    //     }
-    // }
-
-    // for(i = 0; i < n; i++) {
-    //     rwt++; // += aprior[j] * wt[i] => 1*1
-    //     rightMap.at(y[i])++; // += wt[i] 
-    //     rtot++;
-    // }
-
-    // total_ss = 0;
-    // for(auto it = rightMap.cbegin(); it != rightMap.cend(); it++) {
-    //     temp = 1 * it->second / rwt;
-    //     total_ss += rwt * impure(temp);
-    // }
-    // best = total_ss;
-
-    // for(i = 0; rtot > p->minNode; i++) {
-    //     j = y[i];
-    //     rwt--; // -= aprior[j] * wt[i]
-    //     lwt++; // += aprior[j] * wt[i]
-    //     rtot--;
-    //     ltot++;
-    //     rightMap.at(j)--; // -= wt[i]
-    //     leftMap.at(j)++; // += wt[i]
-    //     if (ltot >= p->minNode && x[i+1] != x[i]) {
-    //         temp = 0;
-    //         lmean = 0;
-    //         rmean = 0;
-    //         j = 0;
-    //         for(auto right = rightMap.cbegin(), left = leftMap.cbegin(); 
-    //                 right != rightMap.cend() && left != leftMap.cend();  right++, left++) {
-    //             // key order should always be the same for std::map structures
-    //             pp = 1 * left->second / lwt; // aprior[j] * left[j] / lwt
-    //             temp += lwt * impure(pp);
-    //             lmean += pp * j; 
-    //             pp = 1 * right->second / rwt; // aprior[j] * right[j] / rwt
-    //             temp += rwt * impure(pp);
-    //             rmean += pp * j;
-    //             j++;
-    //         }
-    //         if (temp < best) {
-    //             best = temp;
-    //             which = i;
-    //             direction = lmean < rmean ? LEFT : RIGHT;
-    //         }
-    //     }
-    // }
-
-    // improve = total_ss - best;
-    // splitPoint = (n > which + 1) ? ((x[which] + x[which + 1]) / 2) : x[which];
-}
-
-
-
-// formerly known as giniCalc
-void giniMetric::getSplitCriteria(DataTable *data,double *cls, double *cp)
-{
-
-    double gini = 0;
-
-    map<double, int> freqs; // map class label to occurrence frequency
-    for(int i = 0; i < data->numRows(); i++) {
-      if(freqs.count((*data)[i][0])) { // if == 1, key is in map
-            freqs.at((*data)[i][0])++; 
+    // initialize count of class instances left and right of split (all start in right)
+    map<float, int> rightMap, leftMap;
+    for(i = 0; i < n; i++) {
+		double y = (*data)[i][0];
+        if(rightMap.count(y)) { // if == 1, key is in map
         } else {
-            freqs.insert(pair<double, int>((*data)[i][0], 1));
+            rightMap.insert(pair<float, int>(y, 0));
+            leftMap.insert(pair<float, int>(y, 0));
         }
     }
 
-    double temp;
-    for(auto it = freqs.cbegin(); it != freqs.cend(); it++) {
-        //gini += ((it->second/(double)n) * (it->second/(double)n)); // gini = 1 - sum(freq_j / total obs);
-      temp = it->second / (double)data->numRows();
-      gini += (double)data->numRows() * impure(temp);
+    for(i = 0; i < n; i++) {
+		double y = (*data)[i][0];
+        rightMap.at(y)++; // += wt[i] 
+        rtot++;
     }
-    *cls = 0.0;
-    *cp = gini;
-}
-  
 
+    total_ss = 0;
+    for(auto it = rightMap.cbegin(); it != rightMap.cend(); it++) {
+        temp = 1 * it->second / ((double)rtot);
+        total_ss += rtot * impure(temp);
+    }
+    best = total_ss;
+
+	for(i = 0; rtot > minNode; i++) {
+		double y = (*data)[i][0];
+		double x = (*data)[i][col];
+		double x2 = (*data)[i+1][col];
+
+        rtot--;
+        ltot++;
+        rightMap.at(y)--; // -= wt[i]
+        leftMap.at(y)++; // += wt[i]
+        if (ltot >= minNode && x2 != x) {
+            temp = 0;
+            lmean = 0;
+            rmean = 0;
+            j = 0;
+            for(auto right = rightMap.cbegin(), left = leftMap.cbegin(); 
+                    right != rightMap.cend() && left != leftMap.cend();  right++, left++) {
+                // key order should always be the same for std::map structures
+                pp = 1 * left->second / ltot; // aprior[j] * left[j] / lwt
+                temp += ltot * impure(pp);
+                lmean += pp * j; 
+                pp = 1 * right->second / rtot; // aprior[j] * right[j] / rwt
+                temp += rtot * impure(pp);
+                rmean += pp * j;
+                j++;
+            }
+            if (temp < best) {
+                best = temp;
+                bestpos = i;
+                direction = lmean < rmean ? LEFT : RIGHT;
+            }
+        }
+    }
+
+	double x = (*data)[bestpos][col];
+	double x2 = (*data)[bestpos+1][col];
+    improve = total_ss - best;
+    splitValue = (n > bestpos + 1) ? ((x + x2) / 2) : x;
+}
+
+
+
+// formerly known as giniDev
+void giniMetric::getSplitCriteria(DataTable *data,double *cls, double *cp)
+{
+	// majority vote for class (cls)
+	map<float, int> classFreq;
+	for(int i = 0; i < data->numRows(); i++)
+	{
+		double y = (*data)[i][0];
+		if(classFreq.count(y)) 
+			classFreq.at(y)++;
+		else
+			classFreq.insert(pair<float, int>(y, 1));
+	}
+
+	int max = 0;
+	for(auto it = classFreq.cbegin(); it != classFreq.cend(); it++)
+	{
+		if(it->second > max)
+		{
+			*cls = it->first;
+			max = it->second;
+		}
+	}
+
+	*cp = 0;
+	int numClasses = classFreq.size();
+	for(int i = 0; i < numClasses; i++)
+	{
+		int temp = 0;
+		int j = 0;
+		for(auto it = classFreq.cbegin(); it != classFreq.cend(); it++)
+		{
+			int loss_mult = j == i ? 0 : 1;
+			temp += (it->second * loss_mult);
+			j++;
+		}
+		if(i == 0 || temp < *cp) 
+		{
+			max = i;
+			*cp = temp;
+		}
+	}
+
+}
