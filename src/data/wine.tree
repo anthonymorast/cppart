@@ -1,0 +1,18 @@
+node) split, number observations, deviance, yval
+* denotes a terminal node
+
+1) root 1280 817.712 5.61953
+	2) alcohol< 10.525 792  337.01 5.35354   -1
+		4) sulphates< 0.555 253  68.9091 5.09091   -1
+			6) volatile.acidity> 0.8125 28  14.4286 4.64286 *  1
+			7) volatile.acidity<=0.8125 225  48.16 5.14667 *  -1
+		5) sulphates>=0.555 539  242.46 5.47681   1
+			8) volatile.acidity> 0.365 463  187.279 5.40173 *  1
+			9) volatile.acidity<=0.365 76  36.6711 5.93421 *  -1
+	3) alcohol>=10.525 488  333.719 6.05123   1
+		10) sulphates< 0.645 208  138.688 5.6875   -1
+			12) volatile.acidity> 0.9125 11  8.72727 4.45455 *  1
+			13) volatile.acidity<=0.9125 197  112.305 5.75635 *  -1
+		11) sulphates>=0.645 280  147.071 6.32143   1
+			14) alcohol< 11.55 165  77.2485 6.10303 *  -1
+			15) alcohol>=11.55 115  50.6609 6.63478 *  1
