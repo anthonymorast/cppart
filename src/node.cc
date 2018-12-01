@@ -115,6 +115,8 @@ void Node::split(int level)
 		queue<DataTable*> q;
 
 		metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
+		if(data->numRows() == 1280)
+			cout << where << " " << splitPoint << endl;
 
 		if (dir < 0) {
 			ltab = data->subSet(0,where);
@@ -171,7 +173,9 @@ void Node::split(int level)
 		// 	  bestSS = thisSS
 		//
 		// exit loop. When all columns are done create the left/right nodes and datatables
-		
+		if (data->numRows() == 1280)
+			cout << data->getName(curCol) << ": " << totalSS << "  " << leftSS << " " << rightSS << " " << bestSS << endl;	
+			
 		if ((improve>0) && (totalSS<bestSS) && (leftSS>alpha) && (rightSS>alpha))
 		{
 			lftChild = new Node(this,ltab,leftMean,leftSS,depth+1);

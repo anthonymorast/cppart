@@ -54,6 +54,8 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
         double leftSS, rightSS, mean, thisSS, thisSSLeft, thisSSRight, compImprove = 0;
 
         (*split_func)(x, y, p, where, direction, splitPoint, improve, numObs);
+		if(numObs == 1280)
+			cout << where << "  " << splitPoint << endl;
         compImprove = improve;
         free1DData(y);
         free1DData(x);
@@ -193,6 +195,8 @@ void bestsplit(node *n, params *p, string response, int & numleft, int & numrigh
             thisSS = leftSS + rightSS;
         }
 
+		if (numObs == 1280)
+			cout << p->varNames[varIdx] << ": " << thisSS << " " << " " << leftSS << " " << rightSS << "  " << bestSS << endl;
         // compare only 6 digits of doubles since roundoff error causes discrepencies between pypart/rpart and cppart
         if (improve > 0 && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) { //improve > bestImprove) {
             //((p->method == ANOVA && trunc(1000000.*thisSS) < trunc(1000000.*bestSS)) ||

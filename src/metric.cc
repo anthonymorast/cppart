@@ -238,8 +238,41 @@ void giniMetric::findSplit(DataTable *data,int col,
 
 
 
-// formerly known as giniDev
+// formerly known as giniCalc and giniDev
 void giniMetric::getSplitCriteria(DataTable *data,double *cls, double *cp)
+{
+	// get majority vote
+	map<float, int> classFreq;
+	for(int i = 0; i < data->numRows(); i++)
+	{
+		double y = (*data)[i][0];
+		if(classFreq.count(y)) 
+			classFreq.at(y)++;
+		else
+			classFreq.insert(pair<float, int>(y, 1));
+	}
+
+	// find majority vote and deviance for splitting
+	int max = 0;
+	double temp;
+	double n = (double)data->numRows();
+	*cp = 0;
+	for(auto it = classFreq.cbegin(); it != classFreq.cend(); it++)
+	{
+		// if most votes, choose it
+		if(it->second > max)
+		{
+			*cls = it->first;
+			max = it->second;
+		}
+		
+		temp = it->second / n;
+		*cp += n * impure(temp);
+	}
+}
+
+/*
+void giniMetric::giniDev(DataTable *data, double *cls, double *cp)
 {
 	// majority vote for class (cls)
 	map<float, int> classFreq;
@@ -264,6 +297,8 @@ void giniMetric::getSplitCriteria(DataTable *data,double *cls, double *cp)
 
 	*cp = 0;
 	int numClasses = classFreq.size();
+	if (data->numRows() == 1280)
+	cout << numClasses << endl;
 	for(int i = 0; i < numClasses; i++)
 	{
 		int temp = 0;
@@ -280,5 +315,5 @@ void giniMetric::getSplitCriteria(DataTable *data,double *cls, double *cp)
 			*cp = temp;
 		}
 	}
-
 }
+*/
