@@ -167,7 +167,7 @@ void giniMetric::findSplit(DataTable *data,int col,
 			    double &improve, int minNode)
 {
     int i, j, n = data->numRows();
-    int rtot = 0, ltot = 0;
+    double rtot = 0, ltot = 0;
     direction = LEFT; 
     bestpos = 0; // which = where
     double total_ss, best, temp, pp;
@@ -192,7 +192,7 @@ void giniMetric::findSplit(DataTable *data,int col,
 
     total_ss = 0;
     for(auto it = rightMap.cbegin(); it != rightMap.cend(); it++) {
-        temp = 1 * it->second / ((double)rtot);
+        temp = 1 * it->second / rtot;
         total_ss += rtot * impure(temp);
     }
     best = total_ss;
@@ -223,6 +223,8 @@ void giniMetric::findSplit(DataTable *data,int col,
                 j++;
             }
             if (temp < best) {
+				if(data->numRows() == 1280)
+					cout << temp << "  " << best << "  " << bestpos << endl;
                 best = temp;
                 bestpos = i;
                 direction = lmean < rmean ? LEFT : RIGHT;

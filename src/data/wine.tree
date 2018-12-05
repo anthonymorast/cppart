@@ -2,15 +2,75 @@ node) split, number observations, deviance, yval
 * denotes a terminal node
 
 1) root 1280 815.202 5
-	2) density> 0.99152 1273  810.052 5   1
-		4) fixed.acidity> 5.15 1263  799.933 5   1
-			6) fixed.acidity> 5.5 1254  793.571 5   1
-				8) density> 0.99249 1247  788.683 5   1
-					10) sulphates> 0.395 1240  783.727 5   1
-						12) fixed.acidity> 5.65 1229  776.919 5 *  1
-						13) fixed.acidity<=5.65 11  4.90909 5 *  -1
-					11) sulphates<=0.395 7  2.85714 5 *  -1
-				9) density<=0.99249 7  1.71429 6 *  -1
-			7) fixed.acidity<=5.5 9  3.11111 6 *  -1
-		5) fixed.acidity<=5.15 10  7.4 7 *  -1
-	3) density<=0.99152 7  2.85714 6 *  -1
+	2) alcohol< 10.25 678  345.183 5   -1
+		4) sulphates< 0.555 232  82.2931 5   -1
+			6) chlorides> 0.0695 203  62.266 5   1
+				8) residual.sugar< 3.95 188  51.1702 5   -1
+					10) volatile.acidity> 0.9 8  3.75 5 *  1
+					11) volatile.acidity<=0.9 180  46.0333 5   -1
+						12) density> 0.997445 62  9.32258 5 *  1
+						13) density<=0.997445 118  35.4746 5 *  -1
+				9) residual.sugar>=3.95 15  8.93333 5 *  1
+			7) chlorides<=0.0695 29  17.1724 5   -1
+				14) sulphates< 0.525 16  6.625 5 *  -1
+				15) sulphates>=0.525 13  7.84615 6 *  1
+		5) sulphates>=0.555 446  245.417 5   1
+			16) total.sulfur.dioxide> 95.5 51  7.4902 5   1
+				18) pH> 3.11 44  1.95455 5 *  1
+				19) pH<=3.11 7  3.42857 5 *  -1
+			17) total.sulfur.dioxide<=95.5 395  224.056 5   -1
+				20) volatile.acidity> 0.655 82  31.9268 5   1
+					22) total.sulfur.dioxide> 17 74  23.6486 5   1
+						24) density< 0.99818 56  12.6429 5 *  -1
+						25) density>=0.99818 18  9.22222 5 *  1
+					23) total.sulfur.dioxide<=17 8  4.25 6 *  -1
+				21) volatile.acidity<=0.655 313  180.192 6   -1
+					26) volatile.acidity> 0.315 277  156.224 5   1
+						28) fixed.acidity< 9.95 219  116.612 5 *  -1
+						29) fixed.acidity>=9.95 58  34.6897 6 *  1
+					27) volatile.acidity<=0.315 36  17.1667 6   -1
+						30) fixed.acidity< 11.8 29  10.069 6 *  -1
+						31) fixed.acidity>=11.8 7  4 7 *  1
+	3) alcohol>=10.25 602  391 6   1
+		32) volatile.acidity> 0.425 340  205.788 6   1
+			34) sulphates< 0.545 60  33.7333 5   -1
+				36) density> 0.99544 29  11.3793 5   1
+					38) pH> 3.355 20  3.7 5 *  1
+					39) pH<=3.355 9  4.44444 6 *  -1
+				37) density<=0.99544 31  18.7742 6   -1
+					40) fixed.acidity< 6.25 8  3.25 5 *  -1
+					41) fixed.acidity>=6.25 23  12.6957 6   1
+						42) total.sulfur.dioxide< 30 9  6.44444 5 *  -1
+						43) total.sulfur.dioxide>=30 14  4.71429 6 *  1
+			35) sulphates>=0.545 280  161.671 6   1
+				44) residual.sugar> 5.125 13  4.92308 5 *  1
+				45) residual.sugar<=5.125 267  147.663 6   -1
+					46) alcohol< 11.45 181  96.663 6   -1
+						48) free.sulfur.dioxide< 5.25 25  16.56 5 *  -1
+						49) free.sulfur.dioxide>=5.25 156  75.6282 6 *  1
+					47) alcohol>=11.45 86  46.6744 6   1
+						50) sulphates< 0.705 53  22.8302 6 *  -1
+						51) sulphates>=0.705 33  19.1515 7 *  1
+		33) volatile.acidity<=0.425 262  170.336 6   -1
+			52) total.sulfur.dioxide> 49.5 64  36 6   1
+				54) citric.acid> 0.485 18  11.8889 5 *  1
+				55) citric.acid<=0.485 46  20.9565 6   -1
+					56) chlorides> 0.0485 38  14.8421 6   1
+						58) fixed.acidity< 8.1 22  11.3636 6 *  -1
+						59) fixed.acidity>=8.1 16  1.875 6 *  1
+					57) chlorides<=0.0485 8  4 6 *  -1
+			53) total.sulfur.dioxide<=49.5 198  127.606 7   -1
+				60) sulphates< 0.695 92  62.8913 6   -1
+					62) alcohol< 11.05 35  21.2571 5   -1
+						64) citric.acid> 0.475 15  6.53333 5 *  1
+						65) citric.acid<=0.475 20  12.3 6 *  -1
+					63) alcohol>=11.05 57  34.4561 6   1
+						66) total.sulfur.dioxide> 16.5 30  12.8 6 *  1
+						67) total.sulfur.dioxide<=16.5 27  16 7 *  -1
+				61) sulphates>=0.695 106  55.566 7   1
+					68) density> 0.9958 57  32.9123 6   1
+						70) residual.sugar< 2.55 33  17.0909 6 *  -1
+						71) residual.sugar>=2.55 24  13.9167 7 *  1
+					69) density<=0.9958 49  15.3061 7   -1
+						72) free.sulfur.dioxide> 18.5 13  6.15385 7 *  1
+						73) free.sulfur.dioxide<=18.5 36  7.38889 7 *  -1
