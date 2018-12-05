@@ -127,8 +127,6 @@ void giniSplit(float *x, float *y, params *p, int &which,
                 j++;
             }
             if (temp < best) {
-				if (n == 1280) 
-					cout << temp << "  " << best << "  " << which << endl;
                 best = temp;
                 which = i;
                 direction = lmean < rmean ? LEFT : RIGHT;
