@@ -114,8 +114,13 @@ int main(int argc, char* argv[]) {
 	    mae += e;
 	}
 
+	double error = mae;
+	if(p.method == GINI)
+		error = correct;
+
+
 	// NEED TO ADD DEVIANCE FUNCTIONS WHICH IS IMPURITY
-	cout << p.delayed << "," << p.maxDepth << "," << impurity << "," << (relError/p.testSize) << "," << (mae/p.testSize) << endl;
+	cout << p.delayed << "," << p.maxDepth << "," << impurity << "," << (relError/p.testSize) << "," << (error/p.testSize) << endl;
 
 	return 0;
 }

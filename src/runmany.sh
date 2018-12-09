@@ -49,28 +49,25 @@ gfile="results.dat"
 # For each trial, get delayed and greedy results then re-randomize the dataset via
 # Python script.
 i=1							# 1 rather than 0 for nice output
+rm -f $dfile $gfile
+echo "delayed,depth,impurity,relerror,accuracy" >> $dfile
+echo "delayed,depth,impurity,relerror,accuracy" >> $gfile
 while [[ $i -le $trials ]]
 do 
 	for d in "${depths[@]}"; do 
-		cmd="./lacart $dataset $response 0 cp=0 maxdepth=$d splitdata=1 randomsplit=0 >> $gfile"
+		cmd="./lacart $dataset $response 0 cp=0 maxdepth=$d splitdata=1 randomsplit=0 method=$method >> $gfile"
 		echo "Running greedy algorithm: trial $i, depth $d. Command: $cmd"
 		eval $cmd
-		cmd="./lacart $dataset $response 1 cp=0 maxdepth=$d splitdata=1 randomsplit=0 >> $dfile"
+		cmd="./lacart $dataset $response 1 cp=0 maxdepth=$d splitdata=1 randomsplit=0 method=$method >> $dfile"
 		echo "Running delayed algorithm: trial $i, depth $d. Command: $cmd"
 		eval $cmd
 	done
-	echo "Randomizing dataset..."
-	rand="python3 ../data_utils/randomize.py $dataset"
-	eval $rand
+	if [ $i -lt $trials ]; then
+		echo ""
+		echo "Randomizing dataset..."
+		rand="python3 ../data_utils/randomize.py $dataset"
+		eval $rand
+		echo ""
+	fi
 	(( i = i + 1 ))
 done
-
-# for a specified number of trials (5 usually)
-# 	Loop through all depths
-#	Run the delayed/greedy alg for each depth
-# 	output the results to a file based on program output (use >> to append)
-#	Randomize dataset 
-# repeat
-
-# This should create 2 csv files with the data used by the multi files so we don't need to do any data entry 
-# output formatting should be handled in the actual executables. 

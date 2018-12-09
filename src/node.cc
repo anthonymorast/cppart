@@ -47,6 +47,7 @@ Node::~Node()
 
 void Node::dsplit(DataTable *temp, DataTable *&l, DataTable *&r)
 {
+
 	int cols = temp->numCols();
 	double bestSS = DBL_MAX;
 	DataTable *ltab,*rtab;
@@ -61,8 +62,7 @@ void Node::dsplit(DataTable *temp, DataTable *&l, DataTable *&r)
 		double leftMean,rightMean;
 		double leftSS, rightSS, totalSS;
 
-		metric->findSplit(temp, curCol, where, dir, splitPoint, improve, 2);
-
+		metric->findSplit(temp, curCol, where, dir, splitPoint, improve, minNode);
 		// I would have swapped rtab and ltab, but... whatever.
 		ltab = temp->subSet(0,where);
 		rtab = temp->subSet(where+1,temp->numRows()-1);
@@ -80,7 +80,6 @@ void Node::dsplit(DataTable *temp, DataTable *&l, DataTable *&r)
 		}
 	}
 }
-
 
 // formerly known as partition() and bestsplit()
 void Node::split(int level)
@@ -115,9 +114,6 @@ void Node::split(int level)
 		queue<DataTable*> q;
 
 		metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
-		if(data->numRows() == 1280)
-			cout << where << " " << splitPoint << endl;
-
 		if (dir < 0) {
 			ltab = data->subSet(0,where);
 			rtab = data->subSet(where+1,data->numRows()-1);
@@ -131,6 +127,7 @@ void Node::split(int level)
 		while(q.size() < stopSize)
 		{
 			DataTable *temp = q.front(), *l = NULL, *r = NULL;
+
 			dsplit(temp, l, r);
 			if(l == NULL && r == NULL)
 			{
@@ -173,9 +170,6 @@ void Node::split(int level)
 		// 	  bestSS = thisSS
 		//
 		// exit loop. When all columns are done create the left/right nodes and datatables
-		if (data->numRows() == 1280)
-			cout << data->getName(curCol) << ": " << totalSS << "  " << leftSS << " " << rightSS << " " << bestSS << endl;	
-			
 		if ((improve>0) && (totalSS<bestSS) && (leftSS>alpha) && (rightSS>alpha))
 		{
 			lftChild = new Node(this,ltab,leftMean,leftSS,depth+1);
@@ -200,9 +194,6 @@ void Node::split(int level)
 		}
 	}
 
-	//cout << "split node at level "<<level<<" on variable "<<varName<<endl;
-
-	//cout << cp << "  " << alpha << endl;
 	if(left!=NULL)
 		left->setId();
 	if(right!=NULL)

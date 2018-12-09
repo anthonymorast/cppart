@@ -30,14 +30,14 @@ if __name__ == '__main__':
         drow.append(d)
         drow.append(1)
         drow.append(dres['impurity'].sum()/runs)
-        drow.append(dres['rel error'].sum()/runs)
+        drow.append(dres['relerror'].sum()/runs)
         drow.append(dres['accuracy'].sum()/runs)
 
         grow = [gres.iloc[0][0]]
         grow.append(d)
         grow.append(0)
         grow.append(gres['impurity'].sum()/runs)
-        grow.append(gres['rel error'].sum()/runs)
+        grow.append(gres['relerror'].sum()/runs)
         grow.append(gres['accuracy'].sum()/runs)
 
         rows.append(grow)

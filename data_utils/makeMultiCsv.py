@@ -7,7 +7,6 @@ import sys
 import csv
 
 def printUsage():
-<<<<<<< HEAD
     print("python3 makeMultiCsv.py <dataset_name> [optional: {big, small}")
     print("big/small - depths to use big=[6, 8, 10, 12, 14, 16, 18] small=[1, 2, 3, 4, 5, 6]")
 
