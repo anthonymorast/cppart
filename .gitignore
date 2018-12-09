@@ -2,3 +2,6 @@
 *.csv
 *.data
 **/Data
+
+!results/datasetsFa18/*.csv
+!results/datasetsFa18/multis/*.csv
