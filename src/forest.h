@@ -1,6 +1,5 @@
 #include <metric.h>
 #include <structures.h>
-#include <vector>
 #include <map>
 #include <metric.h>
 #include <node.h>
@@ -9,7 +8,7 @@
 using namespace std;
 
 class Forest{
-	vector<Node> trees;
+	Node** trees;
 	DataTable *data;
 	unsigned int numTrees = 0;	
 	static params *p;
@@ -22,6 +21,7 @@ public:
 	void build();
 	void train();
 	float predict(double *sample);
+	void print(ofstream &fout);
 
 	static void setParams(params *parms){p = parms;}
 

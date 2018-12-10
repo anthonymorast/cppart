@@ -1,6 +1,9 @@
 #ifndef DATATAB_H
 #define DATATAB_H
 
+#include <time.h>
+#include <stdlib.h>
+
 #include <string>
 using namespace std;
 
@@ -34,8 +37,8 @@ class DataTable{
 
   // sort rows by the values in the specified column
   void sortBy(int col);
-
   DataTable* subSet(int first,int last);
+  DataTable* subSample(int size);
 
   int numCols(){return cols;} 
   int numRows(){return rows;}

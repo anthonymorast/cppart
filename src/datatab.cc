@@ -14,6 +14,7 @@ using namespace std;
 // This constructor is for building the original table
 DataTable::DataTable(string *column_names,double **rowdata,int nrows, int ncols)
 {
+	srand(time(NULL));
     names = column_names;
     data = rowdata;
     cols = ncols;
@@ -206,8 +207,6 @@ void DataTable::quickSortBy(int col,int first,int last)
 //     quickSortBy(col,left,last);
 // }
 
-
-
 DataTable* DataTable::subSet(int first,int last)
 {
     //cout<< "getting subset from "<<first<<" to "<<last<<endl;
@@ -217,7 +216,23 @@ DataTable* DataTable::subSet(int first,int last)
     return new DataTable(this,newindex,nrows);
 }
 
+DataTable* DataTable::subSample(int size) 
+{
+	if(size > numRows())
+	{
+		cout << "Too few observations to sub-sample " << size << " rows." << endl;
+		exit(0);
+	}
 
+	double **rows = new double*[size];
+	for(int i = 0; i < size; i++)
+	{
+		int idx = rand() % numRows(); // generate random idx with replacement
+		cout << idx << endl;
+		rows[i] = data[idx];
+	}
+	return new DataTable(names, rows, size, cols);
+}
 
 void DataTable::dump()
 {

@@ -7,12 +7,12 @@ Forest::Forest(DataTable *d, int numTree)
 	data = d;
 	numTrees = numTree;
 	setMetric();
+	trees = new Node*[numTrees];
 }
 
 Forest::~Forest()
 {
-	for(vector<Node>::iterator it = trees.begin(); it != trees.end(); it++)
-		delete &(*it);
+	delete trees;
 }
 
 void Forest::build()
@@ -30,30 +30,22 @@ void Forest::build()
 		Node *n = new Node(NULL, bootstrap, mean, cp, 0);
 		n->setMaxDepth(p->maxDepth);
 		n->setId();
-		trees.push_back(*n);
-	}
-
-	// should never happen
-	if(trees.size() != numTrees)
-	{
-		cout << "Number of trees in forest does not match specified amount." << endl;
-		exit(0);
+		trees[i] = n;
 	}
 }
 
 void Forest::train()
 {
-	// for each tree in vector, build tree
-	int i = 0;
-	for(vector<Node>::iterator it = trees.begin(); it != trees.end(); it++)
+	// for each tree in array, build tree
+	for(unsigned int i = 0; i < numTrees; i++)
 	{	
 		double mean,cp;
-		metric->getSplitCriteria((*it).getData(),&mean,&cp);
+		metric->getSplitCriteria(trees[i]->getData(),&mean,&cp);
+		trees[i]->getData()->dump();
 		Node::setAlpha(p->complexity * cp);		// this will be different for each tree, need to set here
 		if(p->verbose > 0)
 			cout << "Training tree " << (i+1) << " out of " << numTrees << "..." << endl;
-		(*it).split(0);
-		i++;
+		trees[i]->split(0);
 	}
 }
 
@@ -67,6 +59,15 @@ float Forest::predict(double *sample)
 	return pred;
 }
 
+void Forest::print(ofstream &fout)
+{
+	for(unsigned int i = 0; i < numTrees; i++)
+	{
+		trees[i]->print(fout, false);
+		fout << endl << endl;
+	}
+}
+
 
 /******** Private *********/
 float Forest::classPredict(double *sample)
@@ -75,10 +76,10 @@ float Forest::classPredict(double *sample)
 	int max = 0;
 	float pred = 0;
 	map<float, int> freq;
-	for(vector<Node>::iterator it = trees.begin(); it != trees.end(); it++)
+	for(unsigned int i = 0; i < numTrees; i++)
 	{
 		// get each tree's guess
-		float guess = (*it).predict(sample);
+		float guess = trees[i]->predict(sample);
 		if(freq.count(guess))
 			freq.at(guess)++;
 		else
@@ -102,15 +103,16 @@ float Forest::contPredict(double *sample)
 	// take the average of all trees' predictions
 	float pred = 0;
 
-	for(vector<Node>::iterator it = trees.begin(); it != trees.end(); it++)
-		pred += (*it).predict(sample);
+	for(unsigned int i = 0; i < numTrees; i++)
+		pred += trees[i]->predict(sample);
 
 	return (pred/((float)numTrees));
 }
 
 DataTable* Forest::getBootstrapSample()
 {
-	return data;
+	// scikit-learn and R documentations says subsample size should equal dataset size (sample with replacement)
+	return data->subSample(data->numRows());
 }
 
 void Forest::setMetric()

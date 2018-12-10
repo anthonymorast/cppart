@@ -13,9 +13,19 @@ int main(int argc, char* argv[]) {
 
 	// create the forest
 	Forest::setParams(&p);
-	Forest *forest = new Forest(Data, 10);
+	Forest *forest = new Forest(Data, 2);
 	forest->build();
 	forest->train();
+
+	int idx = p.filename.find(".");
+	string treeFileName = p.filename.substr(0, idx);
+	if(p.delayed > 0)
+		treeFileName += ".delayed";
+	treeFileName += ".forest";
+	ofstream fout;
+	fout.open(treeFileName);
+	forest->print(fout);
+	fout.close();
 
 	double mae = 0, relError = 0;
 	int correct = 0, incorrect = 0;
@@ -37,7 +47,7 @@ int main(int argc, char* argv[]) {
 	if(p.method == GINI)
 		error = correct;
 
-	cout << "Error: " << error << endl;
+	cout << "Error: " << (error/p.testSize) << endl;
 
 	return 0;
 }
