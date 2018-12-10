@@ -105,6 +105,10 @@ void Node::split(int level)
 	{
 		// sort by current column
 		data->sortBy(curCol);
+        /*cout << "curr col: " << curCol << endl;
+        data->dump();
+        int jjjjj = 0;
+        cin >> jjjjj; */
 
 		// call function to find split point
 		int where, dir;
@@ -158,6 +162,7 @@ void Node::split(int level)
 
 		metric->getSplitCriteria(ltab,&leftMean,&leftSS);
 		metric->getSplitCriteria(rtab,&rightMean,&rightSS);
+       
 
 		// do everything up to this point the same for parallel
 		// remove everything down from here
