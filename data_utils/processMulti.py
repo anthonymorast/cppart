@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
     df = pd.read_csv(sys.argv[1])
     greedy = df.query('delayed == 0')
-    delayed = df.query('delayed == 1')
+    delayed = df.query('delayed != 0')
     depths = df.depth.unique()
     runs = int(greedy.shape[0] / len(depths))
 

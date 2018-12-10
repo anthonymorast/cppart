@@ -80,6 +80,9 @@ cmd="python3 ../data_utils/resultsToMulti.py $filename$ext results.dat results.d
 eval $cmd
 cmd="python3 ../data_utils/processMulti.py $filename$ext"
 eval $cmd
+eet="Multi.results.csv"
+cmd="python3 ../data_utils/createGraphs.py $filename$eet $filename"
+eval $cmd
 echo ""
 
 cmd="mv $filename$ext ../results/datasetsFa18/multis"
@@ -88,4 +91,6 @@ cmd="rm results.d*"
 eval $cmd
 ext="Multi.results.csv"
 cmd="mv $filename$ext ../results/datasetsFa18/"
+eval $cmd
+cmd="mv $filename*.eps ../results/datasetsFa18/"
 eval $cmd
