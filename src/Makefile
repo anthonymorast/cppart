@@ -1,6 +1,7 @@
 
 
-OBJS=datatab.o  metric.o  node.o lacart.o utils.o data_handler.o
+OBJS=datatab.o metric.o node.o lacart.o utils.o data_handler.o
+OBJS2=datatab.o metric.o node.o utils.o data_handler.o forest.o laforest.o
 
 LFLAGS=-g
 
@@ -11,12 +12,15 @@ INCLUDES=-I.
 lacart: $(OBJS)
 	g++ $(LFLAGS) -o lacart $(OBJS) -lm
 
+laforest: $(OBJS2)
+	g++ $(LFLAGS) -o laforest $(OBJS2) -lm
+
 .cc.o:
 	g++ $(INCLUDES) $(CFLAGS) -c $<
 
 
 clean:
-	rm -f *.o lacart
+	rm -f *.o lacart laforest
 
 
 # make depend will create a file ".depend" with all the dependencies

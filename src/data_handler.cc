@@ -58,35 +58,6 @@ double* getResponseData(string response, string headers, double** data, int numO
     return y;
 }
 
-/*
- *	Get everything except the response variable column.
- */
-// double *getExplanatoryDataCol(string response, string headers, double **data, int numObs, int col) {
-//     int responseColumn = getResponseColumnNumber(response, headers);
-//     int colCount = getColumnCount(headers);
-
-//     double *x = new double[numObs];
-//     for (int i = 0; i < numObs; i++) {
-//         x[i] = data[i][col];
-//     }
-
-//     return x;
-// }
-
-
-// double getMean(double ** data, string response, string headers, int numObs){
-//     double *y = getResponseData(response, headers, data, numObs);
-//     double mean = 0;
-//     for (int i = 0; i < numObs; i++) {
-//         mean += y[i];
-//     }
-
-//     mean /= numObs;
-//     free1DData(y);
-//     return mean;
-// }
-
-
 int getResponseColumnNumber(string response, string headers) {
     istringstream ss(headers);
     string value;
@@ -140,18 +111,6 @@ void free2DData(double** data, int numObs) {
     delete[] data;
     data = NULL;
 }
-
-// void freeTreeData(node *root) {
-//     free2DData(root->data, root->numObs);
-
-//     if(root->leftNode != NULL) {
-//         freeTreeData(root->leftNode);
-//     }
-//     if(root->rightNode != NULL) {
-//         freeTreeData(root->rightNode);
-//     }
-// }
-
 
 double** deepCopyData(double** old_data, int numObs, int colCount) {
     double** new_data = new double*[numObs];

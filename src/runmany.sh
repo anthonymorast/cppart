@@ -7,6 +7,14 @@ dataset=""
 response=""
 
 echo ""
+if [ "$#" -ge 1 ] || [ "$#" -eq 0 ]; then 
+	if [ "$#" -eq 0 ] || [ $1 == 'help' ]; then 
+		echo "Usage: ./runmany.sh <train dataset path> <response> <method {anova, gini}> <depth {big, small}>"
+		echo ""
+		exit
+	fi
+fi
+
 # Determine parameters based on script arguments.
 # Parameters are positional so we can't pass the depths without the 
 # method. Valid methods are 'gini' and 'anova' but will default to anova.

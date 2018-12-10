@@ -105,10 +105,6 @@ void Node::split(int level)
 	{
 		// sort by current column
 		data->sortBy(curCol);
-        /*cout << "curr col: " << curCol << endl;
-        data->dump();
-        int jjjjj = 0;
-        cin >> jjjjj; */
 
 		// call function to find split point
 		int where, dir;
@@ -293,4 +289,15 @@ void Node::print(ofstream &fout, bool isRight)
 	if(right != NULL)
 		right->print(fout, true);
 
+}
+
+void Node::getImpurity(float &imp)
+{
+    if(left == NULL && right == NULL) // leaf node
+        imp += dev;
+
+    if(left != NULL)
+        left->getImpurity(imp);
+    if(right != NULL)
+        right->getImpurity(imp);
 }
