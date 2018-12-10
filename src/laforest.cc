@@ -2,6 +2,7 @@
 #include <laforest.h>
 
 int main(int argc, char* argv[]) {
+	srand(time(NULL));
 	if (argc < 4) {
 		printUsage(argv,argc);
 		exit(0);
@@ -13,7 +14,7 @@ int main(int argc, char* argv[]) {
 
 	// create the forest
 	Forest::setParams(&p);
-	Forest *forest = new Forest(Data, 2);
+	Forest *forest = new Forest(Data, 20);
 	forest->build();
 	forest->train();
 

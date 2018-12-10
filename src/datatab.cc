@@ -14,7 +14,6 @@ using namespace std;
 // This constructor is for building the original table
 DataTable::DataTable(string *column_names,double **rowdata,int nrows, int ncols)
 {
-	srand(time(NULL));
     names = column_names;
     data = rowdata;
     cols = ncols;
@@ -228,7 +227,6 @@ DataTable* DataTable::subSample(int size)
 	for(int i = 0; i < size; i++)
 	{
 		int idx = rand() % numRows(); // generate random idx with replacement
-		cout << idx << endl;
 		rows[i] = data[idx];
 	}
 	return new DataTable(names, rows, size, cols);

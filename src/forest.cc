@@ -41,7 +41,6 @@ void Forest::train()
 	{	
 		double mean,cp;
 		metric->getSplitCriteria(trees[i]->getData(),&mean,&cp);
-		trees[i]->getData()->dump();
 		Node::setAlpha(p->complexity * cp);		// this will be different for each tree, need to set here
 		if(p->verbose > 0)
 			cout << "Training tree " << (i+1) << " out of " << numTrees << "..." << endl;
