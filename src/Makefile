@@ -9,6 +9,8 @@ CFLAGS=-std=c++11 -g -Wall -O2
 
 INCLUDES=-I.
 
+all: lacart laforest
+
 lacart: $(OBJS)
 	g++ $(LFLAGS) -o lacart $(OBJS) -lm
 
