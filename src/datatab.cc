@@ -42,51 +42,66 @@ DataTable::~DataTable()
 void DataTable::sortBy(int col)
 {
   if(rows>0)
+    // #pragma omp parallel shared(data,col)
+    // #pragma omp single nowait
     quickSortBy(col,0,rows-1);
 }
 
-
-
-
 // Sort rows by the values in the specified column.
-// Choose pivot by median of three -- Larry.
-#define MEDIANOFTHREE(a,c,i,j,k) (a[i][c]<a[j][c]?(a[i][c]<a[k][c]?(a[k][c]<a[j][c]?k:j):i):(a[j][c]<a[k][c]?(a[i][c]<a[k][c]?i:k):j));
+//
+// Choosing pivot by median of three is slower on average in this
+// application, so just use middle value to avoid worst-case. -- Larry.
+//
+// This sort is about 5% faster than the old sort commented out below.
+//
+// Support OpenMP. Quicksort is ``embarassingly parallel.'' -- Larry
 
-static inline void swap(double **a,double **b)
-{
-  double **tmp=a;
-  a=b;
-  b=tmp;
-}
+
+
 
 void DataTable::quickSortBy(int col,int first,int last)
 {
-  int left,right,pivotloc;
-  double pivotval;
-
-  // single or zero item case
-  if(first>=last) 
-    return;
+  // Single or zero item case. Using this is 0.5% to 1% slower
+  // on average in this application - Larry
+  // 
+  // if(first>=last) return;
   
-  // two item case
+  // Two item case. This gives us a speedup of about 1% to 2% - Larry
   if(last==first+1) 
     {
       if(data[first][col] > data[last][col])
-	swap(&data[first],&data[last]);
+	{
+	  double *tmp = data[first];
+	  data[first]=data[last];
+	  data[last]=tmp;
+	}
       return;
     }
-
-  // use Shell sort for short arrays -- not implemented
-  // if(last-first < quickSortMin)  
-  //   shellSort(int col,int first,int last);
   
-  pivotloc = MEDIANOFTHREE(data,col,first,last,(first+last)/2);
+  // // Use Shell or insertion sort for short arrays -- not
+  // // implemented. I am guessing that a good value for quickSortMin is:
+  // // 10 <= quickSortMin <= 1000 ... have to experiment with some
+  // // values. -- Larry
+  // if(last-first < quickSortMin)
+  // {
+  //   shellSortBy(int col,int first,int last);
+  //   return;
+  // }
+  
+  int left,right,pivotloc;
+  double pivotval,*tmp;
+  
+  pivotloc = (first+last)/2;
   pivotval= data[pivotloc][col];
 
   // move pivot to first
   if(first!=pivotloc)
-    swap(&data[first],&data[pivotloc]);
-
+  {
+    tmp = data[first];
+    data[first]=data[pivotloc];
+    data[pivotloc]=tmp;
+  }
+  
   // partition remainder
   left=first+1;
   right=last;
@@ -97,24 +112,77 @@ void DataTable::quickSortBy(int col,int first,int last)
       while((left <= right) && (data[right][col] > pivotval))
 	right--;
       if(left < right)
-	swap(&data[left++],&data[right--]);
+	{
+	  tmp = data[left];
+	  data[left]=data[right];
+	  data[right]=tmp;
+	  left++;
+	  right--;
+	}
     }
   // put pivot where it belongs
-  swap(&data[first],&data[right]);
+  tmp = data[first];
+  data[first]=data[right];
+  data[right]=tmp;
 
-  // recurse 
+  // recurse
+
   if(first<right-1)
-    quickSortBy(col,first,right-1);
-  
+    quickSortBy(col,first,right-1);  
   if(left<last)
     quickSortBy(col,left,last);
+
+  // the following code could be used if you have LOTS of data
+  // #define PARALLEL_THRESHOLD 5000
+  // int leftsize = right-first-1;
+  // int rightsize = last-left;
+  //  if(( last - first) > PARALLEL_THRESHOLD)
+  // #pragma omp parallel sections
+  //    {
+  // #pragma omp section
+  // 	quickSortBy(col,first,right-1);
+  // #pragma omp section
+  // 	quickSortBy(col,left,last);
+  //    }
+  //  else 
+  //    {
+  // 	quickSortBy(col,first,right-1);
+  // 	quickSortBy(col,left,last);
+  //    }
+
 }
 
-// void DataTable::quickSortBy(int col,int left,int right)
+
+
+// void DataTable::quickSortBy(int col,int first,int last)
 // {
-//   int first = left;
-//   int last = right;
-//   int pivotloc = MEDIANOFTHREE(data,col,left,right,left+right)/2);
+//   // Single or zero item case. Using this is 0.5% to 1% slower
+//   // on average in this application - Larry
+//   // 
+//   // if(first>=last) return;
+  
+//   // two item case
+//   if(last==first+1) 
+//     {
+//       if(data[first][col] > data[last][col])
+// 	{
+// 	  double *tmp = data[first];
+// 	  data[first]=data[last];
+// 	  data[last]=tmp;
+// 	}
+//       return;
+//     }
+
+//   // Use Shell or insertion sort for short arrays -- not implemented
+//   // if(last-first < quickSortMin) // Guess: 10 <= quickSortMin <= 1000
+//   // {
+//   //   shellSortBy(int col,int first,int last);
+//   //   return;
+//   // }
+
+//   int left = first;
+//   int right = last;
+//   int pivotloc = (left+right)/2;
 //   double pivotval = data[pivotloc][col];
 //   double *tmp;
 //   while(left <= right)
@@ -126,8 +194,8 @@ void DataTable::quickSortBy(int col,int first,int last)
 //       if(left <= right)
 // 	{
 // 	  tmp = data[left];
-// 	  data[left] = data[right];
-// 	  data[right] = tmp;
+// 	  data[left]=data[right];
+// 	  data[right]=tmp;
 // 	  left++;
 // 	  right--;
 // 	}
@@ -137,6 +205,8 @@ void DataTable::quickSortBy(int col,int first,int last)
 //   if(left<last)
 //     quickSortBy(col,left,last);
 // }
+
+
 
 DataTable* DataTable::subSet(int first,int last)
 {

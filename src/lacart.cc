@@ -16,6 +16,8 @@
 #include <datatab.h>
 #include <metric.h>
 #include <node.h>
+#include <thread>
+#include <omp.h>
 using namespace std;
 
 
@@ -34,6 +36,12 @@ int main(int argc, char* argv[]) {
 
 	if(p.verbose>0)
 		cerr<<"back from parseParameters"<<endl;
+
+#ifdef _OPENMP
+	unsigned concurentThreadsSupported = std::thread::hardware_concurrency();
+	// printf("Running with %d threads.\n",concurentThreadsSupported);
+	omp_set_num_threads(concurentThreadsSupported);
+#endif
 
 	// Move response column to column 0
 	int respCol = getResponseColumnNumber(p.response, p.headers);

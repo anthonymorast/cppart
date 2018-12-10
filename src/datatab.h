@@ -17,7 +17,7 @@ class DataTable{
   // double **index;             // Indices of the rows in this subset
 
   void quickSortBy(int col,int left,int right);
-  
+
  public:
   
   // This constructor is for building the original table
