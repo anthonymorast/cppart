@@ -292,3 +292,14 @@ void Node::print(ofstream &fout, bool isRight)
     right->print(fout, true);
 
 }
+
+void Node::getImpurity(float &imp)
+{
+    if(left == NULL && right == NULL) // leaf node
+        imp += dev;
+
+    if(left != NULL)
+        left->getImpurity(imp);
+    if(right != NULL)
+        right->getImpurity(imp);
+}

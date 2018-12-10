@@ -39,6 +39,8 @@ public:
   void split(int level);
   void dsplit(DataTable*, DataTable *&l, DataTable *&r);
   float predict(double *sample);
+  void getImpurity(float &imp);
+  DataTable* getData() {return data;}
   
   static void setMetric(statisticalMetric *m){metric = m;}
   static void setMinNodeData(int min){minNode = min;}

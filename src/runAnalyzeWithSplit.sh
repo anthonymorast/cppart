@@ -5,11 +5,12 @@ method=anova
 depth=big
 dataset=""
 response=""
+test=""
 
 echo ""
 if [ "$#" -ge 1 ] || [ "$#" -eq 0 ]; then 
 	if [ "$#" -eq 0 ] || [ $1 == 'help' ]; then 
-		echo "Usage: ./runAndAnalyze.sh <train dataset path> <response> <method {anova, gini}> <depth {big, small}>"
+		echo "Usage: ./runAnalyzeWithSplit.sh <train dataset path> <test dataset path> <response> <method {anova, gini}> <depth {big, small}>"
 		echo ""
 		exit
 	fi
@@ -28,22 +29,29 @@ else
 fi
 
 if [[ "$#" -lt 2 ]]; then 
-	echo "Response variable name is required in position 2."
+	echo "Testing dataset path is required in position 2."
 	exit
 else 
-	response=$2
+	test=$2
 fi
 
-if [ "$#" -ge 3 ]; then
-	method=$3
+if [[ "$#" -lt 3 ]]; then 
+	echo "Response variable name is required in position 3."
+	exit
+else 
+	response=$3
 fi
 
 if [ "$#" -ge 4 ]; then
-    if [ $4 != 'small' ] && [ $4 != 'big' ]; then 
+	method=$4
+fi
+
+if [ "$#" -ge 5 ]; then
+    if [ $5 != 'small' ] && [ $5 != 'big' ]; then 
 		echo "Depths parameter passed but is not one of 'big' or 'small', using default depths."
 	fi
-	if [[ $4 == 'small' ]]; then 
-		$depth=$4
+	if [[ $5 == 'small' ]]; then 
+		$depth=$5
 	fi
 fi
 
@@ -57,8 +65,14 @@ cmd="python3 ../data_utils/makeMultiCsv.py $filename $depth"
 eval $cmd
 
 # run the algorithms
-cmd="./runmany.sh $dataset $response $method $depth"
-eval $cmd
+for d in "${depths[@]}"; do 
+	cmd="./lacart $dataset $response 0 cp=0 maxdepth=$d testdata=$test method=$method >> $gfile"
+	echo "Running greedy algorithm: trial $i, depth $d. Command: $cmd"
+	eval $cmd
+	cmd="./lacart $dataset $response 1 cp=0 maxdepth=$d testdata=$test method=$method >> $dfile"
+	echo "Running delayed algorithm: trial $i, depth $d. Command: $cmd"
+	eval $cmd
+done
 
 echo ""
 echo "Processing results"

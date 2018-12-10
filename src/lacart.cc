@@ -105,8 +105,11 @@ int main(int argc, char* argv[]) {
 	tree->print(fout, false);
 	fout.close();
 
-	double mae = 0, impurity = 0, relError = 0;
+	double mae = 0, relError = 0;
 	int correct = 0, incorrect = 0;
+    float impurity = 0;
+
+    tree->getImpurity(impurity);
 
 	for (int i = 0; i < p.testSize; i++) {
 	    double *sample = p.testData[i];
@@ -126,8 +129,6 @@ int main(int argc, char* argv[]) {
 	if(p.method == GINI)
 		error = correct;
 
-
-	// NEED TO ADD DEVIANCE FUNCTIONS WHICH IS IMPURITY
 	cout << p.delayed << "," << p.maxDepth << "," << impurity << "," << (relError/p.testSize) << "," << (error/p.testSize) << endl;
 
 	return 0;

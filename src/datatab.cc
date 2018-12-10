@@ -13,7 +13,7 @@ using namespace std;
 
 // This constructor is for building the original table
 DataTable::DataTable(string *column_names,double **rowdata,int nrows, int ncols)
-  {
+{
     names = column_names;
     data = rowdata;
     cols = ncols;
@@ -21,22 +21,22 @@ DataTable::DataTable(string *column_names,double **rowdata,int nrows, int ncols)
     //   index = new double*[nrows];
     // for(int i=0;i<nrows;i++)
     // index[i]=data[i];
-  }
-  
-  
+}
+
+
 // This constructor is for building subsets by giving a list of indices
 DataTable::DataTable(DataTable *orig,double **newindex, int nrows)
-  {
+{
     cols = orig->cols;
     names = orig->names;
     rows = nrows;
     data = newindex;
-  }
+}
 
 DataTable::~DataTable()
-  {
+{
     delete[] data;
-  }
+}
 
 // sort rows by the values in the specified column
 void DataTable::sortBy(int col)
@@ -210,26 +210,26 @@ void DataTable::quickSortBy(int col,int first,int last)
 
 DataTable* DataTable::subSet(int first,int last)
 {
-  //cout<< "getting subset from "<<first<<" to "<<last<<endl;
-  int nrows = last-first+1;
-  double **newindex = new double*[nrows];
-  memcpy(newindex,&(data[first]),nrows*sizeof(double*));
-  return new DataTable(this,newindex,nrows);
+    //cout<< "getting subset from "<<first<<" to "<<last<<endl;
+    int nrows = last-first+1;
+    double **newindex = new double*[nrows];
+    memcpy(newindex,&(data[first]),nrows*sizeof(double*));
+    return new DataTable(this,newindex,nrows);
 }
 
 
 
 void DataTable::dump()
 {
-  int i,j;
-  for(i=0;i<cols;i++)
-    cout <<names[i]<<" ";
-  cout <<endl;
-  for(j=0;j<rows;j++)
+    int i,j;
+    for(i=0;i<cols;i++)
+        cout <<names[i]<<" ";
+    cout <<endl;
+    for(j=0;j<rows;j++)
     {
-      for(i=0;i<cols;i++)
-	cout <<data[j][i]<<" ";
-      cout <<endl;
+        for(i=0;i<cols;i++)
+            cout <<data[j][i]<<" ";
+        cout <<endl;
     }
 
 }
