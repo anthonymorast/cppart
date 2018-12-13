@@ -8,8 +8,8 @@ OBJS2=datatab.o metric.o node.o utils.o data_handler.o forest.o laforest.o
 #LFLAGS=-g -Ofast -lm -lomp
 #CFLAGS=-std=c++11 -g -Wall -Ofast -fopenmp
 
-LFLAGS=-g -Ofast
-CFLAGS=-std=c++11 -g -Wall -Ofast
+LFLAGS=-g -Ofast -fopenmp
+CFLAGS=-std=c++11 -g -Wall -Ofast -fopenmp
 
 INCLUDES=-I.
 

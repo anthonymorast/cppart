@@ -71,10 +71,13 @@ cmd="python3 ../data_utils/createGraphs.py $filename$eet $filename"
 eval $cmd
 echo ""
 
+echo "Cleaning up..."
+echo ""
+
 cmd="mv $filename$ext ../results/datasetsFa18/multis"
 eval $cmd
-cmd="rm results.d*"
-eval $cmd
+#cmd="rm results.d*"
+#eval $cmd
 ext="Multi.results.csv"
 cmd="mv $filename$ext ../results/datasetsFa18/"
 eval $cmd
