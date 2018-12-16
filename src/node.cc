@@ -6,6 +6,9 @@
 #include <float.h>
 #include <values.h>
 #include <math.h>
+#include <mpi.h>
+#include <stdio.h>
+#include <stddef.h>
 
 #include <fstream>
 using namespace std;
@@ -90,8 +93,6 @@ void Node::split(int level)
     DataTable *ltab,*rtab;
     Node *lftChild,*rgtChild;
 
-    // check to make sure we are not past max nodes, max depth, min
-    // alpha, and return if any of these stopping critera are met.
     if (level >= maxDepth || data->numRows() < minObs || cp <= alpha)
     {
         // nothing
@@ -99,11 +100,108 @@ void Node::split(int level)
         return;
     }
 
+	// setup MPI
+	const int send_struct_tag = 1;	// tell slave nodes they have data
+	const int send_x_tag = 4;		// send the x data (should combine with struct)
+	const int send_y_tab = 5;		// send the y data (should combine with struct)
+	const int results_tag = 2;		// tell master node we have results
+	const int done_tag = 3;			// tell all nodes we're done
 
-    // great place for multi-threading
+	int procs, rank;
+
+	MPI_Init(NULL, NULL);
+	MPI_Comm_size(MPI_COMM_WORLD, &procs);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+	// if there are more processors than there are columns
+	if(cols < (procs-1))
+		procs = cols;
+	else 
+		procs--; // remove master
+	
+	// create MPI types for structs
+	const int nitems_send = 2;
+	const int nitems_resp = 3;
+
+	int blocklengths[2] = {1, 1}; // probbaly used to send array (set block legnth = array length [not sure though])
+	MPI_Datatype types[2] = {MPI_INT, MPI_INT};
+	MPI_Datatype send_data;
+	MPI_Aint offsets[nitems_send];
+	offsets[0] = offsetof(mpi_send, column);
+	offsets[1] = offsetof(mpi_send, nrows);
+	MPI_Type_create_struct(nitems_send, blocklengths, offsets, types, &send_data);
+
+	int bl[3] = {1, 1, 1};
+	MPI_Datatype t[3] = {MPI_INT, MPI_DOUBLE, MPI_DOUBLE};
+	MPI_Datatype resp_data;
+	MPI_Aint os[nitems_resp];
+	os[0] = offsetof(mpi_resp, column);
+	os[1] = offsetof(mpi_resp, sse);
+	os[2] = offsetof(mpi_resp, improve);
+	MPI_Type_create_struct(nitems_resp, bl, os, t, &resp_data);
+
+	int rank 
+	if(rank == 0)
+	{
+		int col_count = 0;
+		// while there are columns left
+		while(col_count < cols)
+		{	
+			// for each node that's not master
+			for(int i = 0; i < procs; i++) 
+			{
+				struct mpi_send snd;
+				snd.column = col_count;
+				snd.nrows = data->numRows();
+
+				double *x = new double[data->numRows()];
+				double *y = new double[data->numRows()]
+				data->getColumnData(col_count, x);
+				data->getColumnData(0, y);
+
+				MPI_Send(&snd, 1, mpi_send, i, send_struct_tag, MPI_COMM_WORLD);
+				MPI_Send(&x, snd.nrows, MPI_DOUBLE, i, send_x_tag, MPI_COMM_WORLD);
+				MPI_Send(&y, snd.nrows, MPI_DOUBLE, i, send_y_tag, MPI_COMM_WORLD);
+
+				col_count++;
+			}
+
+			for(int i = 0; i < procs; i++)
+			{
+				struct mpi_resp resp;
+				MPI_Status status;
+				int n = data->numRows();
+
+				MPI_Recv(&resp, 1, mpi_resp, MPI_ANY_SOURCE, results_tag, MPI_COMM_WORLD, &status);
+				
+				
+			}
+		}
+
+		// recv struct from all threads
+		// check if better, if so update best col
+		
+		// send more processes 
+	}
+	else 
+	{
+		// recv struct
+		// recv x
+		// recv y
+
+		// call MPI statistical metrics
+		// fill response struct
+	}
+
+	// only do post-processing on master thread
+	if(rank == 0)
+	{
+
+	}
+
+
     for (int curCol = 1; curCol < cols; curCol++)
     {
-        // sort by current column
         data->sortBy(curCol);
 
         // call function to find split point
@@ -159,20 +257,6 @@ void Node::split(int level)
         metric->getSplitCriteria(ltab,&leftMean,&leftSS);
         metric->getSplitCriteria(rtab,&rightMean,&rightSS);
 
-        // do everything up to this point the same for parallel
-        // remove everything down from here
-        // In the parallel function return a struct containing all the
-        // information from here on.
-        // compare the bestSS and totalSS and only keep a copy of the
-        // struct relating to the bestSS
-        // once we do all the columns use the information from the
-        // struct to split the node.
-        // 
-        // if (struct->thisSS < bestSS && struct->improve > 0) 
-        // 	  bestStruct = struct
-        // 	  bestSS = thisSS
-        // exit loop. When all columns are done create the left/right
-        // nodes and datatables
         if ((improve>0) && (totalSS<bestSS) && (leftSS>alpha) && (rightSS>alpha))
         {
             lftChild = new Node(this,ltab,leftMean,leftSS,depth+1);
@@ -210,6 +294,7 @@ void Node::split(int level)
         right->split(level+1);
     }
 
+	MPI_Finalize();
 }
 
 float Node::predict(double *sample)

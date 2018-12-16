@@ -39,26 +39,16 @@ struct params {
     methods method = ANOVA;
 };
 
-/* struct node { */
-/*     struct node *rightNode = NULL; */
-/*     struct node *leftNode = NULL; */
+struct mpi_send {
+	int column;
+	int nrows;
+};
 
-/*     unsigned int nodeId = 0; */
-/*     double splitPoint; */
-/*     int index; */
-/*     int direction; */
-/*     int varIndex = 99999; */
-/*     string varName; */
-
-/*     double cp; */
-/*     int numObs; */
-/*     double dev; */
-/*     double yval; */
-/*     double improvement = 99999; */
-
-/*     double** data = NULL; */
-/*     string response; */
-/* }; */
+struct mpi_resp {
+	int column;
+	double sse;
+	double improve;
+};
 
 struct cpTable {
     double cp = 0;
