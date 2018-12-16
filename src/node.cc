@@ -103,21 +103,22 @@ void Node::split(int level)
 	// setup MPI
 	const int send_struct_tag = 1;	// tell slave nodes they have data
 	const int send_x_tag = 4;		// send the x data (should combine with struct)
-	const int send_y_tab = 5;		// send the y data (should combine with struct)
+	const int send_y_tag = 5;		// send the y data (should combine with struct)
 	const int results_tag = 2;		// tell master node we have results
 	const int done_tag = 3;			// tell all nodes we're done
+	const int data_tag = 6;			// data is coming
 
-	int procs, rank;
+	int procs, rank, size;
 
 	MPI_Init(NULL, NULL);
-	MPI_Comm_size(MPI_COMM_WORLD, &procs);
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
 	// if there are more processors than there are columns
-	if(cols < (procs-1))
+	if(cols < (size-1))
 		procs = cols;
 	else 
-		procs--; // remove master
+		procs = size-1; // remove master
 	
 	// create MPI types for structs
 	const int nitems_send = 2;
@@ -140,7 +141,7 @@ void Node::split(int level)
 	os[2] = offsetof(mpi_resp, improve);
 	MPI_Type_create_struct(nitems_resp, bl, os, t, &resp_data);
 
-	int rank 
+	int best_col = INT_MAX;
 	if(rank == 0)
 	{
 		int col_count = 0;
@@ -148,18 +149,19 @@ void Node::split(int level)
 		while(col_count < cols)
 		{	
 			// for each node that's not master
-			for(int i = 0; i < procs; i++) 
+			for(int i = 1; i <= procs; i++) 
 			{
 				struct mpi_send snd;
 				snd.column = col_count;
 				snd.nrows = data->numRows();
 
 				double *x = new double[data->numRows()];
-				double *y = new double[data->numRows()]
+				double *y = new double[data->numRows()];
 				data->getColumnData(col_count, x);
 				data->getColumnData(0, y);
 
-				MPI_Send(&snd, 1, mpi_send, i, send_struct_tag, MPI_COMM_WORLD);
+				MPI_Send(NULL, 0, MPI_INT, i, data_tag, MPI_COMM_WORLD);
+				MPI_Send(&snd, 1, send_data, i, send_struct_tag, MPI_COMM_WORLD);
 				MPI_Send(&x, snd.nrows, MPI_DOUBLE, i, send_x_tag, MPI_COMM_WORLD);
 				MPI_Send(&y, snd.nrows, MPI_DOUBLE, i, send_y_tag, MPI_COMM_WORLD);
 
@@ -172,90 +174,111 @@ void Node::split(int level)
 				MPI_Status status;
 				int n = data->numRows();
 
-				MPI_Recv(&resp, 1, mpi_resp, MPI_ANY_SOURCE, results_tag, MPI_COMM_WORLD, &status);
-				
-				
+				MPI_Recv(&resp, 1, resp_data, MPI_ANY_SOURCE, results_tag, MPI_COMM_WORLD, &status);
+				if(resp.improve > 0 && resp.sse < bestSS)
+				{
+					bestSS = resp.sse;
+					best_col = resp.column;
+				}
 			}
 		}
-
-		// recv struct from all threads
-		// check if better, if so update best col
-		
-		// send more processes 
 	}
 	else 
 	{
-		// recv struct
-		// recv x
-		// recv y
+		MPI_Status status;
+		MPI_Recv(NULL, 0, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+		while(status.MPI_TAG == data_tag) {
+			double *x, *y;
+			struct mpi_send snd;
+			MPI_Recv(&snd, 1, send_data, 0, send_struct_tag, MPI_COMM_WORLD, &status);
+			MPI_Recv(&x, snd.nrows, MPI_DOUBLE, 0, send_x_tag, MPI_COMM_WORLD, &status);
+			MPI_Recv(&y, snd.nrows, MPI_DOUBLE, 0, send_y_tag, MPI_COMM_WORLD, &status);
+	
+			// do the split
+			// combine the x and y columns and create data table s.t. col0 = y and col1 = x;
+	        data->sortBy(1);
 
-		// call MPI statistical metrics
-		// fill response struct
+	        // call function to find split point
+    	    int where, dir;
+        	double splitPoint, improve;
+     	   	double leftMean,rightMean;
+        	double leftSS, rightSS, totalSS = 0;
+      	 	queue<double*> q;
+
+	        metric->findSplitMPI(x, y, where, dir, splitPoint, improve, minNode, snd.nrows);
+			/* NEED TO IMPLEMENT THESE FOR ONE COLUMN "DO_SPLIT" in old logic should work
+			 * could we just create a new datatable here with "our data" and use the old functions???
+        	if (dir < 0) {
+            	ltab = data->subSet(0,where);
+            	rtab = data->subSet(where+1,data->numRows()-1);
+	        } else {
+    	        ltab = data->subSet(where+1, data->numRows()-1);
+       	     	rtab = data->subSet(0, where);
+        	}*/
+
+	        q.push(ltab); q.push(rtab);
+      	  	long unsigned int stopSize = pow(2, delays+1);
+        	while(q.size() < stopSize)
+        	{
+            	DataTable *temp = q.front(), *l = NULL, *r = NULL;
+
+	            dsplit(temp, l, r);
+   	         	if(l == NULL && r == NULL)
+            	{
+                	// if there isn't enough data to split on, just use the SSE of the smallest possible partitions 
+                	stopSize--;
+                	q.push(q.front());
+            	}
+            	else 
+            	{
+                	q.push(l); q.push(r);
+            	}
+            	q.pop();
+        	}
+        	if(q.size() != stopSize) 
+        	{
+            	cout << "Error splitting node, queue does not contain the right amount of partitions.";
+            	cout << endl;
+            	exit(0);
+        	}
+       	 	while(!q.empty())
+        	{
+            	// sum up SSE for each partition
+            	double *temp = q.front();
+            	q.pop();
+            	metric->getSplitCriteria(temp, &leftMean, &leftSS);
+            	totalSS += leftSS;
+        	}
+
+	        metric->getSplitCriteria(ltab,&leftMean,&leftSS);
+    	    metric->getSplitCriteria(rtab,&rightMean,&rightSS);
+
+			double improve=0, totalSS=0;
+			struct mpi_resp resp;
+			resp.column = snd.column;
+			resp.improve = improve;
+			resp.sse = totalSS;
+			MPI_Send(&resp, 1, resp_data, 0, results_tag, MPI_COMM_WORLD);
+
+			// keep receiving data until we get the done_tag value, at which point we'll exit
+			MPI_Recv(NULL, 0, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+		}
 	}
 
 	// only do post-processing on master thread
 	if(rank == 0)
 	{
-
+		// send to each process to stop
+		for(int i = 1; i < size; i++)
+		{
+			MPI_Send(NULL, 0, MPI_INT, i, done_tag, MPI_COMM_WORLD);
+		}
+		
 	}
 
 
     for (int curCol = 1; curCol < cols; curCol++)
     {
-        data->sortBy(curCol);
-
-        // call function to find split point
-        int where, dir;
-        double splitPoint, improve;
-        double leftMean,rightMean;
-        double leftSS, rightSS, totalSS = 0;
-        queue<DataTable*> q;
-
-        metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
-        if (dir < 0) {
-            ltab = data->subSet(0,where);
-            rtab = data->subSet(where+1,data->numRows()-1);
-        } else {
-            ltab = data->subSet(where+1, data->numRows()-1);
-            rtab = data->subSet(0, where);
-        }
-
-        q.push(ltab); q.push(rtab);
-        long unsigned int stopSize = pow(2, delays+1);
-        while(q.size() < stopSize)
-        {
-            DataTable *temp = q.front(), *l = NULL, *r = NULL;
-
-            dsplit(temp, l, r);
-            if(l == NULL && r == NULL)
-            {
-                // if there isn't enough data to split on, just use the SSE of the smallest possible partitions 
-                stopSize--;
-                q.push(q.front());
-            }
-            else 
-            {
-                q.push(l); q.push(r);
-            }
-            q.pop();
-        }
-        if(q.size() != stopSize) 
-        {
-            cout << "Error splitting node, queue does not contain the right amount of partitions.";
-            cout << endl;
-            exit(0);
-        }
-        while(!q.empty())
-        {
-            // sum up SSE for each partition
-            DataTable *temp = q.front();
-            q.pop();
-            metric->getSplitCriteria(temp, &leftMean, &leftSS);
-            totalSS += leftSS;
-        }
-
-        metric->getSplitCriteria(ltab,&leftMean,&leftSS);
-        metric->getSplitCriteria(rtab,&rightMean,&rightSS);
 
         if ((improve>0) && (totalSS<bestSS) && (leftSS>alpha) && (rightSS>alpha))
         {
