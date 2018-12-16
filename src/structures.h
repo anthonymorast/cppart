@@ -39,26 +39,15 @@ struct params {
     methods method = ANOVA;
 };
 
-/* struct node { */
-/*     struct node *rightNode = NULL; */
-/*     struct node *leftNode = NULL; */
+struct thread_send {
+	
+};
 
-/*     unsigned int nodeId = 0; */
-/*     double splitPoint; */
-/*     int index; */
-/*     int direction; */
-/*     int varIndex = 99999; */
-/*     string varName; */
-
-/*     double cp; */
-/*     int numObs; */
-/*     double dev; */
-/*     double yval; */
-/*     double improvement = 99999; */
-
-/*     double** data = NULL; */
-/*     string response; */
-/* }; */
+struct thread_return {
+	int column;
+	double sse;
+	double improvement;
+};
 
 struct cpTable {
     double cp = 0;

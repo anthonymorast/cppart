@@ -6,6 +6,8 @@
 #include <float.h>
 #include <values.h>
 #include <math.h>
+#include <mpi.h>
+#include <structures.h>
 
 #include <fstream>
 using namespace std;
@@ -101,6 +103,19 @@ void Node::split(int level)
 
 
     // great place for multi-threading
+	/*
+	 * Rank = 0:
+	 * 	while more columns:
+	 * 		MPI_Send( to other nodes)
+	 * 		if recvd: decrement counter and send again
+	 * 	after all done, send different message (tag) for the threads to exit
+	 * Rank != 0:
+	 * 	MPI_Recv( msg/data )
+	 * 	deep copy data table
+	 * 	process my column
+	 * 	send back column/SSE
+	 *  destroy my deep copy
+	 */
     for (int curCol = 1; curCol < cols; curCol++)
     {
         // sort by current column
