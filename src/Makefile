@@ -16,13 +16,13 @@ INCLUDES=-I.
 all: lacart laforest
 
 lacart: $(OBJS)
-	mpic++ -o lacart $(OBJS) $(LFLAGS) 
+	g++ -o lacart $(OBJS) $(LFLAGS) 
 
 laforest: $(OBJS2)
-	mpic++ $(LFLAGS) -o laforest $(OBJS2) -lm
+	g++ $(LFLAGS) -o laforest $(OBJS2) -lm
 
 .cc.o:
-	mpic++ $(INCLUDES) $(CFLAGS) -c $<
+	g++ $(INCLUDES) $(CFLAGS) -c $<
 
 
 clean:
