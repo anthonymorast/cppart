@@ -6,7 +6,6 @@
 #include <float.h>
 #include <values.h>
 #include <math.h>
-#include <mpi.h>
 #include <structures.h>
 
 #include <fstream>
