@@ -107,12 +107,9 @@ void Node::split(int level)
 	const int send_x_tag = 4;		// send the x data (should combine with struct)
 	const int send_y_tag = 5;		// send the y data (should combine with struct)
 	const int results_tag = 2;		// tell master node we have results
-	const int done_tag = 3;			// tell all nodes we're done
 	const int data_tag = 6;			// data is coming
 	
 	int procs, rank, size;
-
-	MPI_Init(NULL, NULL);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
@@ -145,7 +142,7 @@ void Node::split(int level)
 
 	MPI_Type_commit(&send_data);
 	MPI_Type_commit(&resp_data);
-
+	
 	int best_col = INT_MAX;
 	if(rank == 0)
 	{
@@ -177,7 +174,8 @@ void Node::split(int level)
 				MPI_Status status;
 
 				MPI_Recv(&resp, 1, resp_data, MPI_ANY_SOURCE, results_tag, MPI_COMM_WORLD, &status);
-				printf("Master received %d, %d from source %d\n", resp.column, resp.sse, status.MPI_SOURCE);
+
+				// printf("Received %f, %f for column %d\n", resp.improve, resp.sse, resp.column);
 				if(resp.improve > 0 && resp.sse < bestSS)
 				{
 					bestSS = resp.sse;
@@ -185,110 +183,8 @@ void Node::split(int level)
 				}
 			}
 		}
-	}
-	else 
-	{
-		MPI_Status status;
-		MPI_Recv(NULL, 0, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-		while(status.MPI_TAG == data_tag) {
-			struct mpi_send snd;
-			MPI_Recv(&snd, 1, send_data, 0, send_struct_tag, MPI_COMM_WORLD, &status);
-			printf("Received column and rows: %d, %d\n", snd.column, snd.nrows);
-			
-			MPI_Recv(x, snd.nrows, MPI_DOUBLE, 0, send_x_tag, MPI_COMM_WORLD, &status);
-			MPI_Recv(y, snd.nrows, MPI_DOUBLE, 0, send_y_tag, MPI_COMM_WORLD, &status);
-	
-			// combine the x and y columns and create data table s.t. col0 = y and col1 = x;
-			double **d = new double*[snd.nrows];
-			for(int i = 0; i < snd.nrows; i++)
-				d[i] = new double[2];
-			for(int i = 0; i < snd.nrows; i++)
-			{
-				d[i][0] = y[i];
-				d[i][1] = x[i];
-			}
-  			string names[2] = {"resp", "explain"};
-			DataTable *tbl = new DataTable(names, d, snd.nrows, 2);
-	        tbl->sortBy(1);
-
-	        // call function to find split point
-			/*
-    	    int where, dir;
-        	double splitPoint, improve = 0;
-     	   	double leftMean;
-        	double leftSS, totalSS = 0;
-      	 	queue<DataTable*> q;
-			DataTable *lft, *rgt;
-
-	        metric->findSplit(tbl, 1, where, dir, splitPoint, improve, minNode);
-        	if (dir < 0) {
-            	lft = tbl->subSet(0,where);
-            	rgt = tbl->subSet(where+1,tbl->numRows()-1);
-	        } else {
-    	        lft = tbl->subSet(where+1, tbl->numRows()-1);
-       	     	rgt = tbl->subSet(0, where);
-        	}
-
-	        q.push(lft); q.push(rgt);
-      	  	long unsigned int stopSize = pow(2, delays+1);
-        	while(q.size() < stopSize)
-        	{
-            	DataTable *temp = q.front(), *l = NULL, *r = NULL;
-	            
-				dsplit(temp, l, r);
-
-   	         	if(l == NULL && r == NULL)
-            	{
-                	// if there isn't enough data to split on, just use the SSE of the smallest possible partitions 
-                	stopSize--;
-                	q.push(q.front());
-            	}
-            	else 
-            	{
-                	q.push(l); q.push(r);
-            	}
-            	q.pop();
-        	}
-        	if(q.size() != stopSize) 
-        	{
-            	cout << "Error splitting node, queue does not contain the right amount of partitions.";
-            	cout << endl;
-            	exit(0);
-        	}
-       	 	while(!q.empty())
-        	{
-            	// sum up SSE for each partition
-            	DataTable *temp = q.front();
-            	q.pop();
-            	metric->getSplitCriteria(temp, &leftMean, &leftSS);
-            	totalSS += leftSS;
-        	}*/
-			
-			struct mpi_resp resp;
-			resp.column = snd.column;
-			resp.improve = 0;//improve;
-			resp.sse = 0;//totalSS;
-			MPI_Send(&resp, 1, resp_data, 0, results_tag, MPI_COMM_WORLD);
-
-			//delete lft;
-			//delete rgt;
-			//delete tbl;
-
-			// keep receiving data until we get the done_tag value, at which point we'll exit
-			MPI_Recv(NULL, 0, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-			printf("Received tag: %d\n", status.MPI_TAG);
-		}
-	}
-
-	// only do post-processing on master thread
-	if(rank == 0)
-	{
-		// send to each process to stop
-		for(int i = 1; i < size; i++)
-		{
-			MPI_Send(NULL, 0, MPI_INT, i, done_tag, MPI_COMM_WORLD);
-		}
-		/*double improve, leftSS, rightSS, leftMean, rightMean, splitPoint;
+		
+		double improve, leftSS, rightSS, leftMean, rightMean, splitPoint;
 		int where, dir;
 
 		// get the right and left tables for th best split
@@ -333,10 +229,9 @@ void Node::split(int level)
 
     	if((right != NULL)&&(right->data->numRows()>minObs)) {
         	right->split(level+1);
-    	}*/
+    	}
 	}
 
-	MPI_Finalize();
 	return;
 }
 
