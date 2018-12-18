@@ -2,8 +2,6 @@
 
 A parallel implementation of the CART algorithm for building classification and regression trees in C++. Implements delayed greedy splitting wherein the dataset is paritioned further than a left and right partition before making a splitting decision at each node. 
 
-----
-
 ## Dependencies
 I haven't done any work on determining which versions of the following tools are required to make the project work. However, most versions of these libraries should not cause too many problems. 
 
