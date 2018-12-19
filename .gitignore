@@ -2,6 +2,8 @@
 *.csv
 *.data
 **/Data
+lacart
+laforest
 
 !results/datasetsFa18/*.csv
 !results/datasetsFa18/multis/*.csv

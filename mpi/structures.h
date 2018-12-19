@@ -39,14 +39,15 @@ struct params {
     methods method = ANOVA;
 };
 
-struct thread_send {
-	
+struct mpi_send {
+	int column;
+	int nrows;
 };
 
-struct thread_return {
+struct mpi_resp {
 	int column;
 	double sse;
-	double improvement;
+	double improve;
 };
 
 struct cpTable {
