@@ -2,8 +2,6 @@
 
 A parallel implementation of the CART algorithm for building classification and regression trees in C++. Implements delayed greedy splitting wherein the dataset is paritioned further than a left and right partition before making a splitting decision at each node. 
 
-----
-
 ## Dependencies
 I haven't done any work on determining which versions of the following tools are required to make the project work. However, most versions of these libraries should not cause too many problems. 
 
@@ -16,7 +14,7 @@ The following are required to use the Python data processing utilities:
 To run the C++ implementation of CART the following dependencies must be met:
 1. [Make](https://www.gnu.org/software/make/)
 2. [g++](https://gcc.gnu.org/)
-3. [OpenMPI](https://www.open-mpi.org/software/ompi/v4.0/)
+3. [MPICH](https://www.mpich.org/)
 
 ## Basic Usage
 
@@ -71,4 +69,6 @@ CPPart
 |   | runAnalyzeWithSplit.sh - does the same thing as runAndAnalyze.sh except uses pre-split train/test datasets (i.e. a csv for training and a csv for testing)
 |   | runmany.sh - called by runAndAnalyze.sh and runAnalyzeWithSplit.sh to run 'lacart' for multiple depths and output results
 |
+└─── mpi
+|   | Essentially the same contents as 'src' except uses MPI for parallel processing (changes to lacart.cc/h, node.cc/h, and the Makefile)
 ```
