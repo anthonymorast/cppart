@@ -85,7 +85,8 @@ void Node::dsplit(DataTable *temp, DataTable *&l, DataTable *&r)
 // formerly known as partition() and bestsplit()
 void Node::split(int level)
 {
-
+	if(verbose >= 1)
+		cout << "Processing level " << level << endl;
     int cols = data->numCols();
     double bestSS = DBL_MAX;
     DataTable *ltab,*rtab;
@@ -102,6 +103,8 @@ void Node::split(int level)
 
     for (int curCol = 1; curCol < cols; curCol++)
     {
+		if(verbose >= 2)
+			cout << "\tProcessing column " << curCol << " of " << cols << "..." << endl;
         // sort by current column
         data->sortBy(curCol);
 

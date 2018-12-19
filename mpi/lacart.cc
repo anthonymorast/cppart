@@ -152,7 +152,7 @@ int main(int argc, char* argv[]) {
 
 		for(int i = 1; i < procs; i++)
 		{
-			printf("Sending stop single to rank %d\n", i);
+			printf("Sending stop signal to rank %d\n", i);
 			int dummy = 1;
 			MPI_Send(&dummy, 1, MPI_INT, i, done_tag, MPI_COMM_WORLD);
 		}
