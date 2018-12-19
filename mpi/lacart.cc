@@ -61,12 +61,12 @@ int main(int argc, char* argv[]) {
 	else
 		metric = new anovaMetric;
 
-	if(p.verbose>0)
-			cerr<<"back from parseParameters"<<endl;
-
 	double start = MPI_Wtime();
 	if(rank == 0) 
 	{	
+		if(p.verbose>0)
+			cerr<<"back from parseParameters"<<endl;
+
 #ifdef _OPENMP
 		unsigned concurentThreadsSupported = std::thread::hardware_concurrency();
 		// printf("Running with %d threads.\n",concurentThreadsSupported);
@@ -104,6 +104,7 @@ int main(int argc, char* argv[]) {
 		Node::setMinObsData(p.minObs);
 		Node::setAlpha(p.complexity * cp);
 		Node::setDelays(p.delayed);
+		Node::setVerbose(p.verbose);
 	
 		Node *tree = new Node(NULL,Data,mean,cp,0);
 		tree->setMaxDepth(p.maxDepth);
@@ -151,13 +152,16 @@ int main(int argc, char* argv[]) {
 
 		for(int i = 1; i < procs; i++)
 		{
-			MPI_Send(NULL, 0, MPI_INT, i, done_tag, MPI_COMM_WORLD);
+			printf("Sending stop single to rank %d\n", i);
+			int dummy = 1;
+			MPI_Send(&dummy, 1, MPI_INT, i, done_tag, MPI_COMM_WORLD);
 		}
 	}
 	else 
 	{
 		MPI_Status status;
-		MPI_Recv(NULL, 0, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+		int dummy;
+		MPI_Recv(&dummy, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 		while(status.MPI_TAG != done_tag) {
 			struct mpi_send snd;
 			MPI_Recv(&snd, 1, send_data, 0, send_struct_tag, MPI_COMM_WORLD, &status);
@@ -248,7 +252,8 @@ int main(int argc, char* argv[]) {
 			delete y;
 
 			// keep receiving data until we get the done_tag value, at which point we'll exit
-			MPI_Recv(NULL, 0, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+			printf("Getting action tag on rank %d\n", rank);
+			MPI_Recv(&dummy, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 		}
 	}
 	

@@ -88,7 +88,7 @@ void Node::dsplit(DataTable *temp, DataTable *&l, DataTable *&r)
 void Node::split(int level)
 {
 
-    int cols = data->numCols();
+    int cols = data->numCols();	
     double bestSS = DBL_MAX;
     DataTable *ltab,*rtab;
     Node *lftChild,*rgtChild;
@@ -148,89 +148,108 @@ void Node::split(int level)
 	{
 		int col_count = 1;
 		// while there are columns left
+		if(verbose >= 1)
+			printf("Processing level %d...\n", level);
 		while(col_count < cols)
 		{	
 			// for each node that's not master
+			int procs_sent = 0;
 			for(int i = 1; i <= procs; i++) 
 			{
+				if(col_count >= (cols))
+					break;
+
+				if(verbose >= 2)
+					printf("\tSending column %d to rank %d...\n", col_count, i);
 				struct mpi_send snd;
+				int dummy = 1;
 				snd.column = col_count;
 				snd.nrows = data->numRows();
 
 				data->getColumnData(col_count, x);
 				data->getColumnData(0, y);
 
-				MPI_Send(NULL, 0, MPI_INT, i, data_tag, MPI_COMM_WORLD);
+				MPI_Send(&dummy, 1, MPI_INT, i, data_tag, MPI_COMM_WORLD);
 				MPI_Send(&snd, 1, send_data, i, send_struct_tag, MPI_COMM_WORLD);
 				MPI_Send(x, snd.nrows, MPI_DOUBLE, i, send_x_tag, MPI_COMM_WORLD);
 				MPI_Send(y, snd.nrows, MPI_DOUBLE, i, send_y_tag, MPI_COMM_WORLD);
 
 				col_count++;
+				procs_sent++;
 			}
 
-			for(int i = 0; i < procs; i++)
+			for(int i = 0; i < procs_sent; i++)
 			{
 				struct mpi_resp resp;
 				MPI_Status status;
 
 				MPI_Recv(&resp, 1, resp_data, MPI_ANY_SOURCE, results_tag, MPI_COMM_WORLD, &status);
 
-				// printf("Received %f, %f for column %d\n", resp.improve, resp.sse, resp.column);
+				if(verbose >= 2)
+					printf("Received %f, %f for column %d\n", resp.improve, resp.sse, resp.column);
 				if(resp.improve > 0 && resp.sse < bestSS)
 				{
 					bestSS = resp.sse;
 					best_col = resp.column;
 				}
 			}
+			printf("column count, cols: %d, %d\n", col_count, cols);
 		}
 		
 		double improve, leftSS, rightSS, leftMean, rightMean, splitPoint;
 		int where, dir;
 
 		// get the right and left tables for th best split
-		data->sortBy(best_col);
-		metric->findSplit(data, best_col, where, dir, splitPoint, improve, minNode);
-		if(dir < 0)
+		if(best_col < INT_MAX) 
 		{
-			ltab = data->subSet(0, where);
-			rtab = data->subSet(where+1, data->numRows()-1);
-		}
-		else 
-		{
-			ltab = data->subSet(where+1, data->numRows()-1);
-			rtab = data->subSet(0, where);
-		}
-		// get statistical data for right and left nodes
-		metric->getSplitCriteria(ltab, &leftMean, &leftSS);
-		metric->getSplitCriteria(rtab, &rightMean, &rightSS);
+			printf("Best col is %d, sorting and splitting...\n", best_col);
+			data->sortBy(best_col);
+			metric->findSplit(data, best_col, where, dir, splitPoint, improve, minNode);
+			if(dir < 0)
+			{
+				ltab = data->subSet(0, where);
+				rtab = data->subSet(where+1, data->numRows()-1);
+			}
+			else 
+			{
+				ltab = data->subSet(where+1, data->numRows()-1);
+				rtab = data->subSet(0, where);
+			}
+			// get statistical data for right and left nodes
+			metric->getSplitCriteria(ltab, &leftMean, &leftSS);
+			metric->getSplitCriteria(rtab, &rightMean, &rightSS);
+
+			printf("performing split for level %d\n", level);
 		
-        lftChild = new Node(this,ltab,leftMean,leftSS,depth+1);
-        rgtChild = new Node(this,rtab,rightMean,rightSS,depth+1);
-        direction = dir;
-        splitValue = splitPoint;
-        splitIndex = where;
-        varIndex = best_col;
-        varName = data->getName(best_col);
-        if(right != NULL)
-            delete right;
-        right = rgtChild;
-        if(left != NULL)
-            delete left;
-        left = lftChild;
+	        lftChild = new Node(this,ltab,leftMean,leftSS,depth+1);
+   	     	rgtChild = new Node(this,rtab,rightMean,rightSS,depth+1);
+   	     	direction = dir;
+   	     	splitValue = splitPoint;
+	        splitIndex = where;
+	        varIndex = best_col;
+   	     	varName = data->getName(best_col);
+        	if(right != NULL)
+            	delete right;
+        	right = rgtChild;
+        	if(left != NULL)
+            	delete left;
+        	left = lftChild;
     
-		if(left!=NULL)
-   	    	left->setId();  // setId needs to be thread safe
-   	 	if(right!=NULL)
-        	right->setId();
+			if(left!=NULL)
+   	    		left->setId();  // setId needs to be thread safe
+   	 		if(right!=NULL)
+        		right->setId();
 
-    	if((left != NULL)&&(left->data->numRows()>minObs)) {
-        	left->split(level+1);
-    	}
+    		if((left != NULL)&&(left->data->numRows()>minObs)) {
+        		left->split(level+1);
+    		}
 
-    	if((right != NULL)&&(right->data->numRows()>minObs)) {
-        	right->split(level+1);
-    	}
+    		if((right != NULL)&&(right->data->numRows()>minObs)) {
+        		right->split(level+1);
+    		}
 	}
+	}
+	printf("Done with level %d\n", level);
 
 	return;
 }

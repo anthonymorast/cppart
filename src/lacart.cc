@@ -22,7 +22,7 @@ using namespace std;
 
 
 int main(int argc, char* argv[]) {
-	//clock_t start, end;
+	clock_t start, end;
 
 	if (argc < 4) {
 		printUsage(argv,argc);
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
 	// create data table for training
 
 	DataTable *Data = new DataTable(p.varNames,p.trainData,p.trainSize,getColumnCount(p.headers));
-	//start = clock();
+	start = clock();
 
 	//int numNodes = 0;
 	//cout << "Building tree..." << endl;
@@ -85,6 +85,7 @@ int main(int argc, char* argv[]) {
 	Node::setMinObsData(p.minObs);
 	Node::setAlpha(p.complexity * cp);
 	Node::setDelays(p.delayed);
+	Node::setVerbose(p.verbose);
 
 	Node *tree = new Node(NULL,Data,mean,cp,0);
 	tree->setMaxDepth(p.maxDepth);
@@ -92,7 +93,7 @@ int main(int argc, char* argv[]) {
 	tree->split(0);
 
 	// stop the clock before xvals
-	//end = clock();
+	end = clock();
 
 	int idx = p.filename.find(".");
 	string treeFileName = p.filename.substr(0, idx);
@@ -131,6 +132,7 @@ int main(int argc, char* argv[]) {
 
 	cout << p.delayed << "," << p.maxDepth << "," << impurity << "," << (relError/p.testSize) << "," << (error/p.testSize) << endl;
 
+	cout << "Time Elapsed: " << ((double)(end-start))/CLOCKS_PER_SEC << endl;
 	return 0;
 }
 
