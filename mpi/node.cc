@@ -187,13 +187,11 @@ void Node::split(int level)
 
                 MPI_Recv(&resp, 1, resp_data, MPI_ANY_SOURCE, results_tag, MPI_COMM_WORLD, &status);
 
-                if(verbose >= 2 || (nodeId == 38))
+                if(verbose >= 2)
                     printf("Received %f, %f for column %d,%s  %f %f\n", resp.improve, resp.sse, resp.column, data->getName(resp.column).c_str(), resp.leftSS, resp.rightSS);
                 
                 if(resp.improve > 0 && trunc(1000000.*resp.sse) < trunc(1000000.*bestSS) && (resp.leftSS > alpha) && (resp.rightSS > alpha))
                 {
-					if(nodeId == 38) 
-						cout << bestSS << " " << resp.sse << " " << resp.column << " " << resp.rightSS << "  " << resp.leftSS << " " << alpha << endl;
                     bestSS = resp.sse;
                     best_col = resp.column;
                 }
@@ -209,8 +207,6 @@ void Node::split(int level)
             data->sortBy(best_col);
             metric->findSplit(data, best_col, where, dir, splitPoint, improve, minNode);
 
-			if(nodeId == 38)
-				cout << dir << " " << where << " " << best_col << endl;
             if(dir < 0)
             {
                 ltab = data->subSet(0, where);
@@ -243,13 +239,6 @@ void Node::split(int level)
                 left->setId();  // setId needs to be thread safe
             if(right!=NULL)
                 right->setId();
-
-            if(nodeId == 38) {
-                left->data->sortBy(11);
-                left->data->dump();
-                right->data->sortBy(11);
-                right->data->dump();
-            }
 
             if((left != NULL)&&(left->data->numRows()>minObs)) {
                 left->split(level+1);

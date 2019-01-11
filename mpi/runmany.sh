@@ -63,10 +63,10 @@ echo "delayed,depth,impurity,relerror,accuracy" >> $gfile
 while [[ $i -le $trials ]]
 do 
 	for d in "${depths[@]}"; do 
-		cmd="./lacart $dataset $response 0 cp=0 maxdepth=$d splitdata=1 randomsplit=0 method=$method >> $gfile"
+		cmd="mpiexec -np 6 ./lacart $dataset $response 0 cp=0 maxdepth=$d splitdata=1 randomsplit=0 method=$method >> $gfile"
 		echo "Running greedy algorithm: trial $i, depth $d. Command: $cmd"
 		eval $cmd
-		cmd="./lacart $dataset $response 1 cp=0 maxdepth=$d splitdata=1 randomsplit=0 method=$method >> $dfile"
+		cmd="mpiexec -np 6 ./lacart $dataset $response 1 cp=0 maxdepth=$d splitdata=1 randomsplit=0 method=$method >> $dfile"
 		echo "Running delayed algorithm: trial $i, depth $d. Command: $cmd"
 		eval $cmd
 	done

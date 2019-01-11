@@ -196,9 +196,6 @@ int main(int argc, char* argv[]) {
             queue<DataTable*> q;
             DataTable *lft, *rgt;
 
-            //if(tbl->numRows() == 27 && snd.column == 11) {
-            //    tbl->dump();
-            //}
             metric->findSplit(tbl, 1, where, dir, splitPoint, improve, p.minNode);
             if (dir < 0) {
                 lft = tbl->subSet(0,where);
@@ -240,9 +237,6 @@ int main(int argc, char* argv[]) {
                 DataTable *temp = q.front();
                 q.pop();
                 metric->getSplitCriteria(temp, &leftMean, &leftSS);
-                //if(tbl->numRows() == 27 && snd.column == 11) {
-                //    cout << leftSS << "  " << totalSS << " " << temp->numRows() << endl;
-                //}
                 totalSS += leftSS;
             }
 
@@ -272,7 +266,7 @@ int main(int argc, char* argv[]) {
     if(rank == 0)
     {
         double end = MPI_Wtime();
-        printf("Time elapsed is %f\n", (end-start));
+        //printf("Time elapsed is %f\n", (end-start));
     }
 
     MPI_Finalize();
