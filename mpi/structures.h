@@ -48,6 +48,8 @@ struct mpi_resp {
 	int column;
 	double sse;
 	double improve;
+    double leftSS;
+    double rightSS;
 };
 
 struct cpTable {

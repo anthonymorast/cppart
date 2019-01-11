@@ -31,9 +31,6 @@ class statisticalMetric{
 			 double &splitPoint, 
 			 double &improve,int minNode);
   
-  virtual void findSplitMPI(double *x, double *y, int &which, int &direction,
-		  	double &splitPoint, double &improve, int minNode, int nrows);
-
   virtual void getSplitCriteria(DataTable *data,double *ave, double *cp);
 
 };
@@ -48,10 +45,6 @@ class anovaMetric:public statisticalMetric{
 			 int &which,int &direction, 
 			 double &splitPoint, 
 			 double &improve,int minNode);
-
-  virtual void findSplitMPI(double *x, double *y, int &which, int &direction,
-		  	double &splitPoint, double &improve, int minNode, int nrows);
-
 
   virtual void getSplitCriteria(DataTable *data,double *ave, double *cp);
 
@@ -69,9 +62,6 @@ class giniMetric:public statisticalMetric{
 			 int &which,int &direction, 
 			 double &splitPoint, 
 			 double &improve,int minNode);
-
-  virtual void findSplitMPI(double *x, double *y, int &which, int &direction,
-		  	double &splitPoint, double &improve, int minNode, int nrows);
 
 
   virtual void getSplitCriteria(DataTable *data,double *ave, double *cp);
