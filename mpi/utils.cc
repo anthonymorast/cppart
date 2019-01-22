@@ -167,22 +167,13 @@ void parseParameters(char * argv[], int argc, params *p)
 	int lineCount = getLineCount(filename);
 	int colCount = getColumnCount(headers);
 	p->dataLineCount = lineCount;
-	double **data = new double*[lineCount - 1];
-	for (int i = 0; i < lineCount; i++) {
+	double **data = new double*[lineCount ];
+	for (int i = 0; i <= lineCount; i++) {
 		data[i] = new double[colCount];
 	}
 	// Read in the data
 	getData(filename, data);
-
 	// END OF READING INPUT FILE
-
-	// alpha is not even used
-	// double* y = getResponseData(response, headers, data, lineCount-1);
-	// double mean, risk;
-	// anovaSS(y, lineCount-1, mean, risk);
-	// alpha = cp * risk;
-	// free1DData(y);
-
 	// NOW WE MAY NEED TO SPLIT INTO TRAING AND TESTING SETS
 	double **testData = NULL, **trainData;
 	int numObs = lineCount - 1;
