@@ -167,21 +167,13 @@ void parseParameters(char * argv[], int argc, params *p)
 	int lineCount = getLineCount(filename);
 	int colCount = getColumnCount(headers);
 	p->dataLineCount = lineCount;
-	double **data = new double*[lineCount - 1];
-	for (int i = 0; i < lineCount; i++) {
+	double **data = new double*[lineCount];
+	for (int i = 0; i <= lineCount; i++) {
 		data[i] = new double[colCount];
 	}
 	// Read in the data
 	getData(filename, data);
-
 	// END OF READING INPUT FILE
-
-	// alpha is not even used
-	// double* y = getResponseData(response, headers, data, lineCount-1);
-	// double mean, risk;
-	// anovaSS(y, lineCount-1, mean, risk);
-	// alpha = cp * risk;
-	// free1DData(y);
 
 	// NOW WE MAY NEED TO SPLIT INTO TRAING AND TESTING SETS
 	double **testData = NULL, **trainData;
@@ -262,7 +254,7 @@ void parseParameters(char * argv[], int argc, params *p)
 	{
 		trainData = deepCopyData(data, lineCount-1, colCount);
 	}
-
+	
 	// get number of classes
 	int numclasses = 0;
 	if(m == GINI) { //classification problem
@@ -310,7 +302,6 @@ void parseParameters(char * argv[], int argc, params *p)
 	p->splitdata = split_data >= 1;
 	p->testDataFilename = test_data_filename;
 	p->complexity = cp;
-	// p->alpha = alpha;
 	p->method = m;
 	p->numclasses = numclasses;
 	p->verbose = verbose;
@@ -321,6 +312,7 @@ void parseParameters(char * argv[], int argc, params *p)
 
 	if(p->splitdata && test_data_filename == "") {
 		numObs /= 5;
-	} 
+	}
+   return;	
 }
 

@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 	//cout << endl;
 
 	parseParameters(argv, argc, &p);
-
+	
 	if(p.verbose>0)
 		cerr<<"back from parseParameters"<<endl;
 

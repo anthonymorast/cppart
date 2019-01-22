@@ -114,11 +114,8 @@ void Node::split(int level)
         double leftMean,rightMean;
         double leftSS, rightSS, totalSS = 0;
         queue<DataTable*> q;
-
-        if(curCol == 11 && data->numRows() == 27 && nodeId == 40) {
-            data->dump();
-        }
-        metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
+       
+		metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
         if (dir < 0) {
             ltab = data->subSet(0,where);
             rtab = data->subSet(where+1,data->numRows()-1);
@@ -158,22 +155,14 @@ void Node::split(int level)
             DataTable *temp = q.front();
             q.pop();
             metric->getSplitCriteria(temp, &leftMean, &leftSS);
-            if(curCol == 11 && data->numRows() == 27 && nodeId == 40) {
-                cout << leftSS << " " << totalSS << " " << temp->numRows() << endl;
-            }
             totalSS += leftSS;
         }
 
         metric->getSplitCriteria(ltab,&leftMean,&leftSS);
         metric->getSplitCriteria(rtab,&rightMean,&rightSS);
 
-        if(nodeId == 38) 
-            cout << "improve: " << improve << " sse: " << totalSS << " column: " << data->getName(curCol)  << " " << rightSS << " " << leftSS << endl;
-
         if ((improve>0) && (trunc(1000000.*totalSS)<trunc(1000000.*bestSS)) && (leftSS>alpha) && (rightSS>alpha))
         {
-        	if(nodeId == 38) 
-				cout << bestSS << " " << totalSS << " " << curCol << " " << leftSS << " " << rightSS << " " << alpha << endl;
             lftChild = new Node(this,ltab,leftMean,leftSS,depth+1);
             rgtChild = new Node(this,rtab,rightMean,rightSS,depth+1);
             bestSS = totalSS;
@@ -195,20 +184,11 @@ void Node::split(int level)
             delete rtab;
         }
     }
-	if(nodeId == 38) 
-		cout << direction << " " << splitIndex << " " << varIndex << endl;
 
     if(left!=NULL)
         left->setId();  // setId needs to be thread safe
     if(right!=NULL)
         right->setId();
-
-    if(nodeId == 38) {
-        left->data->sortBy(11);
-        left->data->dump();
-        right->data->sortBy(11);
-        right->data->dump();
-    }
 
     if((left != NULL)&&(left->data->numRows()>minObs)) {
         left->split(level+1);
