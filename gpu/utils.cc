@@ -174,6 +174,7 @@ void parseParameters(char * argv[], int argc, params *p)
 	// Read in the data
 	getData(filename, data);
 	// END OF READING INPUT FILE
+
 	// NOW WE MAY NEED TO SPLIT INTO TRAING AND TESTING SETS
 	double **testData = NULL, **trainData;
 	int numObs = lineCount - 1;
@@ -253,7 +254,7 @@ void parseParameters(char * argv[], int argc, params *p)
 	{
 		trainData = deepCopyData(data, lineCount-1, colCount);
 	}
-
+	
 	// get number of classes
 	int numclasses = 0;
 	if(m == GINI) { //classification problem
@@ -301,7 +302,6 @@ void parseParameters(char * argv[], int argc, params *p)
 	p->splitdata = split_data >= 1;
 	p->testDataFilename = test_data_filename;
 	p->complexity = cp;
-	// p->alpha = alpha;
 	p->method = m;
 	p->numclasses = numclasses;
 	p->verbose = verbose;
@@ -312,6 +312,7 @@ void parseParameters(char * argv[], int argc, params *p)
 
 	if(p->splitdata && test_data_filename == "") {
 		numObs /= 5;
-	} 
+	}
+   return;	
 }
 

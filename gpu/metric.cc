@@ -12,20 +12,16 @@ using namespace std;
 #define MISSING 0
 
 
+// The statisticalMetric class provides statistical functions to be
+// used on DataTable objects.
+
+// calculate the mean of one of the columns
 double statisticalMetric::mean(DataTable *data,int column)
 {
   double tmp=0.0;
   for(int i = 0; i<data->numRows(); i++)
     tmp += (*data)[i][column];
   return tmp/data->numRows();
-}
-
-double statisticalMetric::oneColMean(double *data, int nrows)
-{
-	double tmp = 0.0;
-	for(int i = 0; i < nrows; i++)
-		tmp += data[i];
-	return tmp/nrows;
 }
   
 // calculate the sum squared difference of one of the columns, given
@@ -41,20 +37,6 @@ double statisticalMetric::sumSquares(DataTable *data,int column,double colMean)
     }
   return ss;
 }
-
-double statisticalMetric::oneColSumSquares(double *data, int nrows, double colMean)
-{
-	double tmp;
-	double ss = 0.0;
-	for(int i = 0; i < nrows; i++)
-	{
-		// center
-		tmp = data[i] - colMean;
-		ss += tmp*tmp;
-	}
-	return ss;
-}
-
 
 // calculate statistical variance of one of the columns
 double statisticalMetric::variance(DataTable *data,int column)
@@ -77,7 +59,6 @@ void statisticalMetric::findSplit(DataTable *data,int col,
   cerr<<"Error! findSplit called for statisticalMetric"<<endl;
   exit(2);
 }
-
 
 // Find the best place to split the data.  Assume data is already
 // sorted on the specified column.  The goal is to find the split
@@ -156,6 +137,7 @@ void anovaMetric::findSplit(DataTable *data,int col,
     (((*data)[bestpos][col] + (*data)[bestpos + 1][col]) / 2) :
     (*data)[bestpos][col];
 }
+
 
 void statisticalMetric::getSplitCriteria(DataTable *data,double *ave, double *cp)
 {
@@ -251,6 +233,8 @@ void giniMetric::findSplit(DataTable *data,int col,
     splitValue = (n > bestpos + 1) ? (((*data)[bestpos][col] + (*data)[bestpos+1][col]) / 2) : (*data)[bestpos][col];
 }
 
+
+
 // formerly known as giniCalc and giniDev
 void giniMetric::getSplitCriteria(DataTable *data,double *cls, double *cp)
 {
@@ -283,3 +267,50 @@ void giniMetric::getSplitCriteria(DataTable *data,double *cls, double *cp)
 		*cp += n * impure(temp);
 	}
 }
+
+/*
+void giniMetric::giniDev(DataTable *data, double *cls, double *cp)
+{
+	// majority vote for class (cls)
+	map<float, int> classFreq;
+	for(int i = 0; i < data->numRows(); i++)
+	{
+		double y = (*data)[i][0];
+		if(classFreq.count(y)) 
+			classFreq.at(y)++;
+		else
+			classFreq.insert(pair<float, int>(y, 1));
+	}
+
+	int max = 0;
+	for(auto it = classFreq.cbegin(); it != classFreq.cend(); it++)
+	{
+		if(it->second > max)
+		{
+			*cls = it->first;
+			max = it->second;
+		}
+	}
+
+	*cp = 0;
+	int numClasses = classFreq.size();
+	if (data->numRows() == 1280)
+	cout << numClasses << endl;
+	for(int i = 0; i < numClasses; i++)
+	{
+		int temp = 0;
+		int j = 0;
+		for(auto it = classFreq.cbegin(); it != classFreq.cend(); it++)
+		{
+			int loss_mult = j == i ? 0 : 1;
+			temp += (it->second * loss_mult);
+			j++;
+		}
+		if(i == 0 || temp < *cp) 
+		{
+			max = i;
+			*cp = temp;
+		}
+	}
+}
+*/

@@ -2,10 +2,17 @@
  * Entry point of the program. Parses parameters, does some preprocessing,
  * creates the tree, runs cross-validations, creates tree files, etc.
  *
+ * IMPORTANT: In order for the runAnd* shell scripts to work the entire
+ * program cannot ouput anything except the output statement at the end 
+ * of thread_0's main function, i.e. 
+ *
+ * cout << p.delayed << "," << p.maxDepth << "," << impurity << "," << (relError/p.testSize) << "," << (error/p.testSize) << endl;
+ *
+ * This output is redirected to a CSV file that is processed by the python
+ * scripts. Any other output will cause errors. 
+ *
  * Author: Anthony Morast
  */
-
-
 #include <lacart.h>
 
 int main(int argc, char* argv[]) {
@@ -55,6 +62,8 @@ int main(int argc, char* argv[]) {
         exit(0);
     }
 
+    // might be a better way to do this but for now parse the parameters
+    // on each node so that each machine has a copy of 'p' in its memory
     params p;
     parseParameters(argv, argc, &p);
     statisticalMetric *metric;
@@ -63,9 +72,11 @@ int main(int argc, char* argv[]) {
     else
         metric = new anovaMetric;
 
+    // time the program
     double start = MPI_Wtime();
     if(rank == 0) 
     {	
+        // handle thread admin stuff
         if(p.verbose>0)
             cerr<<"back from parseParameters"<<endl;
 
@@ -108,30 +119,31 @@ int main(int argc, char* argv[]) {
         Node::setDelays(p.delayed);
         Node::setVerbose(p.verbose);
 
+        // build the tree
         Node *tree = new Node(NULL,Data,mean,cp,0);
         tree->setMaxDepth(p.maxDepth);
         tree->setId(); 
         tree->split(0);
 
-        //end = clock();
-
+        // print tree to a file
         int idx = p.filename.find(".");
         string treeFileName = p.filename.substr(0, idx);
         if(p.delayed > 0)
             treeFileName += ".delayed";
         treeFileName += ".tree";
-        //cout << "Creating tree file '" << treeFileName << "'..." << endl;
         ofstream fout;
         fout.open(treeFileName);
         tree->print(fout, false);
         fout.close();
 
+        // get error measurments and impurity
         double mae = 0, relError = 0;
         int correct = 0, incorrect = 0;
         float impurity = 0;
 
         tree->getImpurity(impurity);
 
+        // get mae, rel_error
         for (int i = 0; i < p.testSize; i++) {
             double *sample = p.testData[i];
             double pred = tree->predict(sample);
@@ -150,6 +162,7 @@ int main(int argc, char* argv[]) {
         if(p.method == GINI)
             error = correct;
 
+        // this needs to output just like this in order for the scripts to work properly
         cout << p.delayed << "," << p.maxDepth << "," << impurity << "," << (relError/p.testSize) << "," << (error/p.testSize) << endl;
 
         for(int i = 1; i < procs; i++)
@@ -162,8 +175,11 @@ int main(int argc, char* argv[]) {
     {
         MPI_Status status;
         int dummy;
+
+        // get the first status, the node will either do a split or stop waiting
         MPI_Recv(&dummy, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
         while(status.MPI_TAG != done_tag) {
+            // get all data from the master node
             struct mpi_send snd;
             MPI_Recv(&snd, 1, send_data, 0, send_struct_tag, MPI_COMM_WORLD, &status);
 
@@ -186,8 +202,6 @@ int main(int argc, char* argv[]) {
             DataTable *tbl = new DataTable(names, d, snd.nrows, 2);
             tbl->sortBy(1);
 
-            //printf("Rank %d on processor %s received column %d\n", rank, name, snd.column);
-
             // call function to find split point	
             int where, dir;
             double splitPoint, improve = 0;
@@ -195,7 +209,8 @@ int main(int argc, char* argv[]) {
             double leftSS, rightSS, totalSS = 0;
             queue<DataTable*> q;
             DataTable *lft, *rgt;
-
+    
+            // find the initial split for the dataset
             metric->findSplit(tbl, 1, where, dir, splitPoint, improve, p.minNode);
             if (dir < 0) {
                 lft = tbl->subSet(0,where);
@@ -205,6 +220,7 @@ int main(int argc, char* argv[]) {
                 rgt = tbl->subSet(0, where);
             }
 
+            // do the delayed splitting
             q.push(lft); q.push(rgt);
             unsigned int stopSize = pow(2, p.delayed+1);
             while(q.size() < stopSize)
@@ -240,6 +256,7 @@ int main(int argc, char* argv[]) {
                 totalSS += leftSS;
             }
 
+            // get split statistics to decide on best split
             metric->getSplitCriteria(lft,&leftMean,&leftSS);
             metric->getSplitCriteria(rgt,&rightMean,&rightSS);
 
@@ -275,7 +292,8 @@ int main(int argc, char* argv[]) {
 
 void dsplit(DataTable *temp, DataTable *&l, DataTable *&r, statisticalMetric *metric, int minNode, int delays)
 {
-
+    // this is taken from the Node class, more or less, so the delayed splitting can be done outside of the 
+    // Node class.
     int cols = temp->numCols();
     double bestSS = DBL_MAX;
     DataTable *ltab,*rtab;

@@ -47,19 +47,18 @@ void DataTable::sortBy(int col)
     quickSortBy(col,0,rows-1);
 }
 
-void DataTable::getColumnData(int col, double *ndata)
-{
-	int n = numRows();
-	for(int i = 0; i < n; i++)
-		ndata[i] = data[i][col];
-}
-
 // Sort rows by the values in the specified column.
 //
 // Choosing pivot by median of three is slower on average in this
 // application, so just use middle value to avoid worst-case. -- Larry.
 //
 // This sort is about 5% faster than the old sort commented out below.
+//
+// Support OpenMP. Quicksort is ``embarassingly parallel.'' -- Larry
+
+
+
+
 void DataTable::quickSortBy(int col,int first,int last)
 {
   // Single or zero item case. Using this is 0.5% to 1% slower
@@ -152,6 +151,60 @@ void DataTable::quickSortBy(int col,int first,int last)
   //    }
 
 }
+
+
+
+// void DataTable::quickSortBy(int col,int first,int last)
+// {
+//   // Single or zero item case. Using this is 0.5% to 1% slower
+//   // on average in this application - Larry
+//   // 
+//   // if(first>=last) return;
+  
+//   // two item case
+//   if(last==first+1) 
+//     {
+//       if(data[first][col] > data[last][col])
+// 	{
+// 	  double *tmp = data[first];
+// 	  data[first]=data[last];
+// 	  data[last]=tmp;
+// 	}
+//       return;
+//     }
+
+//   // Use Shell or insertion sort for short arrays -- not implemented
+//   // if(last-first < quickSortMin) // Guess: 10 <= quickSortMin <= 1000
+//   // {
+//   //   shellSortBy(int col,int first,int last);
+//   //   return;
+//   // }
+
+//   int left = first;
+//   int right = last;
+//   int pivotloc = (left+right)/2;
+//   double pivotval = data[pivotloc][col];
+//   double *tmp;
+//   while(left <= right)
+//     {
+//       while((left <= right) && (data[left][col] < pivotval))
+// 	left++;
+//       while((left <= right) && (data[right][col] > pivotval))
+// 	right--;
+//       if(left <= right)
+// 	{
+// 	  tmp = data[left];
+// 	  data[left]=data[right];
+// 	  data[right]=tmp;
+// 	  left++;
+// 	  right--;
+// 	}
+//     }
+//   if(first<right)
+//     quickSortBy(col,first,right);
+//   if(left<last)
+//     quickSortBy(col,left,last);
+// }
 
 DataTable* DataTable::subSet(int first,int last)
 {

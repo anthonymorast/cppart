@@ -6,9 +6,7 @@
 #include <float.h>
 #include <values.h>
 #include <math.h>
-#include <mpi.h>
-#include <stdio.h>
-#include <stddef.h>
+#include <structures.h>
 
 #include <fstream>
 using namespace std;
@@ -87,14 +85,15 @@ void Node::dsplit(DataTable *temp, DataTable *&l, DataTable *&r)
 // formerly known as partition() and bestsplit()
 void Node::split(int level)
 {
-
-    int cols = data->numCols();	
+	if(verbose >= 1)
+		cout << "Processing level " << level << endl;
+    int cols = data->numCols();
     double bestSS = DBL_MAX;
     DataTable *ltab,*rtab;
     Node *lftChild,*rgtChild;
-    double *x = new double[data->numRows()];
-    double *y = new double[data->numRows()];
 
+    // check to make sure we are not past max nodes, max depth, min
+    // alpha, and return if any of these stopping critera are met.
     if (level >= maxDepth || data->numRows() < minObs || cp <= alpha)
     {
         // nothing
@@ -102,155 +101,103 @@ void Node::split(int level)
         return;
     }
 
-    // setup MPI
-    const int send_struct_tag = 1;	// tell slave nodes they have data
-    const int send_x_tag = 4;		// send the x data (should combine with struct)
-    const int send_y_tag = 5;		// send the y data (should combine with struct)
-    const int results_tag = 2;		// tell master node we have results
-    const int data_tag = 6;			// data is coming
-
-    int procs, rank, size;
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-    // if there are more processors than there are columns
-    if(cols < (size-1))
-        procs = cols;
-    else 
-        procs = size-1; // remove master
-
-    // create MPI types for structs
-    const int nitems_send = 2;
-    const int nitems_resp = 5;
-
-    int blocklengths[2] = {1, 1}; // probbaly used to send array (set block legnth = array length [not sure though])
-    MPI_Datatype types[2] = {MPI_INT, MPI_INT};
-    MPI_Datatype send_data;
-    MPI_Aint offsets[nitems_send];
-    offsets[0] = offsetof(mpi_send, column);
-    offsets[1] = offsetof(mpi_send, nrows);
-    MPI_Type_create_struct(nitems_send, blocklengths, offsets, types, &send_data);
-
-    int bl[5] = {1, 1, 1, 1, 1};
-    MPI_Datatype t[5] = {MPI_INT, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE};
-    MPI_Datatype resp_data;
-    MPI_Aint os[nitems_resp];
-    os[0] = offsetof(mpi_resp, column);
-    os[1] = offsetof(mpi_resp, sse);
-    os[2] = offsetof(mpi_resp, improve);
-    os[3] = offsetof(mpi_resp, leftSS);
-    os[4] = offsetof(mpi_resp, rightSS);
-    MPI_Type_create_struct(nitems_resp, bl, os, t, &resp_data);
-
-    MPI_Type_commit(&send_data);
-    MPI_Type_commit(&resp_data);
-
-    int best_col = INT_MAX;
-    if(rank == 0)
+    for (int curCol = 1; curCol < cols; curCol++)
     {
-        int col_count = 1;
-        // while there are columns left
-        if(verbose >= 1)
-            printf("Processing level %d...\n", level);
-        while(col_count < cols)
-        {	
-            // for each node that's not master
-            int procs_sent = 0;
-            for(int i = 1; i <= procs; i++) 
-            {
-                if(col_count >= (cols))
-                    break;
+		if(verbose >= 2)
+			cout << "\tProcessing column " << curCol << " of " << cols << "..." << endl;
+        // sort by current column
+        data->sortBy(curCol);
 
-                if(verbose >= 2)
-                    printf("\tSending column %d to rank %d...\n", col_count, i);
-                struct mpi_send snd;
-                int dummy = 1;
-                snd.column = col_count;
-                snd.nrows = data->numRows();
-
-                data->getColumnData(col_count, x);
-                data->getColumnData(0, y);
-
-                MPI_Send(&dummy, 1, MPI_INT, i, data_tag, MPI_COMM_WORLD);
-                MPI_Send(&snd, 1, send_data, i, send_struct_tag, MPI_COMM_WORLD);
-                MPI_Send(x, snd.nrows, MPI_DOUBLE, i, send_x_tag, MPI_COMM_WORLD);
-                MPI_Send(y, snd.nrows, MPI_DOUBLE, i, send_y_tag, MPI_COMM_WORLD);
-
-                col_count++;
-                procs_sent++;
-            }
-
-            for(int i = 0; i < procs_sent; i++)
-            {
-                struct mpi_resp resp;
-                MPI_Status status;
-
-                MPI_Recv(&resp, 1, resp_data, MPI_ANY_SOURCE, results_tag, MPI_COMM_WORLD, &status);
-
-                if(verbose >= 2)
-                    printf("Received %f, %f for column %d,%s  %f %f\n", resp.improve, resp.sse, resp.column, data->getName(resp.column).c_str(), resp.leftSS, resp.rightSS);
-                
-                if(resp.improve > 0 && trunc(1000000.*resp.sse) < trunc(1000000.*bestSS) && (resp.leftSS > alpha) && (resp.rightSS > alpha))
-                {
-                    bestSS = resp.sse;
-                    best_col = resp.column;
-                }
-            }
+        // call function to find split point
+        int where, dir;
+        double splitPoint, improve;
+        double leftMean,rightMean;
+        double leftSS, rightSS, totalSS = 0;
+        queue<DataTable*> q;
+       
+		metric->findSplit(data, curCol, where, dir, splitPoint, improve, minNode);
+        if (dir < 0) {
+            ltab = data->subSet(0,where);
+            rtab = data->subSet(where+1,data->numRows()-1);
+        } else {
+            ltab = data->subSet(where+1, data->numRows()-1);
+            rtab = data->subSet(0, where);
         }
 
-        double improve, leftSS, rightSS, leftMean, rightMean, splitPoint;
-        int where, dir;
-
-        // get the right and left tables for th best split
-        if(best_col < INT_MAX) 
+        q.push(ltab); q.push(rtab);
+        long unsigned int stopSize = pow(2, delays+1);
+        while(q.size() < stopSize)
         {
-            data->sortBy(best_col);
-            metric->findSplit(data, best_col, where, dir, splitPoint, improve, minNode);
+            DataTable *temp = q.front(), *l = NULL, *r = NULL;
 
-            if(dir < 0)
+            dsplit(temp, l, r);
+            if(l == NULL && r == NULL)
             {
-                ltab = data->subSet(0, where);
-                rtab = data->subSet(where+1, data->numRows()-1);
+                // if there isn't enough data to split on, just use the SSE of the smallest possible partitions 
+                stopSize--;
+                q.push(q.front());
             }
             else 
             {
-                ltab = data->subSet(where+1, data->numRows()-1);
-                rtab = data->subSet(0, where);
+                q.push(l); q.push(r);
             }
-            // get statistical data for right and left nodes
-            metric->getSplitCriteria(ltab, &leftMean, &leftSS);
-            metric->getSplitCriteria(rtab, &rightMean, &rightSS);
+            q.pop();
+        }
+        if(q.size() != stopSize) 
+        {
+            cout << "Error splitting node, queue does not contain the right amount of partitions.";
+            cout << endl;
+            exit(0);
+        }
+        while(!q.empty())
+        {
+            // sum up SSE for each partition
+            DataTable *temp = q.front();
+            q.pop();
+            metric->getSplitCriteria(temp, &leftMean, &leftSS);
+            totalSS += leftSS;
+        }
 
+        metric->getSplitCriteria(ltab,&leftMean,&leftSS);
+        metric->getSplitCriteria(rtab,&rightMean,&rightSS);
+
+        if ((improve>0) && (trunc(1000000.*totalSS)<trunc(1000000.*bestSS)) && (leftSS>alpha) && (rightSS>alpha))
+        {
             lftChild = new Node(this,ltab,leftMean,leftSS,depth+1);
             rgtChild = new Node(this,rtab,rightMean,rightSS,depth+1);
+            bestSS = totalSS;
             direction = dir;
             splitValue = splitPoint;
             splitIndex = where;
-            varIndex = best_col;
-            varName = data->getName(best_col);
+            varIndex = curCol;
+            varName = data->getName(curCol);
             if(right != NULL)
                 delete right;
             right = rgtChild;
             if(left != NULL)
                 delete left;
             left = lftChild;
-
-            if(left!=NULL)
-                left->setId();  // setId needs to be thread safe
-            if(right!=NULL)
-                right->setId();
-
-            if((left != NULL)&&(left->data->numRows()>minObs)) {
-                left->split(level+1);
-            }
-
-            if((right != NULL)&&(right->data->numRows()>minObs)) {
-                right->split(level+1);
-            }
+        }
+        else
+        {
+            delete ltab;
+            delete rtab;
         }
     }
 
-    return;
+    if(left!=NULL)
+        left->setId();  // setId needs to be thread safe
+    if(right!=NULL)
+        right->setId();
+
+    if((left != NULL)&&(left->data->numRows()>minObs)) {
+        left->split(level+1);
+    }
+
+    if((right != NULL)&&(right->data->numRows()>minObs)) {
+        right->split(level+1);
+    }
+
 }
 
 float Node::predict(double *sample)

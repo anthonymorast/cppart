@@ -11,12 +11,10 @@ class statisticalMetric{
     
   // calculate the mean of one of the columns
   double mean(DataTable *data,int column);
-  double oneColMean(double *data, int nrows);
   
   // calculate the sum squared difference of one of the columns, given
   // the mean
   double sumSquares(DataTable *data,int column,double colMean);
-  double oneColSumSquares(double *data, int nrows, double colMean);
 
   // calculate statistical variance of one of the columns
   double variance(DataTable *data,int column);
@@ -30,7 +28,7 @@ class statisticalMetric{
 			 int &which,int &direction, 
 			 double &splitPoint, 
 			 double &improve,int minNode);
-  
+
   virtual void getSplitCriteria(DataTable *data,double *ave, double *cp);
 
 };
@@ -45,6 +43,7 @@ class anovaMetric:public statisticalMetric{
 			 int &which,int &direction, 
 			 double &splitPoint, 
 			 double &improve,int minNode);
+
 
   virtual void getSplitCriteria(DataTable *data,double *ave, double *cp);
 

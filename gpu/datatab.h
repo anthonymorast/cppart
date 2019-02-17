@@ -36,7 +36,6 @@ class DataTable{
   /* static void setCols(int numColumns){cols=numColumns;} */
 
   // sort rows by the values in the specified column
-  void getColumnData(int col, double *ndata);
   void sortBy(int col);
   DataTable* subSet(int first,int last);
   DataTable* subSample(int size);

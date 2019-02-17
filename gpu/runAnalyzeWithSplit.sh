@@ -3,7 +3,6 @@
 # Script parameters
 method=anova
 depth=big
-depths=(6 8 10 12 14 16 18)
 dataset=""
 response=""
 test=""
@@ -52,8 +51,7 @@ if [ "$#" -ge 5 ]; then
 		echo "Depths parameter passed but is not one of 'big' or 'small', using default depths."
 	fi
 	if [[ $5 == 'small' ]]; then 
-		depth=$5
-		depths=(1 2 3 4 5 6)
+		$depth=$5
 	fi
 fi
 
@@ -66,18 +64,12 @@ echo "Creating 'multi' file for $filename"
 cmd="python3 ../data_utils/makeMultiCsv.py $filename $depth"
 eval $cmd
 
-dfile="results.delayed.dat"
-gfile="results.dat"
-rm -f $dfile $gfile
-echo "delayed,depth,impurity,relerror,accuracy" > $dfile
-echo "delayed,depth,impurity,relerror,accuracy" > $gfile
-
 # run the algorithms
 for d in "${depths[@]}"; do 
-	cmd="mpiexec -np 6 ./lacart $dataset $response 0 cp=0 maxdepth=$d testdata=$test method=$method >> $gfile"
+	cmd="./lacart $dataset $response 0 cp=0 maxdepth=$d testdata=$test method=$method >> $gfile"
 	echo "Running greedy algorithm: trial $i, depth $d. Command: $cmd"
 	eval $cmd
-	cmd="mpiexec -np 6 ./lacart $dataset $response 1 cp=0 maxdepth=$d testdata=$test method=$method >> $dfile"
+	cmd="./lacart $dataset $response 1 cp=0 maxdepth=$d testdata=$test method=$method >> $dfile"
 	echo "Running delayed algorithm: trial $i, depth $d. Command: $cmd"
 	eval $cmd
 done
@@ -93,10 +85,9 @@ cmd="python3 ../data_utils/createGraphs.py $filename$eet $filename"
 eval $cmd
 echo ""
 
-echo "Cleaning up..."
-echo ""
-
 cmd="mv $filename$ext ../results/datasetsFa18/multis"
+eval $cmd
+cmd="rm results.d*"
 eval $cmd
 ext="Multi.results.csv"
 cmd="mv $filename$ext ../results/datasetsFa18/"
