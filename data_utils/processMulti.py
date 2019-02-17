@@ -14,9 +14,12 @@ if __name__ == '__main__':
         usage()
         exit(0)
 
+    d1 = 2
+    d2 = 3
+
     df = pd.read_csv(sys.argv[1])
-    greedy = df.query('delayed == 0')
-    delayed = df.query('delayed != 0')
+    greedy = df.query('delayed == '+str(d1))
+    delayed = df.query('delayed != '+str(d1))
     depths = df.depth.unique()
     runs = int(greedy.shape[0] / len(depths))
 
@@ -28,14 +31,14 @@ if __name__ == '__main__':
 
         drow = [dres.iloc[0][0]]
         drow.append(d)
-        drow.append(1)
+        drow.append(d2)
         drow.append(dres['impurity'].sum()/runs)
         drow.append(dres['relerror'].sum()/runs)
         drow.append(dres['accuracy'].sum()/runs)
 
         grow = [gres.iloc[0][0]]
         grow.append(d)
-        grow.append(0)
+        grow.append(d1)
         grow.append(gres['impurity'].sum()/runs)
         grow.append(gres['relerror'].sum()/runs)
         grow.append(gres['accuracy'].sum()/runs)

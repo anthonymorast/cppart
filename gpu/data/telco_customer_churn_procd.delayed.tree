@@ -1,0 +1,612 @@
+node) split, number observations, deviance, yval
+* denotes a terminal node
+
+1) root 5635 2198.61 0
+	2) Contract> 0.5 2546  325.943 0   1
+		4) MonthlyCharges< 93.675 1938  153.395 0   -1
+			6) TotalCharges< 3608 1073  58.3225 0   -1
+				8) MonthlyCharges< 33.35 471  9.89384 0   -1
+					10) tenure> 9.5 429  3.98135 0   1
+						12) TotalCharges> 284 395  1.99494 0 *  1
+						13) TotalCharges<=284 34  1.94118 0 *  -1
+					11) tenure<=9.5 42  5.57143 0   -1
+						14) tenure< 7.5 29  1.93103 0 *  -1
+						15) tenure>=7.5 13  3.38462 0 *  1
+				9) MonthlyCharges>=33.35 602  47.9236 0   1
+					16) tenure> 54.5 294  9.82993 0   1
+						18) PaymentMethod> 0.5 253  1.99209 0 *  1
+						19) PaymentMethod<=0.5 41  7.21951 0   -1
+							20) PaperlessBilling< 0.5 25  1.92 0 *  -1
+							21) PaperlessBilling>=0.5 16  4.875 0 *  1
+					17) tenure<=54.5 308  37.4026 0   -1
+						22) TotalCharges< 2064 165  13.4061 0   -1
+							24) MonthlyCharges< 69.975 94  3.91489 0   -1
+								26) OnlineBackup> 0.5 60  1.96667 0 *  1
+								27) OnlineBackup<=0.5 34  1.94118 0 *  -1
+							25) MonthlyCharges>=69.975 71  9.29577 0   1
+								28) TotalCharges< 1287 53  3.84906 0   -1
+									30) tenure< 51.5 45  1.95556 0 *  -1
+									31) tenure>=51.5 8  1.75 0 *  1
+								29) TotalCharges>=1287 18  5 0 *  1
+						23) TotalCharges>=2064 143  23.6364 0   1
+							32) TotalCharges> 3082 52  1.96154 0 *  1
+							33) TotalCharges<=3082 91  20.8352 0   -1
+								34) TotalCharges< 2453.5 36  5.5 0   -1
+									36) MonthlyCharges> 47 29  1.93103 0 *  1
+									37) MonthlyCharges<=47 7  2.85714 0 *  -1
+								35) TotalCharges>=2453.5 55  15.0545 0   1
+									38) tenure> 23.5 43  8.83721 0   1
+										40) tenure> 28.5 33  5.45455 0   1
+											42) PaymentMethod< 2.5 18  1.88889 0 *  -1
+											43) PaymentMethod>=2.5 15  3.46667 0 *  1
+										41) tenure<=28.5 10  3.2 0 *  -1
+									39) tenure<=23.5 12  5.33333 0 *  -1
+			7) TotalCharges>=3608 865  94.2197 0   1
+				44) MonthlyCharges< 41.375 399  11.8195 0   -1
+					46) MonthlyCharges< 20.775 243  3.96708 0   -1
+						48) TotalCharges> 3698.5 236  1.99153 0   1
+							50) Contract< 1.5 98  1.08802e-14 0 *  -1
+							51) Contract>=1.5 138  1.98551 0 *  1
+						49) TotalCharges<=3698.5 7  1.71429 0 *  -1
+					47) MonthlyCharges>=20.775 156  7.79487 0   1
+						52) MonthlyCharges> 24.775 103  1.98058 0 *  1
+						53) MonthlyCharges<=24.775 53  5.66038 0   -1
+							54) MonthlyCharges< 24.475 44  1.95455 0 *  -1
+							55) MonthlyCharges>=24.475 9  3.11111 0 *  1
+				45) MonthlyCharges>=41.375 466  79.691 0   1
+					56) tenure> 49.5 284  33.7183 0   1
+						58) TotalCharges> 3662 276  30.1449 0   1
+							60) MonthlyCharges> 60.475 212  15.3962 0   1
+								62) MonthlyCharges< 92.35 205  13.522 0   -1
+									64) MonthlyCharges> 80.575 85  1.97647 0 *  1
+									65) MonthlyCharges<=80.575 120  11.4 0   -1
+										66) MonthlyCharges< 70.175 61  1.96721 0 *  -1
+										67) MonthlyCharges>=70.175 59  9.15254 0   1
+											68) TotalCharges> 4471.5 40  3.8 0   1
+												70) SeniorCitizen< 0.5 32  1.9375 0 *  -1
+												71) SeniorCitizen>=0.5 8  1.75 0 *  1
+											69) TotalCharges<=4471.5 19  5.05263 0 *  -1
+								63) MonthlyCharges>=92.35 7  1.71429 0 *  1
+							61) MonthlyCharges<=60.475 64  14 0   -1
+								72) MonthlyCharges< 59.975 57  10.7368 0   -1
+									74) PaymentMethod> 0.5 41  1.95122 0 *  1
+									75) PaymentMethod<=0.5 16  6.875 0 *  -1
+								73) MonthlyCharges>=59.975 7  2.85714 0 *  1
+						59) TotalCharges<=3662 8  3 0 *  -1
+					57) tenure<=49.5 182  44.5714 0   -1
+						76) TotalCharges> 3745.5 173  38.4046 0   1
+							78) TotalCharges> 4819.5 113  21.4513 0   1
+								80) tenure< 37.5 78  11.0769 0   -1
+									82) tenure> 22.5 50  3.84 0   1
+										84) TotalCharges< 5988.5 38  1.94737 0 *  -1
+										85) TotalCharges>=5988.5 12  1.83333 0 *  1
+									83) tenure<=22.5 28  6.85714 0   -1
+										86) tenure< 18 20  3.6 0 *  -1
+										87) tenure>=18 8  3 0 *  1
+								81) tenure>=37.5 35  9.94286 0   1
+									88) tenure> 42.5 24  5.25 0   1
+										90) gender< 0.5 15  1.86667 0 *  -1
+										91) gender>=0.5 9  3.11111 0 *  1
+									89) tenure<=42.5 11  4.36364 0 *  -1
+							79) TotalCharges<=4819.5 60  16.6667 0   -1
+								92) MonthlyCharges< 79.75 46  7.30435 0   -1
+									94) MonthlyCharges> 54.125 39  3.79487 0   1
+										96) TotalCharges> 3900 30  1.93333 0 *  1
+										97) TotalCharges<=3900 9  1.77778 0 *  -1
+									95) MonthlyCharges<=54.125 7  2.85714 0 *  -1
+								93) MonthlyCharges>=79.75 14  6.85714 0 *  1
+						77) TotalCharges<=3745.5 9  4.44444 0 *  -1
+		5) MonthlyCharges>=93.675 608  160.312 0   1
+			98) TotalCharges< 751 71  3.88732 0   -1
+				100) TotalCharges> 104 60  1.96667 0 *  1
+				101) TotalCharges<=104 11  1.81818 0 *  -1
+			99) TotalCharges>=751 537  153.788 0   1
+				102) TotalCharges> 829.5 525  143.825 0   1
+					104) MonthlyCharges> 113.25 73  9.31507 0   1
+						106) tenure> 70.5 41  1.95122 0 *  1
+						107) tenure<=70.5 32  7 0   -1
+							108) MonthlyCharges< 115.625 21  1.90476 0 *  -1
+							109) MonthlyCharges>=115.625 11  4.36364 0 *  1
+					105) MonthlyCharges<=113.25 452  132.969 0   -1
+						110) MonthlyCharges< 101.45 169  39.7396 0   -1
+							112) TotalCharges> 2068 130  24.9846 0   1
+								114) tenure> 29 123  20.0325 0   1
+									116) tenure< 60.5 70  7.54286 0   -1
+										118) TotalCharges< 6062.5 59  3.86441 0   -1
+											120) PaymentMethod< 2.5 46  1.95652 0 *  -1
+											121) PaymentMethod>=2.5 13  1.84615 0 *  1
+										119) TotalCharges>=6062.5 11  3.27273 0 *  1
+									117) tenure>=60.5 53  12.1509 0   1
+										122) MonthlyCharges> 94.7 46  5.6087 0   1
+											124) PaperlessBilling< 0.5 30  1.93333 0 *  -1
+											125) PaperlessBilling>=0.5 16  3.5 0 *  1
+										123) MonthlyCharges<=94.7 7  3.42857 1 *  -1
+								115) tenure<=29 7  3.42857 0 *  -1
+							113) TotalCharges<=2068 39  13.8462 0   -1
+								126) tenure> 60.5 16  1.875 0 *  1
+								127) tenure<=60.5 23  10.4348 0   -1
+									128) gender> 0.5 12  3.33333 0 *  1
+									129) gender<=0.5 11  5.45455 1 *  -1
+						111) MonthlyCharges>=101.45 283  92.2261 0   1
+							130) tenure> 66.5 131  23.4198 0   1
+								132) MonthlyCharges> 104.75 109  14.8257 0   1
+									134) MonthlyCharges< 107.975 48  1.95833 0 *  -1
+									135) MonthlyCharges>=107.975 61  12.3934 0   1
+										136) MonthlyCharges> 109.525 42  1.95238 0 *  1
+										137) MonthlyCharges<=109.525 19  8.21053 0 *  -1
+								133) MonthlyCharges<=104.75 22  7.72727 0   -1
+									138) MonthlyCharges< 104.025 11  1.81818 0 *  -1
+									139) MonthlyCharges>=104.025 11  5.09091 0 *  1
+							131) tenure<=66.5 152  63.3553 0   -1
+								140) TotalCharges< 5767.5 133  52.5113 0   -1
+									142) MonthlyCharges> 107.575 49  15.9184 0   1
+										144) MonthlyCharges< 109.4 22  3.63636 0   -1
+											146) TotalCharges> 2736.5 15  1.86667 0 *  1
+											147) TotalCharges<=2736.5 7  1.71429 0 *  -1
+										145) MonthlyCharges>=109.4 27  11.2593 0   1
+											148) MonthlyCharges> 110.225 19  6.31579 0 *  1
+											149) MonthlyCharges<=110.225 8  4 0 *  -1
+									143) MonthlyCharges<=107.575 84  35.9048 0   -1
+										150) TotalCharges< 2221 27  8.14815 0   -1
+											152) tenure< 60.5 19  1.89474 0 *  -1
+											153) tenure>=60.5 8  4 0 *  1
+										151) TotalCharges>=2221 57  26.5263 0   1
+											154) TotalCharges> 2609.5 50  21.76 0   1
+												156) TotalCharges< 3114 10  1.8 0 *  -1
+												157) TotalCharges>=3114 40  18.75 0   1
+													158) TotalCharges> 5337 7  1.71429 0 *  1
+													159) TotalCharges<=5337 33  16.1212 0   -1
+														160) PaymentMethod< 2.5 24  9.91667 0   -1
+															162) tenure> 56.5 13  3.38462 0 *  1
+															163) tenure<=56.5 11  5.45455 0 *  -1
+														161) PaymentMethod>=2.5 9  3.11111 1 *  1
+											155) TotalCharges<=2609.5 7  2.85714 1 *  -1
+								141) TotalCharges>=5767.5 19  9.47368 0 *  1
+				103) TotalCharges<=829.5 12  5.83333 1 *  -1
+	3) Contract<=0.5 3089  1512.45 0   -1
+		164) MonthlyCharges< 67.675 1294  537.64 0   -1
+			166) tenure> 3.5 830  280.793 0   1
+				168) MonthlyCharges< 27.45 264  57.75 0   -1
+					170) tenure> 17.5 93  9.46237 0   1
+						172) tenure< 28.5 56  1.96429 0   -1
+							174) PaymentMethod> 0.5 49  5.44009e-15 0 *  1
+							175) PaymentMethod<=0.5 7  1.71429 0 *  -1
+						173) tenure>=28.5 37  7.13514 0   1
+							176) tenure> 31.5 28  1.92857 0 *  1
+							177) tenure<=31.5 9  4 0 *  -1
+					171) tenure<=17.5 171  46.8304 0   -1
+						178) TotalCharges< 3931.5 105  24.2667 0   -1
+							180) TotalCharges> 1309 71  12.6197 0   1
+								182) MonthlyCharges< 20.925 59  7.45763 0   -1
+									184) TotalCharges< 3211.5 41  1.95122 0 *  -1
+									185) TotalCharges>=3211.5 18  5 0 *  1
+								183) MonthlyCharges>=20.925 12  4.5 0 *  1
+							181) TotalCharges<=1309 34  11.1176 0   -1
+								186) MonthlyCharges> 19.725 27  5.33333 0   1
+									188) TotalCharges> 628 17  1.88235 0 *  1
+									189) TotalCharges<=628 10  3.2 0 *  -1
+								187) MonthlyCharges<=19.725 7  3.42857 1 *  -1
+						179) TotalCharges>=3931.5 66  22.0606 0   1
+							190) TotalCharges> 5076.5 32  7 0   1
+								192) tenure< 13.5 25  3.68 0   -1
+									194) MonthlyCharges> 19.875 18  1.88889 0 *  1
+									195) MonthlyCharges<=19.875 7  1.71429 0 *  -1
+								193) tenure>=13.5 7  2.85714 0 *  1
+							191) TotalCharges<=5076.5 34  14.1176 0   -1
+								196) MonthlyCharges> 20.2 17  4.94118 0 *  1
+								197) MonthlyCharges<=20.2 17  8.23529 0 *  -1
+				169) MonthlyCharges>=27.45 566  216.678 0   1
+					198) MonthlyCharges> 59.525 105  24.2667 0   1
+						200) TotalCharges> 2221.5 63  9.20635 0   1
+							202) DeviceProtection> 0.5 29  1.93103 0 *  1
+							203) DeviceProtection<=0.5 34  7.05882 0   -1
+								204) TechSupport> 0.5 19  1.89474 0 *  1
+								205) TechSupport<=0.5 15  4.8 0 *  -1
+						201) TotalCharges<=2221.5 42  14.1429 0   -1
+							206) tenure> 17.5 23  3.65217 0   1
+								208) tenure> 27 16  1.875 0 *  1
+								209) tenure<=27 7  1.71429 0 *  -1
+							207) tenure<=17.5 19  8.84211 0 *  -1
+					199) MonthlyCharges<=59.525 461  188.408 0   -1
+						210) TotalCharges< 2376.5 147  48.9252 0   -1
+							212) MonthlyCharges> 50.1 65  14.0308 0   1
+								214) TotalCharges> 865 42  5.57143 0   1
+									216) MonthlyCharges< 56.975 34  1.94118 0 *  -1
+									217) MonthlyCharges>=56.975 8  3 0 *  1
+								215) TotalCharges<=865 23  7.82609 0   -1
+									218) Dependents< 0.5 15  1.86667 0 *  -1
+									219) Dependents>=0.5 8  4 0 *  1
+							213) MonthlyCharges<=50.1 82  33.0976 0   -1
+								220) TotalCharges> 2033.5 11  1.81818 0 *  1
+								221) TotalCharges<=2033.5 71  30.3662 0   -1
+									222) TotalCharges< 1781 61  23.6066 0   -1
+										224) TotalCharges> 1412 16  1.875 0 *  1
+										225) TotalCharges<=1412 45  20 0   -1
+											226) TotalCharges< 1190 37  14.5946 0   -1
+												228) SeniorCitizen< 0.5 28  5.35714 0   -1
+													230) TotalCharges> 383 21  1.90476 0 *  1
+													231) TotalCharges<=383 7  2.85714 0 *  -1
+												229) SeniorCitizen>=0.5 9  3.11111 1 *  1
+											227) TotalCharges>=1190 8  3.75 1 *  1
+									223) TotalCharges>=1781 10  4.8 1 *  1
+						211) TotalCharges>=2376.5 314  137.025 0   1
+							232) TotalCharges> 2682 295  124.298 0   1
+								234) MonthlyCharges> 41.525 227  91.0308 0   1
+									236) TotalCharges> 3576.5 172  62.4535 0   1
+										238) MonthlyCharges< 45.95 36  3.77778 0   -1
+											240) Dependents< 0.5 22  1.90909 0 *  -1
+											241) Dependents>=0.5 14  1.85714 0 *  1
+										239) MonthlyCharges>=45.95 136  55.6324 0   1
+											242) tenure> 15.5 74  23.9189 0   1
+												244) MonthlyCharges> 49.45 65  18.2769 0   1
+													246) MonthlyCharges< 50.7 21  1.90476 0 *  -1
+													247) MonthlyCharges>=50.7 44  15.4545 0   1
+														248) tenure< 29 20  5.1 0 *  -1
+														249) tenure>=29 24  9.91667 0   1
+															250) MonthlyCharges> 55.45 9  1.77778 0 *  1
+															251) MonthlyCharges<=55.45 15  7.2 0 *  -1
+												245) MonthlyCharges<=49.45 9  4.44444 0 *  -1
+											243) tenure<=15.5 62  29.4194 0   -1
+												252) TotalCharges< 4440.5 22  6.54545 0   -1
+													254) tenure< 8.5 14  1.85714 0 *  -1
+													255) tenure>=8.5 8  3.75 0 *  1
+												253) TotalCharges>=4440.5 40  20 0   1
+													256) TotalCharges< 5734 30  14.7333 0   -1
+														258) MonthlyCharges> 54.675 11  3.27273 0 *  1
+														259) MonthlyCharges<=54.675 19  9.26316 1 *  -1
+													257) TotalCharges>=5734 10  4.2 1 *  1
+									237) TotalCharges<=3576.5 55  26.4 0   -1
+										260) TotalCharges< 3349.5 41  18.439 0   -1
+											262) TotalCharges> 3095 19  6.31579 0 *  1
+											263) TotalCharges<=3095 22  10.9091 0   -1
+												264) tenure> 22.5 7  1.71429 0 *  1
+												265) tenure<=22.5 15  7.2 1 *  -1
+										261) TotalCharges>=3349.5 14  6.85714 1 *  1
+								235) MonthlyCharges<=41.525 68  32.1176 0   -1
+									266) MonthlyCharges< 38.925 48  18.9583 0   -1
+										268) tenure> 10.5 32  9.75 0   1
+											270) MonthlyCharges> 31.125 18  3.55556 0 *  1
+											271) MonthlyCharges<=31.125 14  5.71429 0 *  -1
+										269) tenure<=10.5 16  7.875 0 *  -1
+									267) MonthlyCharges>=38.925 20  9.1 1 *  1
+							233) TotalCharges<=2682 19  8.84211 1 *  -1
+			167) tenure<=3.5 464  228.121 0   -1
+				272) MonthlyCharges< 24.025 186  77.4731 0   -1
+					274) MonthlyCharges< 19.425 28  6.85714 0   -1
+						276) TotalCharges< 1906 10  1.8 0 *  -1
+						277) TotalCharges>=1906 18  5 0 *  1
+					275) MonthlyCharges>=19.425 158  69.0759 0   1
+						278) MonthlyCharges< 20.475 128  54.2344 0   -1
+							280) TotalCharges> 430.5 88  33 0   1
+								282) TotalCharges< 2927.5 53  14.9434 0   -1
+									284) TotalCharges> 1197.5 20  3.6 0 *  1
+									285) TotalCharges<=1197.5 33  11.0303 0   -1
+										286) TotalCharges< 736 23  6.6087 0   -1
+											288) TotalCharges> 521.5 16  3.5 0 *  1
+											289) TotalCharges<=521.5 7  2.85714 0 *  -1
+										287) TotalCharges>=736 10  4.2 0 *  1
+								283) TotalCharges>=2927.5 35  16.3429 0   1
+									290) MonthlyCharges> 19.875 25  10.08 0   1
+										292) tenure> 1.5 14  1.85714 0 *  1
+										293) tenure<=1.5 11  5.45455 1 *  -1
+									291) MonthlyCharges<=19.875 10  4.8 1 *  -1
+							281) TotalCharges<=430.5 40  19.55 0   -1
+								294) TotalCharges< 348.5 32  15 0   -1
+									296) TotalCharges> 113.5 15  5.86667 0 *  1
+									297) TotalCharges<=113.5 17  8.47059 0 *  -1
+								295) TotalCharges>=348.5 8  3.75 1 *  1
+						279) MonthlyCharges>=20.475 30  14.4 0   1
+							298) MonthlyCharges> 20.675 20  7.5 0 *  1
+							299) MonthlyCharges<=20.675 10  4.2 1 *  -1
+				273) MonthlyCharges>=24.025 278  138.54 1   1
+					300) MonthlyCharges> 46.075 113  56.1416 0   1
+						302) MonthlyCharges< 48.85 8  1.75 0 *  -1
+						303) MonthlyCharges>=48.85 105  52.4571 0   1
+							304) MonthlyCharges> 60.175 11  4.36364 0 *  1
+							305) MonthlyCharges<=60.175 94  46.9787 1   -1
+								306) MonthlyCharges< 54.675 66  32.7273 0   -1
+									308) MonthlyCharges> 50.925 21  8.57143 0   1
+										310) TotalCharges> 3459.5 12  1.83333 0 *  1
+										311) TotalCharges<=3459.5 9  4.44444 1 *  -1
+									309) MonthlyCharges<=50.925 45  22.4 1   -1
+										312) MonthlyCharges< 50.35 29  14.069 0   -1
+											314) DeviceProtection< 0.5 21  8.57143 0   -1
+												316) tenure< 1.5 14  3.42857 0 *  -1
+												317) tenure>=1.5 7  3.42857 1 *  1
+											315) DeviceProtection>=0.5 8  3 1 *  1
+										313) MonthlyCharges>=50.35 16  6 1 *  1
+								307) MonthlyCharges>=54.675 28  12.8571 1   1
+									318) MonthlyCharges> 55.225 18  9 0 *  1
+									319) MonthlyCharges<=55.225 10  1.8 1 *  -1
+					301) MonthlyCharges<=46.075 165  80.6061 1   -1
+						320) MonthlyCharges< 30.825 57  28.4211 0   -1
+							322) TotalCharges< 3761 42  20.2381 0   -1
+								324) SeniorCitizen< 0.5 33  13.0909 0   -1
+									326) TotalCharges> 1551 18  5 0 *  1
+									327) TotalCharges<=1551 15  7.2 0 *  -1
+								325) SeniorCitizen>=0.5 9  1.77778 1 *  1
+							323) TotalCharges>=3761 15  6.66667 1 *  1
+						321) MonthlyCharges>=30.825 108  50.3704 1   1
+							328) MonthlyCharges> 43.575 76  37.5789 1   1
+								330) Partner> 0.5 68  33.8824 1   1
+									332) gender< 0.5 30  14.7333 0   -1
+										334) tenure> 1.5 10  1.8 0 *  1
+										335) tenure<=1.5 20  9.6 1 *  -1
+									333) gender>=0.5 38  18.1579 1   1
+										336) TotalCharges> 1444.5 17  8.23529 0 *  1
+										337) TotalCharges<=1444.5 21  7.61905 1   -1
+											338) MonthlyCharges< 44.875 7  3.42857 1 *  -1
+											339) MonthlyCharges>=44.875 14  3.42857 1 *  1
+								331) Partner<=0.5 8  3 1 *  -1
+							329) MonthlyCharges<=43.575 32  9.75 1   -1
+								340) PaperlessBilling> 0.5 11  5.45455 1 *  1
+								341) PaperlessBilling<=0.5 21  1.90476 1 *  -1
+		165) MonthlyCharges>=67.675 1795  895.392 1   1
+			342) tenure> 10.5 1104  534.955 0   1
+				344) MonthlyCharges< 95.725 762  356.811 0   -1
+					346) tenure> 51.5 85  19.1529 0   1
+						348) TotalCharges> 2939.5 51  7.37255 0   1
+							350) MonthlyCharges> 78.4 41  3.80488 0   1
+								352) MonthlyCharges< 93.375 31  1.93548 0 *  -1
+								353) MonthlyCharges>=93.375 10  1.8 0 *  1
+							351) MonthlyCharges<=78.4 10  3.2 0 *  -1
+						349) TotalCharges<=2939.5 34  11.1176 0   -1
+							354) TotalCharges< 1797 18  1.88889 0 *  -1
+							355) TotalCharges>=1797 16  7.5 0 *  1
+					347) tenure<=51.5 677  326.21 0   -1
+						356) TotalCharges< 449 52  17.3462 0   -1
+							358) TotalCharges> 315.5 21  3.61905 0   1
+								360) DeviceProtection< 0.5 14  1.85714 0 *  -1
+								361) DeviceProtection>=0.5 7  1.71429 0 *  1
+							359) TotalCharges<=315.5 31  12.7742 0   -1
+								362) MonthlyCharges< 90.85 24  5.25 0   -1
+									364) tenure> 20.5 16  1.875 0 *  1
+									365) tenure<=20.5 8  3 0 *  -1
+								363) MonthlyCharges>=90.85 7  1.71429 1 *  1
+						357) TotalCharges>=449 625  304.659 0   1
+							366) MonthlyCharges< 70.65 55  18.7636 0   -1
+								368) TotalCharges> 3219.5 26  5.30769 0   1
+									370) MonthlyCharges< 70.1 18  1.88889 0 *  -1
+									371) MonthlyCharges>=70.1 8  3 0 *  1
+								369) TotalCharges<=3219.5 29  12.4138 0   -1
+									372) MonthlyCharges> 69.3 22  6.54545 0   1
+										374) tenure< 30.5 15  1.86667 0 *  -1
+										375) tenure>=30.5 7  3.42857 0 *  1
+									373) MonthlyCharges<=69.3 7  2.85714 1 *  -1
+							367) MonthlyCharges>=70.65 570  280.944 0   1
+								376) tenure> 20.5 350  166.749 0   1
+									378) TotalCharges> 561.5 342  161.643 0   1
+										380) TotalCharges< 1535.5 66  25.2424 0   -1
+											382) TotalCharges> 1101 20  3.6 0 *  1
+											383) TotalCharges<=1101 46  20.2174 0   -1
+												384) TotalCharges< 963 36  12.4444 0   -1
+													386) MonthlyCharges< 86.675 18  3.55556 0 *  -1
+													387) MonthlyCharges>=86.675 18  8 0 *  1
+												385) TotalCharges>=963 10  4.2 1 *  1
+										381) TotalCharges>=1535.5 276  133.826 0   1
+											388) MonthlyCharges> 89.975 86  38.4419 0   1
+												390) TotalCharges> 2592.5 68  28.2353 0   1
+													392) tenure< 46 59  21.3559 0   -1
+														394) tenure> 31.5 31  5.41935 0   1
+															396) TotalCharges< 5944 24  1.91667 0 *  -1
+															397) TotalCharges>=5944 7  2.85714 0 *  1
+														395) tenure<=31.5 28  13.3571 0   -1
+															398) tenure< 24.5 12  4.5 0 *  -1
+															399) tenure>=24.5 16  8 0 *  1
+													393) tenure>=46 9  4 1 *  1
+												391) TotalCharges<=2592.5 18  9 0 *  -1
+											389) MonthlyCharges<=89.975 190  93.9474 0   -1
+												400) MonthlyCharges< 83.875 99  46.8283 0   -1
+													402) MonthlyCharges> 75.275 68  29.7647 0   1
+														404) MonthlyCharges< 77.025 12  1.83333 0 *  -1
+														405) MonthlyCharges>=77.025 56  26.25 0   1
+															406) MonthlyCharges> 78.95 46  19.4783 0   1
+																408) MonthlyCharges> 80.425 22  7.72727 0   1
+																	410) TotalCharges< 4661.5 12  1.83333 0 *  -1
+																	411) TotalCharges>=4661.5 10  4.8 0 *  1
+																409) MonthlyCharges<=80.425 24  11.25 0   -1
+																	412) TotalCharges> 3039.5 16  6 0 *  1
+																	413) TotalCharges<=3039.5 8  3.75 1 *  -1
+															407) MonthlyCharges<=78.95 10  4.2 1 *  -1
+													403) MonthlyCharges<=75.275 31  15.4839 1   -1
+														414) MonthlyCharges< 74.85 22  10.1818 0   -1
+															416) SeniorCitizen< 0.5 15  4.8 0 *  -1
+															417) SeniorCitizen>=0.5 7  2.85714 1 *  1
+														415) MonthlyCharges>=74.85 9  1.77778 1 *  1
+												401) MonthlyCharges>=83.875 91  45.4505 1   1
+													418) tenure< 24.5 16  6 0 *  -1
+													419) tenure>=24.5 75  36.6933 1   1
+														420) tenure< 46.5 67  33.3134 1   -1
+															422) tenure> 43.5 9  1.77778 0 *  1
+															423) tenure<=43.5 58  27.7586 1   -1
+																424) tenure> 25.5 51  25.0196 1   1
+																	426) TotalCharges> 3003.5 36  17.9444 0   1
+																		428) TotalCharges< 4384 16  6.875 0 *  -1
+																		429) TotalCharges>=4384 20  9.6 1 *  1
+																	427) TotalCharges<=3003.5 15  4.8 1 *  -1
+																425) tenure<=25.5 7  1.71429 1 *  -1
+														421) tenure>=46.5 8  1.75 1 *  1
+									379) TotalCharges<=561.5 8  3 1 *  -1
+								377) tenure<=20.5 220  109.855 1   -1
+									430) MonthlyCharges< 85.1 121  59.5702 0   -1
+										432) TotalCharges> 2951 72  33.75 0   1
+											434) TotalCharges< 3365 11  3.27273 0 *  -1
+											435) TotalCharges>=3365 61  29.5082 0   1
+												436) TotalCharges> 5287 26  11.0769 0   1
+													438) gender< 0.5 12  1.83333 0 *  -1
+													439) gender>=0.5 14  7 0 *  1
+												437) TotalCharges<=5287 35  17.4857 0   -1
+													440) tenure> 11.5 27  13.037 0   1
+														442) MonthlyCharges> 81.225 9  3.11111 0 *  1
+														443) MonthlyCharges<=81.225 18  9 0 *  -1
+													441) tenure<=11.5 8  3 1 *  -1
+										433) TotalCharges<=2951 49  24.4082 1   -1
+											444) PaymentMethod> 0.5 20  7.5 0 *  1
+											445) PaymentMethod<=0.5 29  11.5862 1   -1
+												446) MonthlyCharges> 81.3 8  4 0 *  1
+												447) MonthlyCharges<=81.3 21  6.47619 1   -1
+													448) TotalCharges< 1471 7  3.42857 1 *  -1
+													449) TotalCharges>=1471 14  1.85714 1 *  1
+									431) MonthlyCharges>=85.1 99  46.8283 1   1
+										450) TotalCharges> 1652.5 74  36.7568 1   1
+											452) MonthlyCharges> 94.475 13  5.53846 0 *  1
+											453) MonthlyCharges<=94.475 61  29.5082 1   -1
+												454) TotalCharges< 2350 9  4 0 *  -1
+												455) TotalCharges>=2350 52  24.1154 1   1
+													456) TotalCharges> 3669.5 41  19.9024 1   1
+														458) MonthlyCharges< 89.3 18  8.55556 0 *  -1
+														459) MonthlyCharges>=89.3 23  8.86957 1   1
+															460) MonthlyCharges> 90.45 16  6.875 1 *  1
+															461) MonthlyCharges<=90.45 7  1.71429 1 *  -1
+													457) TotalCharges<=3669.5 11  3.27273 1 *  -1
+										451) TotalCharges<=1652.5 25  6.72 1   -1
+											462) PaymentMethod> 0.5 12  4.5 1 *  1
+											463) PaymentMethod<=0.5 13  1.84615 1 *  -1
+				345) MonthlyCharges>=95.725 342  170.994 0   1
+					464) tenure> 43.5 135  60.6519 0   1
+						466) TotalCharges< 5160.5 114  47.7193 0   -1
+							468) TotalCharges> 3226 50  14.76 0   1
+								470) MonthlyCharges> 104.625 22  1.90909 0 *  1
+								471) MonthlyCharges<=104.625 28  11.4286 0   -1
+									472) MonthlyCharges< 99.925 14  3.42857 0 *  -1
+									473) MonthlyCharges>=99.925 14  6.85714 0 *  1
+							469) TotalCharges<=3226 64  30.4688 0   -1
+								474) TotalCharges< 2777 57  25.9649 0   -1
+									476) MonthlyCharges> 106 15  3.46667 0 *  1
+									477) MonthlyCharges<=106 42  20.5714 0   -1
+										478) TotalCharges> 1980.5 14  4.71429 0 *  1
+										479) TotalCharges<=1980.5 28  13.9286 1   -1
+											480) TotalCharges< 1499 21  10.2857 0   -1
+												482) tenure< 59.5 14  4.71429 0 *  -1
+												483) tenure>=59.5 7  1.71429 1 *  1
+											481) TotalCharges>=1499 7  1.71429 1 *  1
+								475) TotalCharges>=2777 7  2.85714 1 *  1
+						467) TotalCharges>=5160.5 21  10.2857 1   1
+							484) TotalCharges> 5630.5 14  7 0 *  1
+							485) TotalCharges<=5630.5 7  2.85714 1 *  -1
+					465) tenure<=43.5 207  99.4396 1   -1
+						486) MonthlyCharges> 100.275 123  61.1707 1   1
+							488) tenure< 39.5 103  51.4563 0   -1
+								490) tenure> 28.5 44  17.4545 0   1
+									492) MonthlyCharges< 101.375 15  1.86667 0 *  -1
+									493) MonthlyCharges>=101.375 29  13.6552 0   1
+										494) tenure< 31.5 9  1.77778 0 *  -1
+										495) tenure>=31.5 20  10 0 *  1
+								491) tenure<=28.5 59  27.0508 1   -1
+									496) TotalCharges< 688 9  4 0 *  -1
+									497) TotalCharges>=688 50  21 1   1
+										498) TotalCharges> 4206 21  10.2857 1   1
+											500) gender> 0.5 11  4.36364 0 *  1
+											501) gender<=0.5 10  1.8 1 *  -1
+										499) TotalCharges<=4206 29  9.51724 1   -1
+											502) TotalCharges< 3142.5 17  7.05882 1 *  -1
+											503) TotalCharges>=3142.5 12  1.83333 1 *  1
+							489) tenure>=39.5 20  6.4 1 *  1
+						487) MonthlyCharges<=100.275 84  35.9048 1   -1
+							504) TotalCharges> 3416.5 45  21.1556 1   1
+								506) TotalCharges< 3932 9  4 0 *  -1
+								507) TotalCharges>=3932 36  15.2778 1   1
+									508) TotalCharges< 5400 22  10.1818 1   -1
+										510) PaymentMethod> 0.5 8  3.75 0 *  1
+										511) PaymentMethod<=0.5 14  4.71429 1 *  -1
+									509) TotalCharges>=5400 14  4.71429 1 *  1
+							505) TotalCharges<=3416.5 39  13.8462 1   -1
+								512) MonthlyCharges< 96.975 10  5 0 *  -1
+								513) MonthlyCharges>=96.975 29  6.89655 1   1
+									514) MonthlyCharges> 99.6 10  4.2 1 *  1
+									515) MonthlyCharges<=99.6 19  1.89474 1 *  -1
+			343) tenure<=10.5 691  288.365 1   -1
+				516) TotalCharges> 1159.5 536  229.937 1   1
+					518) tenure> 1.5 395  187.018 1   1
+						520) MonthlyCharges< 78.975 172  85.9884 0   -1
+							522) TotalCharges< 5977.5 158  78.7975 0   -1
+								524) TotalCharges> 5189.5 24  9.91667 0   1
+									526) TotalCharges< 5674 9  1.77778 0 *  -1
+									527) TotalCharges>=5674 15  7.2 0 *  1
+								525) TotalCharges<=5189.5 134  66.9851 1   -1
+									528) TotalCharges< 4863 126  62.9365 0   -1
+										530) TotalCharges> 4361 17  6.11765 0 *  1
+										531) TotalCharges<=4361 109  54.3853 1   -1
+											532) MonthlyCharges< 75.65 89  44.2247 0   -1
+												534) TotalCharges< 1330 7  1.71429 0 *  -1
+												535) TotalCharges>=1330 82  40.9756 0   1
+													536) TotalCharges> 3280 34  16.4706 0   1
+														538) TotalCharges< 3603 15  4.8 0 *  -1
+														539) TotalCharges>=3603 19  9.26316 1 *  1
+													537) TotalCharges<=3280 48  23.8333 1   -1
+														540) TotalCharges< 2532 28  13.9286 0   -1
+															542) tenure> 7.5 7  1.71429 0 *  1
+															543) tenure<=7.5 21  10.2857 1   -1
+																544) TotalCharges> 2158 7  2.85714 0 *  1
+																545) TotalCharges<=2158 14  5.71429 1 *  -1
+														541) TotalCharges>=2532 20  9.1 1 *  1
+											533) MonthlyCharges>=75.65 20  6.4 1 *  1
+									529) TotalCharges>=4863 8  1.75 1 *  1
+							523) TotalCharges>=5977.5 14  5.71429 1 *  1
+						521) MonthlyCharges>=78.975 223  92.1076 1   1
+							546) TotalCharges< 4112 124  57.871 1   -1
+								548) MonthlyCharges< 84.225 33  16.4848 1   -1
+									550) TotalCharges> 2243.5 17  7.76471 0 *  1
+									551) TotalCharges<=2243.5 16  6.875 1 *  -1
+								549) MonthlyCharges>=84.225 91  40.2198 1   1
+									552) MonthlyCharges> 90.125 49  23.6735 1   1
+										554) MonthlyCharges< 93.25 9  1.77778 0 *  -1
+										555) MonthlyCharges>=93.25 40  16.8 1   1
+											556) MonthlyCharges> 99.975 14  6.85714 1 *  1
+											557) MonthlyCharges<=99.975 26  9.23077 1   -1
+												558) TotalCharges< 2190 7  3.42857 1 *  -1
+												559) TotalCharges>=2190 19  5.05263 1 *  1
+									553) MonthlyCharges<=90.125 42  15.2381 1   -1
+										560) TotalCharges> 3466 9  4 0 *  1
+										561) TotalCharges<=3466 33  7.0303 1   -1
+											562) MultipleLines< 1.5 11  4.36364 1 *  -1
+											563) MultipleLines>=1.5 22  1.90909 1 *  1
+							547) TotalCharges>=4112 99  30.7071 1   1
+								564) TotalCharges> 6218.5 12  6 0 *  1
+								565) TotalCharges<=6218.5 87  22.1149 1   -1
+									566) MonthlyCharges< 89.225 49  15.9184 1   -1
+										568) MonthlyCharges> 85.175 10  4.8 1 *  1
+										569) MonthlyCharges<=85.175 39  10.1538 1   -1
+											570) PaperlessBilling> 0.5 8  4 0 *  1
+											571) PaperlessBilling<=0.5 31  3.74194 1   -1
+												572) StreamingTV> 0.5 12  1.83333 1 *  1
+												573) StreamingTV<=0.5 19  1.89474 1 *  -1
+									567) MonthlyCharges>=89.225 38  5.52632 1   1
+										574) PaperlessBilling> 0.5 10  3.2 1 *  1
+										575) PaperlessBilling<=0.5 28  1.92857 1 *  -1
+					519) tenure<=1.5 141  26.8085 1   -1
+						576) TotalCharges< 3508.5 85  20.6118 1   -1
+							578) TotalCharges> 3194 11  5.09091 1 *  1
+							579) TotalCharges<=3194 74  14.2703 1   -1
+								580) Partner< 0.5 11  4.36364 1 *  -1
+								581) Partner>=0.5 63  9.20635 1   1
+									582) MonthlyCharges> 82.675 12  3.33333 1 *  1
+									583) MonthlyCharges<=82.675 51  5.64706 1   -1
+										584) gender> 0.5 21  3.61905 1 *  1
+										585) gender<=0.5 30  1.93333 1 *  -1
+						577) TotalCharges>=3508.5 56  5.67857 1   1
+							586) gender< 0.5 28  3.71429 1   -1
+								588) SeniorCitizen> 0.5 8  1.75 1 *  1
+								589) SeniorCitizen<=0.5 20  1.9 1 *  -1
+							587) gender>=0.5 28  1.92857 1 *  1
+				517) TotalCharges<=1159.5 155  57.3677 1   -1
+					590) TotalCharges< 749 107  44.0374 1   -1
+						592) TotalCharges> 510.5 31  15.3548 1   1
+							594) MultipleLines< 1.5 18  8 0 *  -1
+							595) MultipleLines>=1.5 13  3.38462 1 *  1
+						593) TotalCharges<=510.5 76  26.3947 1   -1
+							596) MonthlyCharges> 85.8 17  7.76471 1 *  1
+							597) MonthlyCharges<=85.8 59  17.8983 1   -1
+								598) TotalCharges> 213.5 37  12.5405 1   1
+									600) tenure> 5.5 7  3.42857 1 *  1
+									601) tenure<=5.5 30  8.33333 1   -1
+										602) MonthlyCharges< 74.375 16  6 1 *  -1
+										603) MonthlyCharges>=74.375 14  1.85714 1 *  1
+								599) TotalCharges<=213.5 22  5.18182 1   -1
+									604) gender> 0.5 9  3.11111 1 *  1
+									605) gender<=0.5 13  1.84615 1 *  -1
+					591) TotalCharges>=749 48  11.9583 1   1
+						606) MonthlyCharges< 71.575 8  4 0 *  -1
+						607) MonthlyCharges>=71.575 40  5.55 1   1
+							608) OnlineSecurity> 0.5 9  3.11111 1 *  1
+							609) OnlineSecurity<=0.5 31  1.93548 1 *  -1

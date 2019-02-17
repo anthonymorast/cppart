@@ -14,14 +14,17 @@ if __name__ == '__main__':
     infile = sys.argv[1]
     outfile = sys.argv[2]
 
+    d1 = 2
+    d2 = 3
+
     df = pd.read_csv(infile)
-    greedy = df.query('delayed == 0')
-    delayed = df.query('delayed != 0')
+    greedy = df.query('delayed == '+str(d1))
+    delayed = df.query('delayed != '+str(d1))
     depths = df.depth.unique()
     runs = int(greedy.shape[0] / len(depths))
  
-    plt.plot('depth', 'acc', data=delayed, marker='o', markerfacecolor='blue', markersize=8, color='blue', label='delayed')
-    plt.plot('depth', 'acc', data=greedy, marker='o', markerfacecolor='red', markersize=8, color='red', label='greedy')
+    plt.plot('depth', 'acc', data=delayed, marker='o', markerfacecolor='blue', markersize=8, color='blue', label='delayed'+str(d2))
+    plt.plot('depth', 'acc', data=greedy, marker='o', markerfacecolor='red', markersize=8, color='red', label='delayed'+str(d1))
     plt.legend()
     plt.xlabel('Depth')
     plt.ylabel('Error')
@@ -29,8 +32,8 @@ if __name__ == '__main__':
     plt.savefig(outfile+'_error.eps')
     plt.gcf().clear()
 
-    plt.plot('depth', 'imp', data=delayed, marker='o', markerfacecolor='blue', markersize=8, color='blue', label='delayed')
-    plt.plot('depth', 'imp', data=greedy, marker='o', markerfacecolor='red', markersize=8, color='red', label='greedy')
+    plt.plot('depth', 'imp', data=delayed, marker='o', markerfacecolor='blue', markersize=8, color='blue', label='delayed'+str(d2))
+    plt.plot('depth', 'imp', data=greedy, marker='o', markerfacecolor='red', markersize=8, color='red', label='delayed'+str(d1))
     plt.legend()
     plt.xlabel('Depth')
     plt.ylabel('Impurity')
@@ -38,8 +41,8 @@ if __name__ == '__main__':
     plt.savefig(outfile+'_impurity.eps')
     plt.gcf().clear()
     
-    plt.plot('depth', 'rel', data=delayed, marker='o', markerfacecolor='blue', markersize=8, color='blue', label='delayed')
-    plt.plot('depth', 'rel', data=greedy, marker='o', markerfacecolor='red', markersize=8, color='red', label='greedy')
+    plt.plot('depth', 'rel', data=delayed, marker='o', markerfacecolor='blue', markersize=8, color='blue', label='delayed'+str(d2))
+    plt.plot('depth', 'rel', data=greedy, marker='o', markerfacecolor='red', markersize=8, color='red', label='delayed'+str(d1))
     plt.legend()
     plt.xlabel('Depth')
     plt.ylabel('Relative Error')
