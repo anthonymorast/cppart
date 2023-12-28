@@ -1,6 +1,8 @@
 # CPPart
 
-A parallel implementation of the CART algorithm for building classification and regression trees in C++. Implements delayed greedy splitting wherein the dataset is paritioned further than a left and right partition before making a splitting decision at each node. 
+A parallel implementation of the CART algorithm for building classification and regression trees in C++. Implements delayed greedy splitting wherein the dataset is partitioned further than a left and right partition before making a splitting decision at each node. 
+
+Implementations for the research paper [Building a Better Decision Tree by Delaying the Split Decision](https://www.researchgate.net/profile/Yang-Zhongguo/publication/332488283_A_Hybrid_Approach_to_Integrate_Multi-source_Geophysical_Data_for_Inter-well_Formation_Property_Estimations/links/5cbfd60fa6fdcc1d49aa3dc5/A-Hybrid-Approach-to-Integrate-Multi-source-Geophysical-Data-for-Inter-well-Formation-Property-Estimations.pdf#page=93)
 
 ## Dependencies
 I haven't done any work on determining which versions of the following tools are required to make the project work. However, most versions of these libraries should not cause too many problems. 
